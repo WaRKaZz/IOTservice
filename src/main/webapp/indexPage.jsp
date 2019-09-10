@@ -20,5 +20,9 @@
     <br />
     <button type="submit">Login</button>
 </form>
+<br />
+<form action = 'registration' method='post'>
+    <button type="submit"> sign up! </button>
+</form>
 </body>
 </html>

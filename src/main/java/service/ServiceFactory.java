@@ -10,6 +10,8 @@ public class ServiceFactory {
         FACTORY_MAP.put("/login", new LoginService());
         FACTORY_MAP.put("/logout", new LogoutService());
         FACTORY_MAP.put("/index", new IndexService());
+        FACTORY_MAP.put("/registration", new RegistrationService());
+        FACTORY_MAP.put("/submitRegistration", new RegistrationSubmitService());
 
     }
 

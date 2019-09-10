@@ -1,11 +1,8 @@
 package controller;
 
-import service.LoginService;
-import service.LogoutService;
 import service.Service;
 import service.ServiceFactory;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,12 +21,11 @@ public class Servlet extends HttpServlet {
             service.execute(request,response);
         } catch (SQLException e) {
             System.out.println("My main is SQLException");
-            // LOGSQL
+            // LOGSQLю
         } catch (IOException e){
             // LOGIO
             System.out.println("My main is IOException");
         }
-
     }
 
     @Override

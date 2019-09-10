@@ -19,11 +19,11 @@ public class LoginService implements Service {
         String password = request.getParameter("password");
         if (isUserCorrect(user, password)){
             request.getSession().setAttribute("user", user);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("main_page.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("mainPage.jsp");
             requestDispatcher.forward(request, response);
         } else {
             response.setHeader("Refresh", "5;/");
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("bad_login.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("badLogin.jsp");
             requestDispatcher.forward(request, response);
         }
 

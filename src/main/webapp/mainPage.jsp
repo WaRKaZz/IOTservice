@@ -8,15 +8,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Main</title>
+    <title>IOT Service/main</title>
 </head>
 <body>
 <b>You are logined as ${sessionScope.user.userLogin}</b>
 <form action = 'logout' method='post'>
     <button type="submit">Logout</button>
 </form>
-<form action = 'ViewHome' method='HomeViewService'>
-    <button type=""
+<br />
+<br />
+<form action = 'HomeViewService' method='post'>
+    <button type="submit"> View Home! </button>
 </form>
 </body>
 </html>

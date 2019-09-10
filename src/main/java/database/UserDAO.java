@@ -11,15 +11,14 @@ public class UserDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private final static String GET_USER_BY_LOGIN_SQL = "SELECT * FROM  IOT_DATABASE.USER WHERE USER_LOGIN = ?";
     private final static String GET_USER_BY_ID_SQL = "SELECT * FROM  IOT_DATABASE.USER WHERE USER_ID = ?";
-    private final static String ADD_NEW_USER_SQL = "INSERT INTO IOT_DATABASE.USER" +
-            " (USER_LOGIN, USER_ROLE, USER_PASSWORD, USER_FIRST_NAME, USER_LAST_NAME, USER_IMAGE_URL)" +
-            " VALUES (?, ?, ?, ?, ?, ?)";
-    private final static String UPDATE_USER_SQL = "UPDATE IOT_DATABASE.USER SET USER_LOGIN = ?," +
-            " USER_ROLE = ?," +
-            " USER_PASSWORD = ?," +
-            " USER_FIRST_NAME = ?," +
-            " USER_LAST_NAME = ?," +
-            " USER_IMAGE_URL = ?" +
+    private final static String ADD_NEW_USER_SQL = "INSERT INTO IOT_DATABASE.USER " +
+            "(USER_LOGIN, USER_ROLE, USER_PASSWORD, USER_FIRST_NAME, USER_LAST_NAME) " +
+            "VALUES (?, ?, ?, ?, ?)";
+    private final static String UPDATE_USER_SQL = "UPDATE IOT_DATABASE.USER SET USER_LOGIN = ?, " +
+            "USER_ROLE = ?, " +
+            "USER_PASSWORD = ?, " +
+            "USER_FIRST_NAME = ?, " +
+            "USER_LAST_NAME = ?, " +
             "WHERE USER_ID = ?";
 
     public User getUserByLogin(String userLogin) throws SQLException {
@@ -31,7 +30,6 @@ public class UserDAO {
             while (resultSet.next()){
                 user = configureUserObject(resultSet);
             }
-
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -85,7 +83,6 @@ public class UserDAO {
         user.setUserPassword(resultSet.getString("USER_PASSWORD"));
         user.setUserFirstName(resultSet.getString("USER_FIRST_NAME"));
         user.setUserLastName(resultSet.getString("USER_LAST_NAME"));
-        user.setUserImageUrl(resultSet.getString("USER_IMAGE_URL"));
         return user;
     }
 
@@ -95,7 +92,6 @@ public class UserDAO {
         preparedStatement.setString(3, user.getUserPassword());
         preparedStatement.setString(4, user.getUserFirstName());
         preparedStatement.setString(5, user.getUserLastName());
-        preparedStatement.setString(6, user.getUserImageUrl());
     }
 
 }

@@ -11,7 +11,7 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>IOT Service/registration</title>
 </head>
 <body>
         <b>Oopps, wrong login or password, you will be redirected</b>

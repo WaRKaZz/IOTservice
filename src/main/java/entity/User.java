@@ -1,13 +1,12 @@
 package entity;
 
 public class User {
-    private Long userID = Long.getLong("0");
+    private Long userID = Long.parseLong("0");
     private String userLogin = "";
     private String userPassword = "";
     private int userRole = 0;
     private String userFirstName = "";
     private String userLastName = "";
-    private String userImageUrl = "";
 
     public Long getUserID() {
         return userID;
@@ -55,13 +54,5 @@ public class User {
 
     public void setUserLastName(String userLastName) {
         this.userLastName = userLastName;
-    }
-
-    public String getUserImageUrl() {
-        return userImageUrl;
-    }
-
-    public void setUserImageUrl(String userImageUrl) {
-        this.userImageUrl = userImageUrl;
     }
 }
