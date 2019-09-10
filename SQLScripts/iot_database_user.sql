@@ -1,0 +1,5 @@
+INSERT INTO iot_database.user (USER_ID, USER_LOGIN, USER_PASSWORD, USER_ROLE, USER_FIRST_NAME, USER_LAST_NAME, USER_IMAGE_URL) VALUES (1, 'warkazz', 'dolphin', 1, 'Ivan', 'Danilov', null);
+INSERT INTO iot_database.user (USER_ID, USER_LOGIN, USER_PASSWORD, USER_ROLE, USER_FIRST_NAME, USER_LAST_NAME, USER_IMAGE_URL) VALUES (2, 'anastasiya', 'dolphin', 2, 'Anastasiya', 'Meshkoba', null);
+INSERT INTO iot_database.user (USER_ID, USER_LOGIN, USER_PASSWORD, USER_ROLE, USER_FIRST_NAME, USER_LAST_NAME, USER_IMAGE_URL) VALUES (3, 'vladlen', 'dolphin', 3, 'Vladimir', 'Lenin', null);
+INSERT INTO iot_database.user (USER_ID, USER_LOGIN, USER_PASSWORD, USER_ROLE, USER_FIRST_NAME, USER_LAST_NAME, USER_IMAGE_URL) VALUES (4, 'tony777', 'dolphin', 3, 'Tony', 'Stark', null);
+INSERT INTO iot_database.user (USER_ID, USER_LOGIN, USER_PASSWORD, USER_ROLE, USER_FIRST_NAME, USER_LAST_NAME, USER_IMAGE_URL) VALUES (5, 'lordofthering', 'dolphin', 3, 'Bilbo', 'Baggins', null);

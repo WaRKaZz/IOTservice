@@ -1,67 +1,67 @@
 package entity;
 
-import javax.servlet.http.Cookie;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 public class User {
-    private User user = new User();
-    private Cookie cookie = null;
-    private String login = null;
-    private String pass = null;
+    private Long userID = Long.getLong("0");
+    private String userLogin = "";
+    private String userPassword = "";
+    private int userRole = 0;
+    private String userFirstName = "";
+    private String userLastName = "";
+    private String userImageUrl = "";
 
-    {
-        try(InputStream input = new FileInputStream("/UserConfig/config.properties")){
-            Properties properties = new Properties();
-            login = properties.getProperty("login");
-            pass = properties.getProperty("pass");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Long getUserID() {
+        return userID;
     }
 
-    public void setPass(String pass) {
-        try(InputStream input = new FileInputStream("/UserConfig/config.properties")){
-            Properties properties = new Properties();
-            properties.setProperty("pass", pass);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        this.pass = pass;
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
 
-    public void setCookie(Cookie cookie) {
-        this.cookie = cookie;
+    public String getUserLogin() {
+        return userLogin;
     }
 
-    public void setLogin(String login) {
-        try(InputStream input = new FileInputStream("/UserConfig/config.properties")){
-            Properties properties = new Properties();
-            properties.setProperty("login", login);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        this.login = login;
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 
-    public String getPass() {
-        return pass;
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public String getLogin() {
-        return login;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
-    public Cookie getCookie() {
-        return cookie;
+    public int getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(int userRole) {
+        this.userRole = userRole;
+    }
+
+    public String getUserFirstName() {
+        return userFirstName;
+    }
+
+    public void setUserFirstName(String userFirstName) {
+        this.userFirstName = userFirstName;
+    }
+
+    public String getUserLastName() {
+        return userLastName;
+    }
+
+    public void setUserLastName(String userLastName) {
+        this.userLastName = userLastName;
+    }
+
+    public String getUserImageUrl() {
+        return userImageUrl;
+    }
+
+    public void setUserImageUrl(String userImageUrl) {
+        this.userImageUrl = userImageUrl;
     }
 }
