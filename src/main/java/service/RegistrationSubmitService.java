@@ -25,10 +25,10 @@ public class RegistrationSubmitService implements Service {
            userDAO.addNewUser(user);
            userDAO.getUserByLogin(user.getUserLogin());
            request.getSession().setAttribute("user", user);
-           requestDispatcher = request.getRequestDispatcher("mainPage.jsp");
+           requestDispatcher = request.getRequestDispatcher("jsp/mainPage.jsp");
         } else {
            request.getSession().setAttribute("registrationMessage", registrationMessage);
-           requestDispatcher = request.getRequestDispatcher("registration.jsp");
+           requestDispatcher = request.getRequestDispatcher("jsp/registration.jsp");
         }
        requestDispatcher.forward(request, response);
     }

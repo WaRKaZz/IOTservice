@@ -11,9 +11,16 @@
 
 <html>
 <head>
-    <title>IOT Service/registration</title>
-</head>
+    <title>IOT Service</title>
+    <link rel="stylesheet" href="../css/style2.css" type="text/css">
 <body>
-        <b>Oopps, wrong login or password, you will be redirected</b>
+    <main>
+        <header>
+            <h2>Bad login</h2>
+        </header>
+        <section>
+            <b>Oopps, wrong login or password, you will be redirected</b>
+        </section>
+    </main>
 </body>
 </html>

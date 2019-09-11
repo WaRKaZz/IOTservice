@@ -4,12 +4,18 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <servlet>
-        <servlet-name>Servlet</servlet-name>
-        <servlet-class>controller.Servlet</servlet-class>
+        <servlet-name>IOTServlet</servlet-name>
+        <servlet-class>controller.IOTServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>
-        <servlet-name>Servlet</servlet-name>
+        <servlet-name>IOTServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.css</url-pattern>
+    </servlet-mapping>
+
 </web-app>

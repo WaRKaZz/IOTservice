@@ -1,0 +1,20 @@
+* {
+	font-family: helvetica, arial, sans-serif;
+}
+
+.wrap {
+	width: 1140;
+	margin: auto;
+}
+
+.content {
+	float: left;
+	background: red;
+	width: 80%;
+}
+
+aside {
+	float: left;
+	background: red;
+	width: 20%%;
+}
