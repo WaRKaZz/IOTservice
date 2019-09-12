@@ -9,25 +9,20 @@
 <%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
+
 <html>
 <head>
     <title>IOT Service/main</title>
-    <link rel="stylesheet" href="../css/style2.css">
+    <jsp:include page="cssIntegration.jsp"></jsp:include>
 </head>
 <body>
-    <div class="wrap">
-        <header>
-                <h2>Welcome!</h2>
-        </header>
-        <div class="content">
-            <p>You are logined as ${sessionScope.user.userLogin}</p>
-            <p><form action = 'logout' method='post'>
-                <button type="submit">Logout</button>
-            </form></p>
-        </div>
-        <aside>
-            <jsp:include page="navigationMain.jsp"></jsp:include>
-        </aside>
-    </div>
+    <jsp:include page="navbarLogined.jsp"></jsp:include>
+    <main style="padding:5% 10% 0% 10%;">
+      <div class="container">
+        <p style="text-align: center;">You are logined as ${sessionScope.user.userLogin}</p>
+      </div>
+
+    </main>
+    <jsp:include page="javascriptIntegration.jsp"></jsp:include>
 </body>
 </html>

@@ -9,36 +9,44 @@
 <%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
+<!DOCTYPE html>
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" href="../css/style2.css">
+    <jsp:include page="cssIntegration.jsp"></jsp:include>
 </head>
 <body>
+    <jsp:include page="navbarUnlogined.jsp"></jsp:include>
     <main>
         <header>
             <h2><b>${sessionScope.registrationMessage}</b></h2>
         </header>
-        <section>
-            <form action = 'submitRegistration' method='post'>
-                <p><label>Username:
-                    <input type="text" placeholder="Login" name="login" required>
-                </label></p>
-                <p><label>Password:
-                    <input type="password" placeholder="Enter Password" name="password" required>
-                </label></p>
-                <p><label>Repeat password
-                    <input type="password" placeholder="Repeat Password" name="repeatedPassword" required>
-                </label></p>
-                <p><label>Your Fist Name:
-                    <input type="text" placeholder="Enter your first name" name="firstName">
-                </label></p>
-                <p><label>Your Last Name:
-                    <input type="text" placeholder="Enter your last name" name="lastName">
-                </label></p>
-                <p><input type='submit' value="Submit"></p>
-            </form>
-        </section>
+        <div class="container">
+          <form action = 'submitRegistration' method='post' style="padding: 10% 30% 0% 30%" class="form-horisontal">
+            <div class="form-group">
+              <label for="login" class="control-label">Username</label>
+              <input type="text" class="form-control" placeholder="Login" name="login" required>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Password</label>
+              <input type="password" class="form-control" placeholder="Password" name="password" required>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Repeat password</label>
+              <input type="password" class="form-control" placeholder="repeated password" name="repeatedPassword" required>
+            </div>
+            <div class="form-group">
+              <label for="first-name" class="control-label">Firstname</label>
+              <input type="text" class="form-control" placeholder="Firstname" name="firstName" required>
+            </div>       
+            <div class="form-group">
+              <label for="last-name" class="control-label">Lastname</label>
+              <input type="text" class="form-control" placeholder="Lastname" name="lastName" required>
+            </div>     
+            <button type="submit" class="btn btn-success btn-block">Submit</button>
+          </form>           
+        </div>
     </main>
+    <jsp:include page="javascriptIntegration.jsp"></jsp:include>
 </body>
 </html>

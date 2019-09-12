@@ -9,10 +9,11 @@
 <%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
+<!DOCTYPE html>
 <html>
 <head>
     <title>IOT Service</title>
-    <link rel="stylesheet" href="../css/style2.css" type="text/css">
+    <jsp:include page="cssIntegration.jsp"></jsp:include>
 <body>
     <main>
         <header>
@@ -21,6 +22,7 @@
         <section>
             <b>Oopps, wrong login or password, you will be redirected</b>
         </section>
-    </main>
+    </main>        
+    <jsp:include page="javascriptIntegration.jsp"></jsp:include>
 </body>
 </html>

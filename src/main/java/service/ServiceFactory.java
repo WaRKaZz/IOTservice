@@ -12,7 +12,7 @@ public class ServiceFactory {
         FACTORY_MAP.put("/index", new IndexService());
         FACTORY_MAP.put("/registration", new RegistrationService());
         FACTORY_MAP.put("/submitRegistration", new RegistrationSubmitService());
-
+        FACTORY_MAP.put("/main", new MainPageService());
     }
 
     public static synchronized Service getService(String serviceRequest){

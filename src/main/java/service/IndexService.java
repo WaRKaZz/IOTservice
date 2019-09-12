@@ -10,7 +10,11 @@ import java.sql.SQLException;
 public class IndexService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/indexPage.jsp");
-        requestDispatcher.forward(request, response);
+        if(request.getSession().getAttribute("user") == null) {
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/loginPage.jsp");
+            requestDispatcher.forward(request, response);
+        } else {
+            response.sendRedirect("/main");
+        }
     }
 }
