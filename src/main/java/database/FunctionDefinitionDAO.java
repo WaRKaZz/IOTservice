@@ -11,20 +11,22 @@ import java.util.List;
 
 public class FunctionDefinitionDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
-    private final static String GET_FUNCTION_DEFINITIONS_LIST_SQL = "SELECT * FROM IOT_DATABASE.FUNCTION_DEFINITIONS " +
+    private final static String GET_FUNCTION_DEFINITIONS_LIST_SQL = "SELECT * FROM IOT_DATABASE.DEFINITIONS_MANY_TO_MANY " +
+            "LEFT JOIN IOT_DATABASE.FUNCTION_DEFINITIONS " +
+            "ON IOT_DATABASE.DEFINITIONS_MANY_TO_MANY.M_FUNCTION_DEFINITION_ID " +
+            "= IOT_DATABASE.FUNCTION_DEFINITIONS.FUNCTION_DEFINITION_ID " +
             "LEFT JOIN IOT_DATABASE.DEVICE_DEFINITIONS " +
-            "ON IOT_DATABASE.FUNCTION_DEFINITIONS.FUNCTION_DEFINITION_ID " +
+            "ON IOT_DATABASE.DEFINITIONS_MANY_TO_MANY.M_DEVICE_DEFINITION_ID " +
             "= IOT_DATABASE.DEVICE_DEFINITIONS.DEVICE_DEFINITION_ID " +
-            "ORDER BY FUNCTION_NAME";
+            "ORDER BY DEVICE_DEFINITION_NAME";
     private final static String GET_FUNCTION_DEFINITION_BY_ID_SQL = "SELECT * FROM IOT_DATABASE.FUNCTION_DEFINITIONS " +
             "WHERE FUNCTION_DEFINITION_ID = ?";
     private final static String UPDATE_FUNCTION_DEFINITION = "UPDATE IOT_DATABASE.FUNCTION_DEFINITIONS " +
             "SET FUNCTION_NAME = ?, " +
-            "FUNCTION_TYPE = ?, " +
-            "DEVICE_DEFINITION_ID = ? " +
+            "FUNCTION_TYPE = ? " +
             "WHERE FUNCTION_DEFINITION_ID = ?";
     private final static String ADD_NEW_FUNCTION_DEFINITION = "INSERT INTO IOT_DATABASE.FUNCTION_DEFINITIONS " +
-            "(FUNCTION_NAME, FUNCTION_TYPE, DEVICE_DEFINITION_ID) VALUES (?, ?, ?)";
+            "(FUNCTION_NAME, FUNCTION_TYPE) VALUES (?, ?)";
 
     public List<FunctionDefinition> getFunctionDefinitionList() throws SQLException {
         Connection connection = CONNECTION_POOL.retrieve();
@@ -82,7 +84,6 @@ public class FunctionDefinitionDAO {
         functionDefinition.setFunctionDefinitionID(resultSet.getLong("FUNCTION_DEFINITION_ID"));
         functionDefinition.setFunctionName(resultSet.getString("FUNCTION_NAME"));
         functionDefinition.setInput(resultSet.getBoolean("FUNCTION_TYPE"));
-        functionDefinition.setFunctionDefinitionID(resultSet.getLong("DEVICE_DEFINITION_ID"));
         return functionDefinition;
     }
 

@@ -4,10 +4,19 @@ package entity;
 public class Function {
     private boolean isFunctionInput;
     private String functionName;
-    private boolean functionTrue;
+    private boolean isFunctionTrue;
     private int functionInteger;
     private String functionText;
     private Long functionId;
+    private String functionType;
+
+    public String getFunctionType() {
+        return functionType;
+    }
+
+    public void setFunctionType(String functionType) {
+        this.functionType = functionType;
+    }
 
     public boolean isFunctionInput() {
         return isFunctionInput;
@@ -17,8 +26,12 @@ public class Function {
         isFunctionInput = functionInput;
     }
 
+    public boolean isFunctionTrue() {
+        return isFunctionTrue;
+    }
+
     public void setFunctionTrue(boolean functionBoolean) {
-        this.functionTrue = functionBoolean;
+        this.isFunctionTrue = functionBoolean;
     }
 
     public int getFunctionInteger() {

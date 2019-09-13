@@ -1,6 +1,8 @@
 package database;
 
 import entity.DeviceDefinition;
+import entity.Function;
+import entity.FunctionDefinition;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,6 +23,8 @@ public class DeviceDefinitionDAO {
             "WHERE DEVICE_DEFINITION_ID = ?";
     private final static String UPDATE_DEVICE_DEFINITION = "INSERT INTO IOT_DATABASE.DEVICE_DEFINITIONS " +
             "(DEVICE_DEFINITION_NAME) VALUE (?)";
+    private final static String ADD_NEW_CONNECTION_TO_DEVICE = "INSERT INTO IOT_DATABASE.DEFINITIONS_MANY_TO_MANY " +
+            "(M_FUNCTION_DEFINITION_ID, M_DEVICE_DEFINITION_ID) values (?, ?)";
 
 
     public List<DeviceDefinition> getDeviceDefinitionsList() throws SQLException {
@@ -56,6 +60,17 @@ public class DeviceDefinitionDAO {
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_DEVICE_DEFINITION)){
             configureDefinitionStatement(deviceDefinition, preparedStatement);
+            preparedStatement.executeUpdate();
+        } finally {
+            CONNECTION_POOL.putBack(connection);
+        }
+    }
+
+    public void setAddNewConnectionToDevice (DeviceDefinition deviceDefinition, FunctionDefinition functionDefinition) throws SQLException{
+        Connection connection = CONNECTION_POOL.retrieve();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_CONNECTION_TO_DEVICE)){
+            preparedStatement.setLong(1, deviceDefinition.getDeviceDefinitionID());
+            preparedStatement.setLong(2, functionDefinition.getFunctionDefinitionID());
             preparedStatement.executeUpdate();
         } finally {
             CONNECTION_POOL.putBack(connection);
