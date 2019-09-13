@@ -22,7 +22,7 @@
             <h2><b>${sessionScope.registrationMessage}</b></h2>
         </header>
         <div class="container">
-          <form action = 'submitRegistration' method='post' style="padding: 10% 30% 0% 30%" class="form-horisontal">
+          <form action = 'submitRegistration' method='post' style="padding: 5% 30% 0% 30%" class="form-horisontal">
             <div class="form-group">
               <label for="login" class="control-label">Username</label>
               <input type="text" class="form-control" placeholder="Login" name="login" required>
@@ -33,7 +33,7 @@
             </div>
             <div class="form-group">
               <label class="control-label">Repeat password</label>
-              <input type="password" class="form-control" placeholder="repeated password" name="repeatedPassword" required>
+              <input type="password" class="form-control" placeholder="Repeated password" name="repeatedPassword" required>
             </div>
             <div class="form-group">
               <label for="first-name" class="control-label">Firstname</label>

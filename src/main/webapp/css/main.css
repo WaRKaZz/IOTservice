@@ -1,3 +1,14 @@
 * {
 	font-family: helvetica, arial, sans-serif;
 }
+
+main {
+	padding: 5% 10% 0% 10%;
+}
+
+.ml-auto {
+	margin-right: 5%;
+}
+.navbar-brand {
+	margin-left: 5%;
+}

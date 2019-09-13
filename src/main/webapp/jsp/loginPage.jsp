@@ -16,20 +16,10 @@
   <jsp:include page="cssIntegration.jsp"></jsp:include>
 </head>
 <body>
-  <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
-    <a href="#" class="navbar-brand">IOTService</a>
-    <ul class="nav navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href=#>Sign in</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/registration">Sign up</a>
-      </li>
-    </ul>
-  </nav>
   <main>
+    <jsp:include page="navbarUnlogined.jsp"></jsp:include>
     <div class="container">
-      <form action = 'login' method='post' style="padding: 15% 30% 0% 30%" class="form-horisontal">
+      <form action = 'login' method='post' style="padding: 10% 30% 0% 30%" class="form-horisontal">
         <div class="form-group">
           <label for="login" class="control-label">Enter login:</label>
           <input type="text" class="form-control" placeholder="Login" name="login" required>

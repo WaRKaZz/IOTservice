@@ -17,9 +17,10 @@
 </head>
 <body>
     <jsp:include page="navbarLogined.jsp"></jsp:include>
-    <main style="padding:5% 10% 0% 10%;">
+    <main>
+
       <div class="container">
-        <p style="text-align: center;">You are logined as ${sessionScope.user.userLogin}</p>
+        <h2 style="text-align: center;">Wellcome! Here you can choose you'r Home:</h2>
       </div>
 
     </main>

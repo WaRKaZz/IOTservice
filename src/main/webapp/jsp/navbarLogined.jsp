@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
     <a href="#" class="navbar-brand">IOTService</a>
-        <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav">
         <li class="nav-item">
             <a class="nav-link" href="/">My home</a>
         </li>
