@@ -92,7 +92,7 @@ public class FunctionDAO {
         function.setFunctionInput(resultSet.getBoolean("FUNCTION_TYPE"));
         function.setFunctionTrue(resultSet.getBoolean("F_BOOL"));
         function.setFunctionInteger(resultSet.getInt("F_INT"));
-        function.setFunctionText(resultSet.getString("F_TEXT"));
+        function.setFunctionText(resultSet.getString("F_STRING"));
 
         return function;
     }

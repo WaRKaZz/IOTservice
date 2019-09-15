@@ -3,8 +3,10 @@ package database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.PriorityQueue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ConnectionPool  {
     private static final ConnectionPool instance = new ConnectionPool();
@@ -13,7 +15,7 @@ public class ConnectionPool  {
     private static final String USER = "root";
     private static final String PASSWORD = "1234";
     private static final int CONNECTION_AMOUNT = 30;
-    private BlockingQueue<Connection> connectionQueue = new ArrayBlockingQueue<>(CONNECTION_AMOUNT);
+    private ConcurrentLinkedQueue<Connection> connectionQueue = new ConcurrentLinkedQueue<>();
 
     public static ConnectionPool getInstance(){
         return instance;
@@ -25,28 +27,18 @@ public class ConnectionPool  {
         } catch (ClassNotFoundException e){
             e.printStackTrace();
         }
-        for (int i = 1; i < CONNECTION_AMOUNT; i++){
+        for (int i = 0; i < CONNECTION_AMOUNT; i++){
             connectionQueue.add(getConnection());
         }
     }
 
     public synchronized Connection retrieve(){
-        Connection connection = null;
-        try {
-            connection = connectionQueue.take();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return connectionQueue.poll();
     }
 
-    public void putBack(Connection connection) {
+    public synchronized void putBack(Connection connection) {
         if (connection != null) {
-            try {
-                connectionQueue.put(connection);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            connectionQueue.add(connection);
         } else {
             System.out.println("There is no Connection");
         }

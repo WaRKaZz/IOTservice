@@ -24,8 +24,8 @@ public class DeviceDAO {
             "DEVICE_NAME = ?, " +
             "HOME_PLACED_ID = ?" +
             "WHERE DEVICE_ID = ?";
-    private final static String GET_DEVICE_LIST_SQL = "SELECT * FROM IOT_DATABASE.DEVICE WHERE HOME_PLACED_ID = ?"
-                                                               + " ORDER BY DEVICE_NAME";
+    private final static String GET_DEVICE_LIST_SQL = "SELECT * FROM IOT_DATABASE.DEVICE WHERE HOME_PLACED_ID = ? " +
+            "ORDER BY DEVICE_NAME";
 
     public Device getDeviceByID(Long deviceID)throws SQLException {
         Device device = new Device();

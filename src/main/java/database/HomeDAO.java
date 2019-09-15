@@ -1,11 +1,14 @@
 package database;
 
 import entity.Home;
+import entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
@@ -16,7 +19,11 @@ public class HomeDAO {
             "WHERE HOME_ID = ?";
     private final static String ADD_NEW_HOME_SQL = "INSERT INTO IOT_DATABASE.HOME (HOME_NAME, HOME_ADDRESS) " +
             "VALUES (?, ?)";
-
+    private final static String GET_HOME_LIST_BY_USER_AND_ROLE = "SELECT * FROM IOT_DATABASE.USER_TO_HOME LEFT JOIN " +
+            "IOT_DATABASE.HOME " +
+            "ON IOT_DATABASE.USER_TO_HOME.HOME_ID " +
+            "= IOT_DATABASE.HOME.HOME_ID " +
+            "WHERE USER_ID = ? AND USER_HOME_ROLE = ?";
 
     public Home getHomeByID(long homeID) throws SQLException {
         Home home = new Home();
@@ -33,6 +40,24 @@ public class HomeDAO {
             CONNECTION_POOL.putBack(connection);
         }
         return home;
+    }
+
+
+    public List<Home> getHomeListByRole (User user, int role) throws SQLException {
+        List<Home> homeList = new ArrayList<>();
+        Connection connection = CONNECTION_POOL.retrieve();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_HOME_LIST_BY_USER_AND_ROLE)){
+            preparedStatement.setLong(1, user.getUserID());
+            preparedStatement.setInt(2, role);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Home home = configureHomeObject(resultSet);
+                homeList.add(home);
+            }
+        } finally {
+            CONNECTION_POOL.putBack(connection);
+        }
+        return homeList;
     }
 
     public void addNewHome(Home home) throws SQLException{
@@ -52,14 +77,16 @@ public class HomeDAO {
             configureHomeStatement(home, preparedStatement);
             preparedStatement.setLong(HOME_ID_POSTITION, home.getHomeID());
             preparedStatement.executeUpdate();
+        } finally {
+            CONNECTION_POOL.putBack(connection);
         }
     }
 
     private Home configureHomeObject(ResultSet resultSet) throws SQLException{
         Home home = new Home();
         home.setHomeID(resultSet.getLong("HOME_ID"));
-        home.setHomeAddress("HOME_ADDRESS");
-        home.setHomeName("HOME_NAME");
+        home.setHomeAddress(resultSet.getString("HOME_ADDRESS"));
+        home.setHomeName(resultSet.getString("HOME_NAME"));
         return home;
     }
 

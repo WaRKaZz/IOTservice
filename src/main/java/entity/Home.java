@@ -3,6 +3,7 @@ package entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Home {
     private List<Device> homeInstalledDevices = new ArrayList<>();
@@ -40,5 +41,26 @@ public class Home {
 
     public void setHomeAddress(String homeAddress) {
         this.homeAddress = homeAddress;
+    }
+
+    @Override
+    public String toString() {
+        return homeName + " " + homeAddress;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(homeInstalledDevices, homeID, homeName, homeAddress);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Home home = (Home) o;
+        return homeID.equals(home.homeID) &&
+                Objects.equals(homeName, home.homeName) &&
+                Objects.equals(homeAddress, home.homeAddress) &&
+                Objects.equals(homeInstalledDevices, home.homeInstalledDevices);
     }
 }
