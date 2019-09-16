@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
     <a href="#" class="navbar-brand">IOTService</a>
     <ul class="nav navbar-nav ml-auto">
         <li class="nav-item">

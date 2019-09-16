@@ -7,7 +7,7 @@
         <servlet-name>IOTServlet</servlet-name>
         <servlet-class>controller.IOTServlet</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>IOTServlet</servlet-name>
         <url-pattern>/</url-pattern>

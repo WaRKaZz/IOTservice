@@ -2,6 +2,7 @@ package database;
 
 import entity.Home;
 import entity.User;
+import exception.ConnectionException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +26,7 @@ public class HomeDAO {
             "= IOT_DATABASE.HOME.HOME_ID " +
             "WHERE USER_ID = ? AND USER_HOME_ROLE = ?";
 
-    public Home getHomeByID(long homeID) throws SQLException {
+    public Home getHomeByID(long homeID) throws SQLException, ConnectionException {
         Home home = new Home();
         DeviceDAO deviceDAO = new DeviceDAO();
         Connection connection = CONNECTION_POOL.retrieve();
@@ -43,7 +44,7 @@ public class HomeDAO {
     }
 
 
-    public List<Home> getHomeListByRole (User user, int role) throws SQLException {
+    public List<Home> getHomeListByRole (User user, int role) throws SQLException, ConnectionException {
         List<Home> homeList = new ArrayList<>();
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_HOME_LIST_BY_USER_AND_ROLE)){
@@ -60,7 +61,7 @@ public class HomeDAO {
         return homeList;
     }
 
-    public void addNewHome(Home home) throws SQLException{
+    public void addNewHome(Home home) throws SQLException, ConnectionException{
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_HOME_SQL)){
             configureHomeStatement(home, preparedStatement);
@@ -70,7 +71,7 @@ public class HomeDAO {
         }
     }
 
-    public void updateHome(Home home) throws  SQLException{
+    public void updateHome(Home home) throws  SQLException, ConnectionException{
         Connection connection = CONNECTION_POOL.retrieve();
         final int HOME_ID_POSTITION = 3;
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_HOME_SQL)){

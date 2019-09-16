@@ -2,7 +2,8 @@ package database;
 
 import entity.Device;
 import entity.Function;
-import entity.FunctionDefinition;
+import entity.FunctionType;
+import exception.ConnectionException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class FunctionDAO {
             "WHERE FUNCTION_DEVICE_ID = ? " +
             "ORDER BY FUNCTION_NAME ";
 
-    public Function getFunctionByID(long functionID) throws SQLException {
+    public Function getFunctionByID(long functionID) throws SQLException , ConnectionException {
         Function function = new Function();
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_FUNCTION_BY_ID_SQL)){
@@ -47,21 +48,23 @@ public class FunctionDAO {
         return function;
     }
 
-    public void addNewFunction (Function function, FunctionDefinition functionDefinition, Device device) throws SQLException{
+    public void addNewFunction (Function function, FunctionType functionType,
+                                                            Device device) throws SQLException, ConnectionException{
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_FUNCTION_SQL)){
-            configureFunctionStatement(function, functionDefinition.getFunctionDefinitionID(), device.getDeviceID(), preparedStatement);
+            configureFunctionStatement(function, functionType.getFunctionTypeID(), device.getDeviceID(), preparedStatement);
             preparedStatement.executeUpdate();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void updateFunction (Function function, FunctionDefinition functionDefinition, Device device) throws SQLException{
+    public void updateFunction (Function function, FunctionType functionType,
+                                                            Device device) throws SQLException, ConnectionException{
         final int FUNCTION_ID_POSITION = 6;
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_FUNCTION_SQL)){
-            configureFunctionStatement(function, functionDefinition.getFunctionDefinitionID(), device.getDeviceID(), preparedStatement);
+            configureFunctionStatement(function, functionType.getFunctionTypeID(), device.getDeviceID(), preparedStatement);
             preparedStatement.setLong(FUNCTION_ID_POSITION, function.getFunctionId());
             preparedStatement.executeUpdate();
         } finally {
@@ -69,7 +72,7 @@ public class FunctionDAO {
         }
     }
 
-    public List<Function> getFunctionsList(Device device)throws SQLException{
+    public List<Function> getFunctionsList(Device device) throws SQLException, ConnectionException{
         List<Function> functions = new ArrayList<>();
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_STRING_FUNCTIONS_LIST_SQL)){

@@ -3,6 +3,7 @@ package service;
 import database.HomeDAO;
 import entity.Home;
 import entity.User;
+import exception.ConnectionException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,7 +16,8 @@ import java.util.List;
 public class MainPageService implements Service {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException {
+    public void execute(HttpServletRequest request, HttpServletResponse response)
+                                                throws IOException, ServletException, SQLException, ConnectionException{
         User user = (User) request.getSession().getAttribute("user");
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/mainPage.jsp");
         requestDispatcher.forward(request, response);

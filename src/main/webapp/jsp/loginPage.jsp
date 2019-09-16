@@ -16,8 +16,8 @@
   <jsp:include page="cssIntegration.jsp"></jsp:include>
 </head>
 <body>
+  <jsp:include page="navbarUnlogined.jsp"></jsp:include>
   <main>
-    <jsp:include page="navbarUnlogined.jsp"></jsp:include>
     <div class="container">
       <form action = 'login' method='post' style="padding: 10% 30% 0% 30%" class="form-horisontal">
         <div class="form-group">

@@ -1,11 +1,10 @@
 package database;
 
+import exception.ConnectionException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.PriorityQueue;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ConnectionPool  {
@@ -33,15 +32,21 @@ public class ConnectionPool  {
     }
 
     public synchronized Connection retrieve(){
+        if (connectionQueue.isEmpty()) {
+            connectionQueue.add(getConnection());
+        }
         return connectionQueue.poll();
     }
 
-    public synchronized void putBack(Connection connection) {
+    public synchronized void putBack(Connection connection) throws ConnectionException {
         if (connection != null) {
-            connectionQueue.add(connection);
+            if (connectionQueue.size() < CONNECTION_AMOUNT){
+                connectionQueue.add(connection);
+            }
         } else {
-            System.out.println("There is no Connection");
+            throw new ConnectionException();
         }
+
     }
 
     private Connection getConnection() {

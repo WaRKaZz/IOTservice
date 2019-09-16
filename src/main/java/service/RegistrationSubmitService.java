@@ -2,6 +2,7 @@ package service;
 
 import database.UserDAO;
 import entity.User;
+import exception.ConnectionException;
 import exception.ValidationException;
 
 import javax.servlet.RequestDispatcher;
@@ -18,7 +19,8 @@ public class RegistrationSubmitService implements Service {
     private String registrationMessage;
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException {
+    public void execute(HttpServletRequest request, HttpServletResponse response)
+                                          throws IOException, ServletException, SQLException, ConnectionException {
         RequestDispatcher requestDispatcher;
         UserDAO userDAO = new UserDAO();
         if (isRegistrationCorrect(request)&&isUserNotExists(userDAO)){
@@ -69,7 +71,7 @@ public class RegistrationSubmitService implements Service {
         return isCorrect;
     }
 
-    private boolean isUserNotExists(UserDAO userDAO) throws SQLException{
+    private boolean isUserNotExists(UserDAO userDAO) throws SQLException, ConnectionException {
         boolean isNotExists = false;
         User checkUser = userDAO.getUserByLogin(user.getUserLogin());
         if (checkUser.getUserID().equals(Long.parseLong("0"))){

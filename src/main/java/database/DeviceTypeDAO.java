@@ -1,8 +1,8 @@
 package database;
 
-import entity.DeviceDefinition;
-import entity.Function;
-import entity.FunctionDefinition;
+import entity.DeviceType;
+import entity.FunctionType;
+import exception.ConnectionException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DeviceDefinitionDAO {
+public class DeviceTypeDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private final static String GET_DEVICE_DEFINITIONS_LIST_SQL = "SELECT * FROM IOT_DATABASE.DEVICE_DEFINITIONS " +
             "ORDER BY DEVICE_DEFINITION_NAME";
@@ -27,76 +27,77 @@ public class DeviceDefinitionDAO {
             "(M_FUNCTION_DEFINITION_ID, M_DEVICE_DEFINITION_ID) values (?, ?)";
 
 
-    public List<DeviceDefinition> getDeviceDefinitionsList() throws SQLException {
+    public List<DeviceType> getDeviceDefinitionsList() throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();
-        List<DeviceDefinition> deviceDefinitionList= new ArrayList<>();
+        List<DeviceType> deviceTypeList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_DEVICE_DEFINITIONS_LIST_SQL)){
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                DeviceDefinition deviceDefinition = configureDefinitionObject(resultSet);
-                deviceDefinitionList.add(deviceDefinition);
+                DeviceType deviceType = configureDefinitionObject(resultSet);
+                deviceTypeList.add(deviceType);
             }
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
-        return deviceDefinitionList;
+        return deviceTypeList;
     }
 
-    public DeviceDefinition getDeviceDefinitionByID(Long deviceDefinitionID) throws SQLException{
+    public DeviceType getDeviceDefinitionByID(Long deviceDefinitionID) throws SQLException, ConnectionException{
         Connection connection = CONNECTION_POOL.retrieve();
-        DeviceDefinition deviceDefinition = new DeviceDefinition();
+        DeviceType deviceType = new DeviceType();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_DEVICE_DEFINITION_BY_ID_SQL)){
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                deviceDefinition = configureDefinitionObject(resultSet);
+                deviceType = configureDefinitionObject(resultSet);
             }
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
-        return deviceDefinition;
+        return deviceType;
     }
 
-    public void addNewDeviceDefinition (DeviceDefinition deviceDefinition) throws SQLException{
+    public void addNewDeviceDefinition (DeviceType deviceType) throws SQLException, ConnectionException{
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_DEVICE_DEFINITION)){
-            configureDefinitionStatement(deviceDefinition, preparedStatement);
+            configureDefinitionStatement(deviceType, preparedStatement);
             preparedStatement.executeUpdate();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void setAddNewConnectionToDevice (DeviceDefinition deviceDefinition, FunctionDefinition functionDefinition) throws SQLException{
+    public void setAddNewConnectionToDevice (DeviceType deviceType,
+                                             FunctionType functionType) throws SQLException, ConnectionException{
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_CONNECTION_TO_DEVICE)){
-            preparedStatement.setLong(1, deviceDefinition.getDeviceDefinitionID());
-            preparedStatement.setLong(2, functionDefinition.getFunctionDefinitionID());
+            preparedStatement.setLong(1, deviceType.getDeviceTypeID());
+            preparedStatement.setLong(2, functionType.getFunctionTypeID());
             preparedStatement.executeUpdate();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void updateDeviceDefinition(DeviceDefinition deviceDefinition) throws SQLException{
+    public void updateDeviceDefinition(DeviceType deviceType) throws SQLException, ConnectionException{
         final int DEVICE_DEFINITION_ID_POSITION = 2;
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_DEVICE_DEFINITION)){
-            configureDefinitionStatement(deviceDefinition, preparedStatement);
-            preparedStatement.setLong(DEVICE_DEFINITION_ID_POSITION, deviceDefinition.getDeviceDefinitionID());
+            configureDefinitionStatement(deviceType, preparedStatement);
+            preparedStatement.setLong(DEVICE_DEFINITION_ID_POSITION, deviceType.getDeviceTypeID());
             preparedStatement.executeUpdate();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
     }
 
-    private DeviceDefinition configureDefinitionObject(ResultSet resultSet) throws SQLException{
-        DeviceDefinition deviceDefinition = new DeviceDefinition();
-        deviceDefinition.setDeviceDefinitionID(resultSet.getLong("DEVICE_DEFINITION_ID"));
-        deviceDefinition.setDeviceName(resultSet.getString("DEVICE_DEFINITION_NAME"));
-        return deviceDefinition;
+    private DeviceType configureDefinitionObject(ResultSet resultSet) throws SQLException{
+        DeviceType deviceType = new DeviceType();
+        deviceType.setDeviceTypeID(resultSet.getLong("DEVICE_DEFINITION_ID"));
+        deviceType.setDeviceTypeName(resultSet.getString("DEVICE_DEFINITION_NAME"));
+        return deviceType;
     }
 
-    private void configureDefinitionStatement (DeviceDefinition deviceDefinition, PreparedStatement preparedStatement) throws  SQLException{
-        preparedStatement.setString(1, deviceDefinition.getDeviceName());
+    private void configureDefinitionStatement (DeviceType deviceType, PreparedStatement preparedStatement) throws  SQLException{
+        preparedStatement.setString(1, deviceType.getDeviceTypeName());
     }
 }

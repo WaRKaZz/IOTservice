@@ -3,6 +3,7 @@ import database.HomeDAO;
 import database.UserDAO;
 import entity.Home;
 import entity.User;
+import exception.ConnectionException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,7 +20,7 @@ public class LoginService implements Service {
     private User user;
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws
-                                                                    IOException, ServletException, SQLException {
+                                                IOException, ServletException, SQLException, ConnectionException {
         UserDAO userDAO = new UserDAO();
         String login = request.getParameter("login");
         user = userDAO.getUserByLogin(login);
@@ -35,7 +36,7 @@ public class LoginService implements Service {
     }
 
     private void loginAndLoadAttributes(HttpServletRequest request, HttpServletResponse response)throws
-                                                                            IOException, ServletException, SQLException{
+                                                    IOException, ServletException, SQLException, ConnectionException{
         HomeDAO homeDAO = new HomeDAO();
         List<Home> homeAdminList = homeDAO.getHomeListByRole(user, ADMIN_ROLE);
         List<Home> homeUserList = homeDAO.getHomeListByRole(user, USER_ROLE);

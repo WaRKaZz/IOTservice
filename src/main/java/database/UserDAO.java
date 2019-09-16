@@ -1,6 +1,7 @@
 package database;
 
 import entity.User;
+import exception.ConnectionException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ public class UserDAO {
             "USER_LAST_NAME = ?, " +
             "WHERE USER_ID = ?";
 
-    public User getUserByLogin(String userLogin) throws SQLException {
+    public User getUserByLogin(String userLogin) throws SQLException, ConnectionException {
         User user = new User();
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_LOGIN_SQL)){
@@ -36,7 +37,7 @@ public class UserDAO {
         return user;
     }
 
-    public User getUserByID(long userId) throws SQLException {
+    public User getUserByID(long userId) throws SQLException, ConnectionException {
         User user = new User();
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_ID_SQL)){
@@ -52,7 +53,7 @@ public class UserDAO {
         return user;
     }
 
-    public void addNewUser(User user) throws SQLException {
+    public void addNewUser(User user) throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_USER_SQL)){
             configureUserStatement(user, preparedStatement);
@@ -62,7 +63,7 @@ public class UserDAO {
         }
     }
 
-    public void updateUser(User user) throws SQLException {
+    public void updateUser(User user) throws SQLException, ConnectionException {
         final int USER_ID_POSITION = 7;
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_SQL)){

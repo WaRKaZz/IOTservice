@@ -1,5 +1,6 @@
 package controller;
 
+import exception.ConnectionException;
 import service.Service;
 import service.ServiceFactory;
 
@@ -25,6 +26,8 @@ public class IOTServlet extends HttpServlet {
         } catch (IOException e){
             // LOGIO
             System.out.println("My main is IOException");
+        } catch (ConnectionException e) {
+            e.printStackTrace();
         }
     }
 

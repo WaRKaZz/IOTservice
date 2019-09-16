@@ -1,8 +1,9 @@
 package database;
 
 import entity.Device;
-import entity.DeviceDefinition;
+import entity.DeviceType;
 import entity.Home;
+import exception.ConnectionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class DeviceDAO {
     private final static String GET_DEVICE_LIST_SQL = "SELECT * FROM IOT_DATABASE.DEVICE WHERE HOME_PLACED_ID = ? " +
             "ORDER BY DEVICE_NAME";
 
-    public Device getDeviceByID(Long deviceID)throws SQLException {
+    public Device getDeviceByID(Long deviceID)throws SQLException, ConnectionException {
         Device device = new Device();
         FunctionDAO functionDAO = new FunctionDAO();
         Connection connection = CONNECTION_POOL.retrieve();
@@ -44,7 +45,7 @@ public class DeviceDAO {
         return device;
     }
 
-    public List<Device> getDevicesList(Home home) throws SQLException{
+    public List<Device> getDevicesList(Home home) throws SQLException, ConnectionException{
         List<Device> devices = new ArrayList<>();
         FunctionDAO functionDAO = new FunctionDAO();
         Connection connection = CONNECTION_POOL.retrieve();
@@ -62,21 +63,23 @@ public class DeviceDAO {
         return devices;
     }
 
-    public void addNewDevice(Device device, DeviceDefinition deviceDefinition, Home home) throws SQLException{
+    public void addNewDevice(Device device, DeviceType deviceType, Home home)
+                                                                        throws SQLException, ConnectionException{
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_DEVICE_SQL)){
-            configureDeviceStatement(device.getDeviceName(), deviceDefinition.getDeviceDefinitionID(), home.getHomeID(), preparedStatement);
+            configureDeviceStatement(device.getDeviceName(), deviceType.getDeviceTypeID(), home.getHomeID(), preparedStatement);
             preparedStatement.executeUpdate();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
 
     }
-    public void updateDevice(Device device, DeviceDefinition deviceDefinition, Home home) throws SQLException{
+    public void updateDevice(Device device, DeviceType deviceType, Home home)
+                                                                        throws SQLException, ConnectionException{
         Connection connection = CONNECTION_POOL.retrieve();
         final int DEVICE_ID_POSITION = 4;
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_DEVICE_SQL)){
-            configureDeviceStatement(device.getDeviceName(), deviceDefinition.getDeviceDefinitionID(), home.getHomeID(), preparedStatement);
+            configureDeviceStatement(device.getDeviceName(), deviceType.getDeviceTypeID(), home.getHomeID(), preparedStatement);
             preparedStatement.setLong(DEVICE_ID_POSITION, device.getDeviceID());
         } finally {
             CONNECTION_POOL.putBack(connection);
@@ -93,7 +96,8 @@ public class DeviceDAO {
         return device;
     }
 
-    private void configureDeviceStatement(String deviceName, Long definitionID, Long homeID, PreparedStatement preparedStatement) throws SQLException{
+    private void configureDeviceStatement(String deviceName, Long definitionID, Long homeID,
+                                                            PreparedStatement preparedStatement) throws SQLException{
         preparedStatement.setString(1, deviceName);
         preparedStatement.setLong(2, definitionID);
         preparedStatement.setLong(3, homeID);
