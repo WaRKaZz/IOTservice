@@ -14,7 +14,7 @@
 	</header>
 	<main>
 		<div class="container">
-          <form action = 'addNewHome' method='post' style="padding: 5% 30% 0% 30%" class="form-horisontal">
+          <form action = 'settings' method='get' style="padding: 5% 30% 0% 30%" class="form-horisontal">
             <div class="form-group">
               <label for="login" class="control-label">Enter home name:</label>
               <input type="text" class="form-control" name="homeName" required>
@@ -23,7 +23,7 @@
               <label class="control-label">Enter home address:</label>
               <input type="password" class="form-control" name="homeAddress" required>
             </div>     
-            <button type="submit" class="btn btn-success btn-block">Submit</button>
+            <button type="submit" class="btn btn-success btn-block" name="apply" value="true">Submit</button>
           </form>         
         </div>
         <p class="text-center">${sessionScope.newHomeMessage}</p>	

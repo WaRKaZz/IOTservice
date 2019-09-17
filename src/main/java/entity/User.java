@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.Objects;
+
 public class User {
     private Long userID = Long.parseLong("0");
     private String userLogin = "";
@@ -54,5 +56,23 @@ public class User {
 
     public void setUserLastName(String userLastName) {
         this.userLastName = userLastName;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userID, userLogin, userPassword, userRole, userFirstName, userLastName);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userID.equals(user.userID) &&
+                Objects.equals(userLogin, user.userLogin) &&
+                Objects.equals(userPassword, user.userPassword) &&
+                Objects.equals(userRole, user.userRole) &&
+                Objects.equals(userFirstName, user.userFirstName) &&
+                Objects.equals(userLastName, user.userLastName);
     }
 }

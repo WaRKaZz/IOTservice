@@ -31,14 +31,14 @@ public class ConnectionPool  {
         }
     }
 
-    public synchronized Connection retrieve(){
+    public Connection retrieve(){
         if (connectionQueue.isEmpty()) {
             connectionQueue.add(getConnection());
         }
         return connectionQueue.poll();
     }
 
-    public synchronized void putBack(Connection connection) throws ConnectionException {
+    public void putBack(Connection connection) throws ConnectionException {
         if (connection != null) {
             if (connectionQueue.size() < CONNECTION_AMOUNT){
                 connectionQueue.add(connection);

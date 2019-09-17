@@ -25,6 +25,7 @@ public class HomeDAO {
             "ON IOT_DATABASE.USER_TO_HOME.HOME_ID " +
             "= IOT_DATABASE.HOME.HOME_ID " +
             "WHERE USER_ID = ? AND USER_HOME_ROLE = ?";
+    private final static String GET_HOME_BY_HOME_AND_USERID = ""
 
     public Home getHomeByID(long homeID) throws SQLException, ConnectionException {
         Home home = new Home();

@@ -9,25 +9,32 @@
 	<title>IOT database</title>
 	<jsp:include page="cssIntegration.jsp"></jsp:include>
 </head>
-	<jsp:include page="navbarUnlogined.jsp"></jsp:include>
+	<jsp:include page="navbarLogined.jsp"></jsp:include>
 	<header>
 		<h3 class="text-center">Here you can add new device to your home!</h3>
 	</header>
 	<main>
 		<c:choose>
-			<c:when test="${home eq null}">
-				<p class="text"> Please, choose home before</p>
-				<a href="/main" class="btn btn-primary"	role="button">OK</a>
+			<c:when test="${home != null}">
+				<div class="conteiner"style="padding: 0% 30% 0% 30%">
+				<p class="text font-weight-bold"> Firstly you have to choose home:</p>
+				<a href="/main" class="btn btn-primary btn-block"	role="button">OK</a>
+				</div>
 			</c:when>
 			<c:otherwise>
-				<form action="/addNewDevice" class="form-horisontal" style="padding: 5% 30% 0% 30%" method="get">
+				<form action="/addNewDevice" class="form-horisontal" style="padding: 0% 30% 0% 30%" method="get">
 				<div class="form-group">
-					<label class="control-label"> Enter device name:
-					<input type="text" class="form-control" name="homeName"></label>
+					<label class="control-label"> Enter device name:</label>
+					<input type="text" class="form-control" name="deviceName">
 				</div>
 				<div class="form-group">
-					<label class="control-label"> Choose device type:
-					<input type="text" class="form-control" name="homeAddress"></label>
+					<label class="control-label"> Choose device type:</label>
+					<select id="inputState" class="form-control custom-select" name="deviceTypeID">
+						<c:forEach items="${sessionScope.deviceTypeList}" var="deviceType">
+							<option value="${deviceType.deviceDefinitionID}">Device One</option>
+						</c:forEach>
+
+					</select>
 				</div>
 				<button type ="submit" class="btn btn-success btn-block">Apply</button> 
 			</form>	

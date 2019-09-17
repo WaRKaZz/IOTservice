@@ -8,7 +8,7 @@
             <a class="nav-link" href="/devices">Devices</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/connections">Settings</a>
+            <a class="nav-link" href="/settings">Settings</a>
         </li>
     </ul>
     <ul class="nav navbar-nav ml-auto">
