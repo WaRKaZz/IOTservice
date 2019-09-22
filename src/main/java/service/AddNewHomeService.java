@@ -15,12 +15,15 @@ import java.sql.SQLException;
 import static validation.HomeValidator.*;
 
 public class AddNewHomeService implements Service {
+    private String homeMessage;
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws
                                                     IOException, ServletException, SQLException, ConnectionException {
         if (isApplyPressed(request)){
             createNewHome(request, response);
         } else {
+            homeMessage = "Devices into home you can add later";
             newHomeForward(request, response);
         }
     }
@@ -35,6 +38,7 @@ public class AddNewHomeService implements Service {
 
     private void newHomeForward(HttpServletRequest request, HttpServletResponse response)
                                             throws  IOException, ServletException, SQLException, ConnectionException{
+        request.getSession().setAttribute("homeMessage", homeMessage);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/newHome.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -43,10 +47,10 @@ public class AddNewHomeService implements Service {
                                             throws  IOException, ServletException, SQLException, ConnectionException{
         HomeDAO homeDAO = new HomeDAO();
         Home home = new Home();
-        String homeName = "", homeAddress = "", homeMessage = "Home added successful";
+        String homeName = "", homeAddress = "";
         try{
-            homeName = validateHomeName(request.getParameter("HomeName"));
-            homeAddress = validateHomeAddress(request.getParameter("HomeAddress"));
+            homeName = validateHomeName(request.getParameter("homeName"));
+            homeAddress = validateHomeAddress(request.getParameter("homeAddress"));
         } catch (ValidationException e){
             homeMessage = "Please enter valid home address!";
             request.getSession().setAttribute("homeMessage", homeMessage);
@@ -55,7 +59,7 @@ public class AddNewHomeService implements Service {
         home.setHomeName(homeName);
         home.setHomeAddress(homeAddress);
         homeDAO.addNewHome(home);
-        request.getSession().setAttribute("homeMessage", homeMessage);
-        newHomeForward(request, response);
+        homeMessage = "Home added successful";
+        response.sendRedirect("/addNewHome");
     }
 }

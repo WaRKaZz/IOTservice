@@ -5,6 +5,7 @@ import exception.ValidationException;
 public abstract class AbstractValidation {
     private static final String EMPTY_STRING = "";
     static final int MAX_TINYTEXT_LENGTH = 23;
+    static final int MAX_TEXT_LENGTH = 5000;
 
 
     public static Long validateID (String ID) throws ValidationException{

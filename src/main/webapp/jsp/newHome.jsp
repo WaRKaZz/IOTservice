@@ -8,7 +8,7 @@
 	<title>IOT database</title>
 	<jsp:include page="cssIntegration.jsp"></jsp:include>
 </head>
-	<jsp:include page="navbarUnlogined.jsp"></jsp:include>
+	<jsp:include page="navbarLogined.jsp"></jsp:include>
 	<header>
 		<h3 class="text-center">Here you can add new home!</h3>
 	</header>
@@ -21,12 +21,13 @@
             </div>
             <div class="form-group">
               <label class="control-label">Enter home address:</label>
-              <input type="password" class="form-control" name="homeAddress" required>
+              <input type="text" class="form-control" name="homeAddress" required>
             </div>     
             <button type="submit" class="btn btn-success btn-block" name="apply" value="true">Submit</button>
           </form>         
         </div>
-        <p class="text-center">${sessionScope.newHomeMessage}</p>	
+        <br>
+        <p class="text-center">${sessionScope.homeMessage}</p>	
 	</main>
 	<jsp:include page="javascriptIntegration.jsp"></jsp:include>
 </body>
