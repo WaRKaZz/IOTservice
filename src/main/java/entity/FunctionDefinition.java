@@ -1,7 +1,7 @@
 package entity;
 
-public class FunctionType {
-    private Long functionTypeID;
+public class FunctionDefinition {
+    private Long functionDefinitionID;
     private String functionName;
     private boolean isInput;
     private Long deviceTypeID;
@@ -14,12 +14,12 @@ public class FunctionType {
         this.deviceTypeID = deviceTypeID;
     }
 
-    public Long getFunctionTypeID() {
-        return functionTypeID;
+    public Long getFunctionDefinitionID() {
+        return functionDefinitionID;
     }
 
-    public void setFunctionTypeID(Long functionTypeID) {
-        this.functionTypeID = functionTypeID;
+    public void setFunctionDefinitionID(Long functionDefinitionID) {
+        this.functionDefinitionID = functionDefinitionID;
     }
 
     public String getFunctionName() {

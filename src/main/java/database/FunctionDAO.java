@@ -2,7 +2,7 @@ package database;
 
 import entity.Device;
 import entity.Function;
-import entity.FunctionType;
+import entity.FunctionDefinition;
 import exception.ConnectionException;
 
 import java.sql.*;
@@ -48,23 +48,23 @@ public class FunctionDAO {
         return function;
     }
 
-    public void addNewFunction (Function function, FunctionType functionType,
-                                                            Device device) throws SQLException, ConnectionException{
+    public void addNewFunction (Function function, FunctionDefinition functionDefinition,
+                                                            Long deviceID) throws SQLException, ConnectionException{
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_FUNCTION_SQL)){
-            configureFunctionStatement(function, functionType.getFunctionTypeID(), device.getDeviceID(), preparedStatement);
+            configureFunctionStatement(function, functionDefinition.getFunctionDefinitionID(), deviceID, preparedStatement);
             preparedStatement.executeUpdate();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void updateFunction (Function function, FunctionType functionType,
+    public void updateFunction (Function function, FunctionDefinition functionType,
                                                             Device device) throws SQLException, ConnectionException{
         final int FUNCTION_ID_POSITION = 6;
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_FUNCTION_SQL)){
-            configureFunctionStatement(function, functionType.getFunctionTypeID(), device.getDeviceID(), preparedStatement);
+            configureFunctionStatement(function, functionType.getFunctionDefinitionID(), device.getDeviceID(), preparedStatement);
             preparedStatement.setLong(FUNCTION_ID_POSITION, function.getFunctionId());
             preparedStatement.executeUpdate();
         } finally {

@@ -6,13 +6,13 @@ import java.util.List;
 public class DeviceType {
     private Long deviceTypeID;
     private String deviceTypeName;
-    private List<FunctionType> deviceFunctionsList = new ArrayList<>();
+    private List<FunctionDefinition> deviceFunctionsList = new ArrayList<>();
 
-    public List<FunctionType> getDeviceFunctionsList() {
+    public List<FunctionDefinition> getDeviceFunctionsList() {
         return deviceFunctionsList;
     }
 
-    public void setDeviceFunctionsList(List<FunctionType> deviceFunctionsList) {
+    public void setDeviceFunctionsList(List<FunctionDefinition> deviceFunctionsList) {
         this.deviceFunctionsList = deviceFunctionsList;
     }
 

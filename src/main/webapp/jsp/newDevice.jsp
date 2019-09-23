@@ -15,7 +15,7 @@
 	</header>
 	<main>
 		<c:choose>
-			<c:when test="${home != null}">
+			<c:when test="${home == null}">
 				<div class="conteiner"style="padding: 0% 30% 0% 30%">
 				<p class="text font-weight-bold"> Firstly you have to choose home:</p>
 				<a href="/main" class="btn btn-primary btn-block"	role="button">OK</a>
@@ -31,12 +31,11 @@
 					<label class="control-label"> Choose device type:</label>
 					<select id="inputState" class="form-control custom-select" name="deviceTypeID">
 						<c:forEach items="${sessionScope.deviceTypeList}" var="deviceType">
-							<option value="${deviceType.deviceDefinitionID}">Device One</option>
+							<option value="${deviceType.deviceTypeID}">${deviceType.deviceTypeName}</option>
 						</c:forEach>
-
 					</select>
 				</div>
-				<button type ="submit" class="btn btn-success btn-block">Apply</button> 
+				<button type ="submit" class="btn btn-success btn-block" name ="apply" value="true">Apply</button> 
 			</form>	
 			</c:otherwise>
 		</c:choose>

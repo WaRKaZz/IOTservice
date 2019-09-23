@@ -1,4 +1,9 @@
 package service;
+import database.DeviceDAO;
+import database.DeviceTypeDAO;
+import database.FunctionDAO;
+import database.FunctionDefinitionDAO;
+import entity.*;
 import exception.ConnectionException;
 import exception.ValidationException;
 
@@ -8,11 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import static validation.DeviceValidator.*;
-
-import database.DeviceDAO;
-import entity.Device;
 
 public class AddNewDeviceService implements Service {
 
@@ -22,8 +25,11 @@ public class AddNewDeviceService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws
             IOException, ServletException, SQLException, ConnectionException {
         if (isApplyPressed(request)){
-            createNewHome(request, response);
+            createNewDevice(request, response);
         } else {
+            DeviceTypeDAO deviceTypeDAO = new DeviceTypeDAO();
+            List<DeviceType> deviceTypeList = deviceTypeDAO.getDeviceTypeList();
+            request.getSession().setAttribute("deviceTypeList", deviceTypeList);
             deviceMessage = "Here you can add device into your home";
             newDeviceForward(request, response);
         }
@@ -44,23 +50,32 @@ public class AddNewDeviceService implements Service {
         requestDispatcher.forward(request, response);
     }
 
-    private void createNewHome(HttpServletRequest request, HttpServletResponse response)
+    private void createNewDevice(HttpServletRequest request, HttpServletResponse response)
                                      throws  IOException, ServletException, SQLException, ConnectionException{
+        FunctionDefinitionDAO functionDefinitionDAO = new FunctionDefinitionDAO();
+        Long deviceTypeID = Long.parseLong(request.getParameter("deviceTypeID"));
+        String deviceName = "";
         DeviceDAO deviceDAO = new DeviceDAO();
         Device device = new Device();
-        String deviceName = "";
+        FunctionDAO functionDAO = new FunctionDAO();
+        Home home = (Home) request.getSession().getAttribute("home");
         try{
-            deviceName = validateDeviceName(request.getParameter("homeName"));
+            deviceName = validateDeviceName(request.getParameter("deviceName"));
         } catch (ValidationException e){
             deviceMessage = "Please enter valid device name!";
-            newDeviceForward(request, response);
+            response.sendRedirect("/addNewDevice");
         }
         device.setDeviceName(deviceName);
-        deviceDAO
-        homeDAO.addNewHome(home);
-        homeMessage = "Home added successful";
-        response.sendRedirect("/addNewHome");
+        device.setDeviceDefinitionID(deviceTypeID);
+        device.setDeviceHomePlacedID(home.getHomeID());
+        device.setDeviceID(deviceDAO.addNewDevice(device, deviceTypeID, home));
+        for (FunctionDefinition functionDefinition : functionDefinitionDAO.getFunctionDefinitionList(deviceTypeID)){
+            Function function = new Function();
+            function.setFunctionType(function.getFunctionType());
+            functionDAO.addNewFunction(function, functionDefinition, device.getDeviceID());
+        }
+        deviceMessage = "Device added successful";
+        response.sendRedirect("/addNewDevice");
     }
 }
 
-}

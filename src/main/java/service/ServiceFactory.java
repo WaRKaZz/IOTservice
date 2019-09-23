@@ -16,6 +16,7 @@ public class ServiceFactory {
         FACTORY_MAP.put("/main", new MainPageService());
         FACTORY_MAP.put("/chooseHome", new HomeViewService());
         FACTORY_MAP.put("/settings", new AddNewHomeService());
+        FACTORY_MAP.put("/addNewDevice", new AddNewDeviceService());
     }
 
     public static synchronized Service getService(String serviceRequest){
