@@ -22,9 +22,9 @@ public class DeviceTypeDAO {
             "SET DEVICE_DEFINITION_NAME = ?" +
             "WHERE DEVICE_DEFINITION_ID = ?";
     private final static String UPDATE_DEVICE_TYPE = "INSERT INTO IOT_DATABASE.DEVICE_DEFINITIONS " +
-            "(DEVICE_DEFINITION_NAME) VALUE (?)";
+            "(DEVICE_DEFINITION_NAME) VALUES (?)";
     private final static String ADD_NEW_CONNECTION_TO_DEVICE = "INSERT INTO IOT_DATABASE.DEFINITIONS_MANY_TO_MANY " +
-            "(M_FUNCTION_DEFINITION_ID, M_DEVICE_DEFINITION_ID) values (?, ?)";
+            "(M_FUNCTION_DEFINITION_ID, M_DEVICE_DEFINITION_ID) VALUES (?, ?)";
 
 
     public List<DeviceType> getDeviceTypeList() throws SQLException, ConnectionException {

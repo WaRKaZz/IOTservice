@@ -10,6 +10,15 @@ public class Home {
     private Long homeID;
     private String homeName;
     private String homeAddress;
+    private boolean currentUserHomeAdmin;
+
+    public boolean isCurrentUserHomeAdmin() {
+        return currentUserHomeAdmin;
+    }
+
+    public void setCurrentUserHomeAdmin(boolean currentUserHomeAdmin) {
+        this.currentUserHomeAdmin = currentUserHomeAdmin;
+    }
 
     public List<Device> getHomeInstalledDevices() {
         return homeInstalledDevices;
@@ -58,9 +67,6 @@ public class Home {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Home home = (Home) o;
-        return homeID.equals(home.homeID) &&
-                Objects.equals(homeName, home.homeName) &&
-                Objects.equals(homeAddress, home.homeAddress) &&
-                Objects.equals(homeInstalledDevices, home.homeInstalledDevices);
+        return homeID.equals(home.homeID);
     }
 }

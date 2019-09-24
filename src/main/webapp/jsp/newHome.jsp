@@ -14,7 +14,7 @@
 	</header>
 	<main>
 		<div class="container">
-          <form action = 'settings' method='get' style="padding: 5% 30% 0% 30%" class="form-horisontal">
+          <form action = 'addNewHome' method='get' style="padding: 5% 30% 0% 30%" class="form-horisontal">
             <div class="form-group">
               <label for="login" class="control-label">Enter home name:</label>
               <input type="text" class="form-control" name="homeName" required>

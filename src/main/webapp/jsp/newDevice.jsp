@@ -35,10 +35,12 @@
 						</c:forEach>
 					</select>
 				</div>
-				<button type ="submit" class="btn btn-success btn-block" name ="apply" value="true">Apply</button> 
-			</form>	
+				<button type ="submit" class="btn btn-success btn-block" name ="apply" value="true">Apply</button> 	
+				</form>	
 			</c:otherwise>
 		</c:choose>
+		<br>
+        <p class="text-center">${sessionScope.deviceMessage}</p>	
 	</main>
 	<jsp:include page="javascriptIntegration.jsp"></jsp:include>
 </body>
