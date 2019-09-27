@@ -14,7 +14,7 @@ public class ConnectionPool  {
     private static final String USER = "root";
     private static final String PASSWORD = "1234";
     private static final int CONNECTION_AMOUNT = 30;
-    private ConcurrentLinkedQueue<Connection> connectionQueue = new ConcurrentLinkedQueue<>();
+    private final ConcurrentLinkedQueue<Connection> CONNECTION_QUEUE = new ConcurrentLinkedQueue<>();
 
     public static ConnectionPool getInstance(){
         return instance;
@@ -27,21 +27,21 @@ public class ConnectionPool  {
             e.printStackTrace();
         }
         for (int i = 0; i < CONNECTION_AMOUNT; i++){
-            connectionQueue.add(getConnection());
+            CONNECTION_QUEUE.add(getConnection());
         }
     }
 
     public Connection retrieve(){
-        if (connectionQueue.isEmpty()) {
-            connectionQueue.add(getConnection());
+        if (CONNECTION_QUEUE.isEmpty()) {
+            CONNECTION_QUEUE.add(getConnection());
         }
-        return connectionQueue.poll();
+        return CONNECTION_QUEUE.poll();
     }
 
     public void putBack(Connection connection) throws ConnectionException {
         if (connection != null) {
-            if (connectionQueue.size() < CONNECTION_AMOUNT){
-                connectionQueue.add(connection);
+            if (CONNECTION_QUEUE.size() < CONNECTION_AMOUNT){
+                CONNECTION_QUEUE.add(connection);
             }
         } else {
             throw new ConnectionException();

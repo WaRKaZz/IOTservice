@@ -57,11 +57,7 @@ public class AddNewDeviceService implements Service {
     }
 
     private boolean isApplyPressed(HttpServletRequest request){
-        if (request.getParameter("apply") != null){
-            return true;
-        } else {
-            return false;
-        }
+        return request.getParameter("apply") != null;
     }
 
     private void refreshPage(HttpServletRequest request, HttpServletResponse response)
@@ -90,10 +86,9 @@ public class AddNewDeviceService implements Service {
             device.setDeviceName(deviceName);
             device.setDeviceDefinitionID(deviceTypeID);
             device.setDeviceHomePlacedID(home.getHomeID());
-            device.setDeviceID(deviceDAO.addNewDevice(device, deviceTypeID, home));
+            device.setDeviceID(deviceDAO.addNewDevice(device));
             for (FunctionDefinition functionDefinition : functionDefinitionDAO.getFunctionDefinitionList(deviceTypeID)){
                 Function function = new Function();
-                function.setFunctionType(function.getFunctionType());
                 functionDAO.addNewFunction(function, functionDefinition, device.getDeviceID());
             }
             deviceMessage = "Device added successful";

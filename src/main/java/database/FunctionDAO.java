@@ -20,18 +20,14 @@ public class FunctionDAO {
     private final static String ADD_NEW_FUNCTION_SQL = "INSERT INTO IOT_DATABASE.FUNCTIONS " +
             "(F_BOOL, F_INT, F_STRING, FUNCTION_DEFINITION_ID, FUNCTION_DEVICE_ID) " +
             "VALUES (?, ?, ?, ?, ?)";
-    private final static String UPDATE_FUNCTION_SQL = "UPDATE IOT_DATABASE.FUNCTIONS SET F_BOOL = ?, " +
-            "F_INT = ?, " +
-            "F_STRING = ?, " +
-            "FUNCTION_DEFINITION_ID = ?, " +
-            "FUNCTION_DEVICE_ID = ? " +
-            "WHERE FUNCTION_ID = ?";
     private final static String GET_STRING_FUNCTIONS_LIST_SQL = "SELECT * FROM IOT_DATABASE.FUNCTIONS " +
             "LEFT JOIN IOT_DATABASE.FUNCTION_DEFINITIONS " +
             "ON IOT_DATABASE.FUNCTIONS.FUNCTION_DEFINITION_ID " +
             "= IOT_DATABASE.FUNCTION_DEFINITIONS.FUNCTION_DEFINITION_ID " +
             "WHERE FUNCTION_DEVICE_ID = ? " +
             "ORDER BY FUNCTION_NAME ";
+    private final static String DELETE_FUNCTIONS_LIST_SQL = "DELETE FROM IOT_DATABASE.FUNCTIONS " +
+            "WHERE FUNCTION_DEVICE_ID = ?";
 
     public Function getFunctionByID(long functionID) throws SQLException , ConnectionException {
         Function function = new Function();
@@ -59,13 +55,10 @@ public class FunctionDAO {
         }
     }
 
-    public void updateFunction (Function function, FunctionDefinition functionType,
-                                                            Device device) throws SQLException, ConnectionException{
-        final int FUNCTION_ID_POSITION = 6;
+    public void deleteFunctionsInDevice (Long deviceID) throws SQLException, ConnectionException{
         Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_FUNCTION_SQL)){
-            configureFunctionStatement(function, functionType.getFunctionDefinitionID(), device.getDeviceID(), preparedStatement);
-            preparedStatement.setLong(FUNCTION_ID_POSITION, function.getFunctionId());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FUNCTIONS_LIST_SQL)){
+            preparedStatement.setLong(1, deviceID);
             preparedStatement.executeUpdate();
         } finally {
             CONNECTION_POOL.putBack(connection);

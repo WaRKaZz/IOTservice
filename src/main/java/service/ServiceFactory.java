@@ -1,6 +1,5 @@
 package service;
 
-import javax.xml.stream.FactoryConfigurationError;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +16,9 @@ public class ServiceFactory {
         FACTORY_MAP.put("/chooseHome", new HomeViewService());
         FACTORY_MAP.put("/addNewHome", new AddNewHomeService());
         FACTORY_MAP.put("/addNewDevice", new AddNewDeviceService());
+        FACTORY_MAP.put("/settings", new SettingsService());
+        FACTORY_MAP.put("/updateDevice", new UpdateDeviceService());
+
     }
 
     public static synchronized Service getService(String serviceRequest){

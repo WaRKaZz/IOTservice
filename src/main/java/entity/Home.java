@@ -6,19 +6,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class Home {
-    private List<Device> homeInstalledDevices = new ArrayList<>();
+    private List<Device> homeInstalledDevices;
     private Long homeID;
     private String homeName;
     private String homeAddress;
-    private boolean currentUserHomeAdmin;
-
-    public boolean isCurrentUserHomeAdmin() {
-        return currentUserHomeAdmin;
-    }
-
-    public void setCurrentUserHomeAdmin(boolean currentUserHomeAdmin) {
-        this.currentUserHomeAdmin = currentUserHomeAdmin;
-    }
 
     public List<Device> getHomeInstalledDevices() {
         return homeInstalledDevices;

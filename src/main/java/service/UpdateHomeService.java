@@ -8,9 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class DeviceRedactorService implements Service {
+import static util.HomeManagement.updateHome;
+
+public class UpdateHomeService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException, ConnectionException {
+        updateHome(request);
 
     }
 }
