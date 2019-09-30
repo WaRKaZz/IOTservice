@@ -4,9 +4,9 @@ package entity;
 public class Function {
     private Boolean functionInput;
     private String functionName;
-    private Boolean functionTrue;
-    private Integer functionInteger;
-    private String functionText;
+    private Boolean functionTrue = false;
+    private Integer functionInteger = 0;
+    private String functionText = "";
     private Long functionId;
     private String functionType;
 

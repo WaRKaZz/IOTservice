@@ -16,15 +16,15 @@ import static util.ServiceManagement.updateHomeInSession;
 public class DeviceViewService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException, ConnectionException {
-        updateHomeInSession(request);
-        Home home = (Home) request.getSession().getAttribute("home");
-        for (Device device: home.getHomeInstalledDevices()) {
-            for (Function function: device.getFunctions()) {
-                System.out.println(function.getFunctionName() + " " + function.getFunctionType() + " Input");
 
-            }
+        if (request.getSession().getAttribute("home") != null){
+            updateHomeInSession(request);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/deviceView.jsp");
+            requestDispatcher.forward(request, response);
+        } else {
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/updateDevice.jsp");
+            requestDispatcher.forward(request, response);
         }
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/deviceView.jsp");
-        requestDispatcher.forward(request, response);
+
     }
 }
