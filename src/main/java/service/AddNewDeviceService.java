@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import static util.ServiceManagement.isApplyPressed;
 
 import static validation.DeviceValidator.*;
 
@@ -54,10 +55,6 @@ public class AddNewDeviceService implements Service {
             request.getSession().setAttribute("deviceMessage", deviceMessage);
         }
         return homeContains;
-    }
-
-    private boolean isApplyPressed(HttpServletRequest request){
-        return request.getParameter("apply") != null;
     }
 
     private void refreshPage(HttpServletRequest request, HttpServletResponse response)

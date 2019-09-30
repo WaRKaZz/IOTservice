@@ -89,12 +89,13 @@ public class FunctionDAO {
         function.setFunctionTrue(resultSet.getBoolean("F_BOOL"));
         function.setFunctionInteger(resultSet.getInt("F_INT"));
         function.setFunctionText(resultSet.getString("F_STRING"));
+        function.setFunctionType(resultSet.getString("FUNCTION_DATATYPE"));
 
         return function;
     }
 
     private void configureFunctionStatement(Function function, Long definitionID, Long deviceID,  PreparedStatement preparedStatement) throws SQLException{
-        preparedStatement.setBoolean(1, function.isFunctionInput());
+        preparedStatement.setBoolean(1, function.getFunctionTrue());
         preparedStatement.setInt(2, function.getFunctionInteger());
         preparedStatement.setString(3, function.getFunctionText());
         preparedStatement.setLong (4, definitionID);

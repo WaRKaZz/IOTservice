@@ -18,6 +18,8 @@ public class ServiceFactory {
         FACTORY_MAP.put("/addNewDevice", new AddNewDeviceService());
         FACTORY_MAP.put("/settings", new SettingsService());
         FACTORY_MAP.put("/updateDevice", new UpdateDeviceService());
+        FACTORY_MAP.put("/updateHome", new UpdateHomeService());
+        FACTORY_MAP.put("/devices", new DeviceViewService());
 
     }
 

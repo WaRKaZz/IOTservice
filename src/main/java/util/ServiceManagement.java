@@ -7,8 +7,8 @@ import exception.ConnectionException;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
-public class  HomeManagement {
-    public static void updateHome (HttpServletRequest request) throws SQLException, ConnectionException{
+public class ServiceManagement {
+    public static void updateHomeInSession (HttpServletRequest request) throws SQLException, ConnectionException{
         Home home = (Home) request.getSession().getAttribute("home");
         HomeDAO homeDAO = new HomeDAO();
         home = homeDAO.getHomeByID(home.getHomeID());
@@ -16,5 +16,13 @@ public class  HomeManagement {
             home.setHomeInstalledDevices(null);
         }
         request.getSession().setAttribute("home", home);
+    }
+
+    public static boolean isApplyPressed(HttpServletRequest request){
+        if (request.getParameter("apply") != null){
+            return  request.getParameter("apply").equals("true");
+        } else {
+            return false;
+        }
     }
 }

@@ -10,17 +10,28 @@
 </head>
 <body>
     <jsp:include page="navbarLogined.jsp"></jsp:include>
-	<main>
-		<div class="container">
-			<div class="row">
-				<div class="col col-6"><a href="addNewHome" class="btn btn-primary btn-block">Add new home</a></div>
-				<div class="col col-6"><a href="addNewDevice" class="btn btn-primary btn-block">Add new device</a></div>
-				<br>
-				<br>
-				<div class="col col-6"><a href="updateHome" class="btn btn-primary btn-block">Update home</a></div>
-				<div class="col col-6"><a href="updateDevice" class="btn btn-primary btn-block ">Update device</a></div>
-			</div>
+	<main style="padding: 0% 30% 0% 30%">
+		<form action="/updateHome" class="form-horisontal" method="get">
+		<div class="form-group">
+			<label class="control-label">Choose home which you want to change:</label>
+			<select id="inputState" class="form-control custom-select" name="homeID">
+				<c:forEach items="${homeAdminList}" var="homeAdmin">
+					<option value="${homeAdmin.homeID}">${homeAdmin.homeName} ${homeAdmin.homeAddress}</option>
+				</c:forEach>
+			</select>
 		</div>
+		<div class="form-group">
+			<label class="control-label">Enter new home name:</label>
+			<input type="text" class="form-control" name="homeName">
+		</div>
+		<div class="form-group">
+			<label class="control-label">Enter new home address:</label>
+			<input type="text" class="form-control" name="homeAddress">
+		</div>
+		<button type ="submit" class="btn btn-success btn-block" name ="apply" value="true">Apply</button> 	
+		</form>	
+		<br>
+		<p class="text-center">${sessionScope.homeMessage}</p>
 	</main>
     <jsp:include page="javascriptIntegration.jsp"></jsp:include>
 </body>

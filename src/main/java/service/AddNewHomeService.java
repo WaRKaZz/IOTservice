@@ -4,7 +4,6 @@ import database.HomeDAO;
 import entity.Home;
 import exception.ConnectionException;
 import exception.ValidationException;
-import org.omg.PortableServer.REQUEST_PROCESSING_POLICY_ID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,6 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import static validation.HomeValidator.*;
+import static util.ServiceManagement.isApplyPressed;
 
 public class AddNewHomeService implements Service {
     private String homeMessage = "";
@@ -25,13 +25,10 @@ public class AddNewHomeService implements Service {
             createNewHome(request, response);
         } else {
             homeMessage = "Devices into home you can add later";
+            request.getSession().setAttribute("homeMessage", homeMessage);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/newHome.jsp");
             requestDispatcher.forward(request, response);
         }
-    }
-
-    private boolean isApplyPressed(HttpServletRequest request){
-        return request.getParameter("apply") != null;
     }
 
     private void refreshPage(HttpServletRequest request, HttpServletResponse response)

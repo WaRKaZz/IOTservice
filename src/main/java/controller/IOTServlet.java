@@ -13,10 +13,8 @@ import java.sql.SQLException;
 
 public class IOTServlet extends HttpServlet {
 
-
-
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Service service = ServiceFactory.getService(request.getRequestURI());
         try {
             service.execute(request,response);
@@ -30,11 +28,5 @@ public class IOTServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
-    }
-
 }
 

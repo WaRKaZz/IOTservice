@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static validation.DeviceValidator.*;
-import static util.HomeManagement.updateHome;
+import static util.ServiceManagement.*;
 
 public class UpdateDeviceService implements Service {
 
@@ -30,17 +30,15 @@ public class UpdateDeviceService implements Service {
         if (isApplyPressed(request)){
             updateDevice(request, response);
         } else {
-            updateHome(request);
+            if (request.getSession().getAttribute("home") != null){
+                updateHomeInSession(request);
+            }
             DeviceTypeDAO deviceTypeDAO = new DeviceTypeDAO();
             List<DeviceType> deviceTypeList = deviceTypeDAO.getDeviceTypeList();
             request.getSession().setAttribute("deviceTypeList", deviceTypeList);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/updateDevice.jsp");
             requestDispatcher.forward(request, response);
         }
-    }
-
-    private boolean isApplyPressed(HttpServletRequest request){
-        return  request.getParameter("apply") != null;
     }
 
     private void updateDevice(HttpServletRequest request, HttpServletResponse response)

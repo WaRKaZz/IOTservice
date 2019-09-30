@@ -11,10 +11,10 @@
 </head>
 <body>
     <jsp:include page="navbarLogined.jsp"></jsp:include>
-	<main>
+	<main style="padding: 0% 30% 0% 30%">
 		<c:choose>
 			<c:when test="${home == null}">
-				<div class="conteiner"style="padding: 0% 30% 0% 30%">
+				<div class="conteiner">
 				<p class="text font-weight-bold">Firstly you have to choose home:</p>
 				<a href="/main" class="btn btn-primary btn-block"	role="button">OK</a>
 				</div>
@@ -24,7 +24,7 @@
 				<a href="/addNewDevice" class="btn btn-block btn-success">Install devices</a>
 			</c:when>
 			<c:otherwise>
-				<form action="/updateDevice" class="form-horisontal" style="padding: 0% 30% 0% 30%" method="get">
+				<form action="/updateDevice" class="form-horisontal" method="get">
 				<div class="form-group">
 					<label class="control-label">Choose device which you want to change:</label>
 					<select id="inputState" class="form-control custom-select" name="deviceID">

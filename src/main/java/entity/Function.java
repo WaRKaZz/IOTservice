@@ -2,10 +2,10 @@ package entity;
 
 
 public class Function {
-    private boolean isFunctionInput;
+    private Boolean functionInput;
     private String functionName;
-    private boolean isFunctionTrue;
-    private int functionInteger;
+    private Boolean functionTrue;
+    private Integer functionInteger;
     private String functionText;
     private Long functionId;
     private String functionType;
@@ -18,23 +18,23 @@ public class Function {
         this.functionType = functionType;
     }
 
-    public boolean isFunctionInput() {
-        return isFunctionInput;
+    public Boolean getFunctionInput() {
+        return functionInput;
     }
 
     public void setFunctionInput(boolean functionInput) {
-        isFunctionInput = functionInput;
+        this.functionInput = functionInput;
     }
 
-    public boolean isFunctionTrue() {
-        return isFunctionTrue;
+    public Boolean getFunctionTrue() {
+        return functionTrue;
     }
 
     public void setFunctionTrue(boolean functionBoolean) {
-        this.isFunctionTrue = functionBoolean;
+        this.functionTrue = functionBoolean;
     }
 
-    public int getFunctionInteger() {
+    public Integer getFunctionInteger() {
         return functionInteger;
     }
 
