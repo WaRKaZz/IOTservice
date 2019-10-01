@@ -14,12 +14,13 @@ import java.sql.SQLException;
 public class IOTServlet extends HttpServlet {
 
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         Service service = ServiceFactory.getService(request.getRequestURI());
         try {
             service.execute(request,response);
         } catch (SQLException e) {
             System.out.println("My main is SQLException");
+            // TODO Log sql
             // LOGSQLю
         } catch (IOException e){
             // LOGIO

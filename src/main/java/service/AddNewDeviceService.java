@@ -1,8 +1,11 @@
 package service;
+
+import com.mysql.jdbc.StringUtils;
 import database.*;
 import entity.*;
 import exception.ConnectionException;
 import exception.ValidationException;
+import validation.DeviceValidator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import static util.ServiceManagement.isApplyPressed;
 
 import static validation.DeviceValidator.*;
@@ -26,7 +30,7 @@ public class AddNewDeviceService implements Service {
             IOException, ServletException, SQLException, ConnectionException {
         deviceMessage = "";
 
-        if (isApplyPressed(request)&&isHomeAdmin(request)){
+        if (isApplyPressed(request) && isHomeAdmin(request)) {
             createNewDevice(request, response);
         } else {
             DeviceTypeDAO deviceTypeDAO = new DeviceTypeDAO();
@@ -50,7 +54,7 @@ public class AddNewDeviceService implements Service {
                 homeContains = true;
             }
         }
-        if (!homeContains){
+        if (!homeContains) {
             deviceMessage = "You are not admin in this house";
             request.getSession().setAttribute("deviceMessage", deviceMessage);
         }
@@ -58,13 +62,13 @@ public class AddNewDeviceService implements Service {
     }
 
     private void refreshPage(HttpServletRequest request, HttpServletResponse response)
-                                    throws  IOException, ServletException, SQLException, ConnectionException{
+            throws IOException, ServletException, SQLException, ConnectionException {
         request.getSession().setAttribute("deviceMessage", deviceMessage);
         response.sendRedirect("/addNewDevice");
     }
 
     private void createNewDevice(HttpServletRequest request, HttpServletResponse response)
-                                     throws  IOException, ServletException, SQLException, ConnectionException{
+            throws IOException, ServletException, SQLException, ConnectionException {
         FunctionDefinitionDAO functionDefinitionDAO = new FunctionDefinitionDAO();
         Long deviceTypeID = Long.parseLong(request.getParameter("deviceTypeID"));
         String deviceName = "";
@@ -73,18 +77,18 @@ public class AddNewDeviceService implements Service {
         Device device = new Device();
         FunctionDAO functionDAO = new FunctionDAO();
         Home home = (Home) request.getSession().getAttribute("home");
-        try{
+        try {
             deviceName = validateDeviceName(request.getParameter("deviceName"));
-        } catch (ValidationException e){
+        } catch (ValidationException e) {
             deviceMessage = "Please enter valid device name!";
             validationException = true;
         }
-        if (!validationException){
+        if (!validationException) {
             device.setDeviceName(deviceName);
             device.setDeviceDefinitionID(deviceTypeID);
             device.setDeviceHomePlacedID(home.getHomeID());
             device.setDeviceID(deviceDAO.addNewDevice(device));
-            for (FunctionDefinition functionDefinition : functionDefinitionDAO.getFunctionDefinitionList(deviceTypeID)){
+            for (FunctionDefinition functionDefinition : functionDefinitionDAO.getFunctionDefinitionList(deviceTypeID)) {
                 Function function = new Function();
                 functionDAO.addNewFunction(function, functionDefinition, device.getDeviceID());
             }

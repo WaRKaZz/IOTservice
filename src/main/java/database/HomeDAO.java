@@ -20,6 +20,10 @@ public class HomeDAO {
             "WHERE HOME_ID = ?";
     private final static String ADD_NEW_HOME_SQL = "INSERT INTO IOT_DATABASE.HOME (HOME_NAME, HOME_ADDRESS) " +
             "VALUES (?, ?)";
+    private final static String DELETE_HOME_IN_HOME_TABLE_SQL = "DELETE FROM IOT_DATABASE.HOME " +
+            "WHERE HOME_ID = ?";
+    private final static String DELETE_HOME_IN_USER_TO_HOME_TABLE = "DELETE FROM IOT_DATABASE.USER_TO_HOME " +
+            "WHERE HOME_ID";
     private final static String GET_HOME_LIST_BY_USER_AND_ROLE = "SELECT * FROM IOT_DATABASE.USER_TO_HOME LEFT JOIN " +
             "IOT_DATABASE.HOME " +
             "ON IOT_DATABASE.USER_TO_HOME.HOME_ID " +
@@ -59,6 +63,22 @@ public class HomeDAO {
             CONNECTION_POOL.putBack(connection);
         }
         return homeList;
+    }
+
+    public void deleteHome(Long homeID) throws SQLException, ConnectionException{
+        Connection connection = CONNECTION_POOL.retrieve();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HOME_IN_HOME_TABLE_SQL)){
+            preparedStatement.setLong(1, homeID);
+            preparedStatement.executeUpdate();
+        } finally {
+            CONNECTION_POOL.putBack(connection);
+        }
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HOME_IN_USER_TO_HOME_TABLE)){
+            preparedStatement.setLong(1, homeID);
+            preparedStatement.executeUpdate();
+        } finally {
+            CONNECTION_POOL.putBack(connection);
+        }
     }
 
     public void addNewHome(Home home) throws SQLException, ConnectionException{

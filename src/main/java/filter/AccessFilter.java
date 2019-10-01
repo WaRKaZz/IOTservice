@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AccessFilter implements Filter {
-    Map<String, Integer> AUTH_MAP = new HashMap<>();
+    private Map<String, Integer> AUTH_MAP = new HashMap<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

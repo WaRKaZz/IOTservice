@@ -51,11 +51,12 @@ public class UpdateDeviceService implements Service {
         String deviceName = "";
         boolean validationException = false;
         try {
-            deviceTypeID = validateID(request.getParameter("deviceTypeID"));
-            deviceID = validateID(request.getParameter("deviceID"));
-            deviceName = validateDeviceName(request.getParameter("deviceName"));
-            homeID = validateID(request.getParameter("homeID"));
-
+            if (!isDeleteDevicePressed(request)){
+                deviceTypeID = validateID(request.getParameter("deviceTypeID"));
+                deviceID = validateID(request.getParameter("deviceID"));
+                deviceName = validateDeviceName(request.getParameter("deviceName"));
+                homeID = validateID(request.getParameter("homeID"));
+            }
         } catch (ValidationException e){
             deviceMessage = "Please, choose correct device parameters";
             validationException = true;
@@ -67,14 +68,24 @@ public class UpdateDeviceService implements Service {
             device.setDeviceHomePlacedID(homeID);
             functionDAO.deleteFunctionsInDevice(device.getDeviceID());
             deviceDAO.deleteDeviceByID(device.getDeviceID());
-            device.setDeviceID(deviceDAO.addNewDevice(device));
-            for (FunctionDefinition functionDefinition : functionDefinitionDAO.getFunctionDefinitionList(deviceTypeID)){
-                Function function = new Function();
-                functionDAO.addNewFunction(function, functionDefinition, device.getDeviceID());
+            if (!isDeleteDevicePressed(request)){
+                device.setDeviceID(deviceDAO.addNewDevice(device));
+                for (FunctionDefinition functionDefinition : functionDefinitionDAO.getFunctionDefinitionList(deviceTypeID)){
+                    Function function = new Function();
+                    functionDAO.addNewFunction(function, functionDefinition, device.getDeviceID());
+                }
             }
             deviceMessage = "Updating device was correct!";
         }
         refreshPage(request, response);
+    }
+
+    private static boolean isDeleteDevicePressed(HttpServletRequest request){
+        if (request.getParameter("delete") != null){
+            return  request.getParameter("delete").equals("true");
+        } else {
+            return false;
+        }
     }
 
     private void refreshPage(HttpServletRequest request, HttpServletResponse response) throws IOException{

@@ -28,6 +28,8 @@ public class UpdateHomeService implements Service {
                                             throws IOException, ServletException, SQLException, ConnectionException {
         if (isApplyPressed(request)){
             updateHome(request, response);
+        } else if (isDeleteHomePressed(request)) {
+            deleteHome(request, response);
         } else {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/updateHome.jsp");
             request.getSession().setAttribute("homeMessage", homeMessage);
@@ -44,8 +46,34 @@ public class UpdateHomeService implements Service {
         response.sendRedirect("/updateHome");
     }
 
+    private static boolean isDeleteHomePressed(HttpServletRequest request){
+        if (request.getParameter("delete") != null){
+            return  request.getParameter("delete").equals("true");
+        } else {
+            return false;
+        }
+    }
+
+    private void deleteHome(HttpServletRequest request, HttpServletResponse response)
+                                                                throws IOException, SQLException, ConnectionException{
+        HomeDAO homeDAO = new HomeDAO();
+        Long homeID = (long) 0;
+        boolean validationException = false;
+        try {
+            homeID = validateID(request.getParameter("homeID"));
+        } catch (ValidationException e){
+            homeMessage = "Enter correct home ID";
+            validationException = true;
+        }
+        if (!validationException){
+            homeDAO.deleteHome(homeID);
+            homeMessage = "Home deleted successfully";
+        }
+        refreshPage(request, response);
+    }
+
     private void updateHome(HttpServletRequest request, HttpServletResponse response)
-                                           throws IOException, ServletException, SQLException, ConnectionException{
+                                           throws IOException, SQLException, ConnectionException{
         Home home = new Home();
         Long homeID = (long) 0;
         boolean validationException = false;

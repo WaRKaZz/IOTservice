@@ -25,36 +25,40 @@
 			</c:when>
 			<c:otherwise>
 				<form action="/updateDevice" class="form-horisontal" method="get">
-				<div class="form-group">
-					<label class="control-label">Choose device which you want to change:</label>
-					<select id="inputState" class="form-control custom-select" name="deviceID">
-						<c:forEach items="${sessionScope.home.homeInstalledDevices}" var="device">
-							<option value="${device.deviceID}">${device.deviceName}, ${device.deviceDefinitionName}</option>
-						</c:forEach>
-					</select>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Enter new device name:</label>
-					<input type="text" class="form-control" name="deviceName">
-				</div>
-				<div class="form-group">
-					<label class="control-label">Where you want to replace device?:</label>
-					<select id="inputState" class="form-control custom-select" name="homeID">
-						<c:forEach items="${homeAdminList}" var="homeAdmin">
-							<option value="${homeAdmin.homeID}">${homeAdmin.homeName} ${homeAdmin.homeAddress}</option>
-						</c:forEach>
-					</select>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Select new device type:</label>
-					<select id="inputState" class="form-control custom-select" name="deviceTypeID">
-						<c:forEach items="${sessionScope.deviceTypeList}" var="deviceType">
-							<option value="${deviceType.deviceTypeID}">${deviceType.deviceTypeName}</option>
-						</c:forEach>
-					</select>
-					</select>
-				</div>
-				<button type ="submit" class="btn btn-success btn-block" name ="apply" value="true">Apply</button> 	
+					<div class="form-group">
+						<label class="control-label">Choose device which you want to change:</label>
+						<select id="inputState" class="form-control custom-select" name="deviceID">
+							<c:forEach items="${sessionScope.home.homeInstalledDevices}" var="device">
+								<option value="${device.deviceID}">${device.deviceName}, ${device.deviceDefinitionName}</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Enter new device name:</label>
+						<input type="text" class="form-control" name="deviceName">
+					</div>
+					<div class="form-group">
+						<label class="control-label">Where you want to replace device?:</label>
+						<select id="inputState" class="form-control custom-select" name="homeID">
+							<c:forEach items="${homeAdminList}" var="homeAdmin">
+								<option value="${homeAdmin.homeID}">${homeAdmin.homeName} ${homeAdmin.homeAddress}</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Select new device type:</label>
+						<select id="inputState" class="form-control custom-select" name="deviceTypeID">
+							<c:forEach items="${sessionScope.deviceTypeList}" var="deviceType">
+								<option value="${deviceType.deviceTypeID}">${deviceType.deviceTypeName}</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="custom-control-input" id="customSwitch1" name="delete" value="true">
+						<label class="custom-control-label" for="customSwitch1">Delete Device</label>
+					</div>
+					<br>
+					<button type ="submit" class="btn btn-success btn-block" name ="apply" value="true">Apply</button> 	
 				</form>	
 			</c:otherwise>
 		</c:choose>
