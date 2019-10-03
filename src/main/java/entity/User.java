@@ -7,8 +7,15 @@ public class User {
     private String userLogin = "";
     private String userPassword = "";
     private int userRole = 0;
-    private String userFirstName = "";
-    private String userLastName = "";
+    private Boolean userBlocked = false;
+
+    public Boolean getUserBlocked() {
+        return userBlocked;
+    }
+
+    public void setUserBlocked(Boolean userBlocked) {
+        this.userBlocked = userBlocked;
+    }
 
     public Long getUserID() {
         return userID;
@@ -42,25 +49,9 @@ public class User {
         this.userRole = userRole;
     }
 
-    public String getUserFirstName() {
-        return userFirstName;
-    }
-
-    public void setUserFirstName(String userFirstName) {
-        this.userFirstName = userFirstName;
-    }
-
-    public String getUserLastName() {
-        return userLastName;
-    }
-
-    public void setUserLastName(String userLastName) {
-        this.userLastName = userLastName;
-    }
-
     @Override
     public int hashCode() {
-        return Objects.hash(userID, userLogin, userPassword, userRole, userFirstName, userLastName);
+        return Objects.hash(userID, userLogin, userPassword, userRole);
     }
 
     @Override
@@ -71,8 +62,6 @@ public class User {
         return userID.equals(user.userID) &&
                 Objects.equals(userLogin, user.userLogin) &&
                 Objects.equals(userPassword, user.userPassword) &&
-                Objects.equals(userRole, user.userRole) &&
-                Objects.equals(userFirstName, user.userFirstName) &&
-                Objects.equals(userLastName, user.userLastName);
+                Objects.equals(userRole, user.userRole);
     }
 }

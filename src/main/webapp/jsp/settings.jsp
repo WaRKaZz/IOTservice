@@ -19,6 +19,11 @@
 				<br>
 				<div class="col col-6"><a href="updateHome" class="btn btn-primary btn-block">Update home</a></div>
 				<div class="col col-6"><a href="updateDevice" class="btn btn-primary btn-block ">Update device</a></div>
+				<c:if test="${sessionScope.user.userRole == 1}">
+					<br>
+					<br>
+					<div class="col col-6"><a href="administration" class="btn btn-primary btn-block">Administration</a></div>
+				</c:if>
 			</div>
 		</div>
 	</main>

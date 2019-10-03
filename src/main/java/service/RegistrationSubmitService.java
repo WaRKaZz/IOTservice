@@ -60,13 +60,6 @@ public class RegistrationSubmitService implements Service {
             registrationMessage = "Password is incorrect";
             isCorrect = false;
         }
-        try {
-            user.setUserFirstName(validateUserFirstName(userFisetName));
-            user.setUserLastName(validateUserLastName(userlastName));
-        } catch (ValidationException e){
-            registrationMessage = "You'r Name or Lastname is incorrect";
-            isCorrect = false;
-        }
         user.setUserRole(DEFAULT_USER_ROLE);
         return isCorrect;
     }

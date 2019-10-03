@@ -20,7 +20,8 @@ public class ServiceFactory {
         FACTORY_MAP.put("/updateDevice", new UpdateDeviceService());
         FACTORY_MAP.put("/updateHome", new UpdateHomeService());
         FACTORY_MAP.put("/devices", new DeviceViewService());
-
+        FACTORY_MAP.put("/changeDevice", new DeviceUpdateService());
+        FACTORY_MAP.put("/administration", new UserAdministrationService());
     }
 
     public static synchronized Service getService(String serviceRequest){

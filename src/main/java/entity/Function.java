@@ -9,7 +9,6 @@ public class Function {
     private String functionText = "";
     private Long functionId;
     private String functionType;
-
     public String getFunctionType() {
         return functionType;
     }

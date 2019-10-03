@@ -70,8 +70,6 @@ public class HomeDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HOME_IN_HOME_TABLE_SQL)){
             preparedStatement.setLong(1, homeID);
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HOME_IN_USER_TO_HOME_TABLE)){
             preparedStatement.setLong(1, homeID);

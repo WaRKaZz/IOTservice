@@ -12,11 +12,6 @@ import java.util.List;
 public class FunctionDAO {
 
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
-    private final static String GET_FUNCTION_BY_ID_SQL = "SELECT * FROM IOT_DATABASE.FUNCTIONS " +
-            "LEFT JOIN IOT_DATABASE.FUNCTION_DEFINITIONS " +
-            "ON IOT_DATABASE.FUNCTIONS.FUNCTION_DEFINITION_ID " +
-            "= IOT_DATABASE.FUNCTION_DEFINITIONS.FUNCTION_DEFINITION_ID" +
-            " WHERE FUNCTION_ID = ?";
     private final static String ADD_NEW_FUNCTION_SQL = "INSERT INTO IOT_DATABASE.FUNCTIONS " +
             "(F_BOOL, F_INT, F_STRING, FUNCTION_DEFINITION_ID, FUNCTION_DEVICE_ID) " +
             "VALUES (?, ?, ?, ?, ?)";
@@ -28,27 +23,30 @@ public class FunctionDAO {
             "ORDER BY FUNCTION_NAME ";
     private final static String DELETE_FUNCTIONS_LIST_SQL = "DELETE FROM IOT_DATABASE.FUNCTIONS " +
             "WHERE FUNCTION_DEVICE_ID = ?";
-
-    public Function getFunctionByID(long functionID) throws SQLException , ConnectionException {
-        Function function = new Function();
-        Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_FUNCTION_BY_ID_SQL)){
-            preparedStatement.setLong(1, functionID);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                function = configureFunctionObject(resultSet);
-            }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
-        }
-        return function;
-    }
+    private final static String UPDATE_FUNCTION_DATA_SQL = "UPDATE IOT_DATABASE.FUNCTIONS " +
+            "SET F_BOOL = ?, " +
+            "F_INT = ?, " +
+            "F_STRING = ? " +
+            "WHERE FUNCTION_ID = ?";
 
     public void addNewFunction (Function function, FunctionDefinition functionDefinition,
                                                             Long deviceID) throws SQLException, ConnectionException{
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_FUNCTION_SQL)){
             configureFunctionStatement(function, functionDefinition.getFunctionDefinitionID(), deviceID, preparedStatement);
+            preparedStatement.executeUpdate();
+        } finally {
+            CONNECTION_POOL.putBack(connection);
+        }
+    }
+
+    public void updateFunctionData (Function function) throws SQLException, ConnectionException{
+        Connection connection = CONNECTION_POOL.retrieve();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_FUNCTION_DATA_SQL)){
+            preparedStatement.setBoolean(1, function.getFunctionTrue());
+            preparedStatement.setInt(2, function.getFunctionInteger());
+            preparedStatement.setString(3, function.getFunctionText());
+            preparedStatement.setLong(4, function.getFunctionId());
             preparedStatement.executeUpdate();
         } finally {
             CONNECTION_POOL.putBack(connection);

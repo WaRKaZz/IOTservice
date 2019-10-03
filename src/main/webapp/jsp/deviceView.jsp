@@ -11,6 +11,12 @@
 <body>
     <jsp:include page="navbarLogined.jsp"></jsp:include>
 	<main> 
+		<c:if test="${home.homeInstalledDevices == null}">
+			<div class="conteiner"style="padding: 0% 30% 0% 30%">
+			<p class="text font-weight-bold"> Firstly you have to add devices:</p>
+			<a href="/addNewDevice" class="btn btn-primary btn-block"	role="button">OK</a>
+		</div>
+		</c:if>
 		<div class="row">
 				<c:set var="increment" value="1" scope="page" />
 				<c:forEach items="${home.homeInstalledDevices}" var="device">
@@ -24,9 +30,9 @@
 									<c:when test="${function.functionInput}">
 										<label class="control-labely">${function.functionName}</label>
 										<c:if test="${function.functionType eq 'BOOL'}">
-											<div class="custom-control custom-switch">
-												<input type="checkbox" class="custom-control-input" id="customSwitch${increment}" name="${function.functionId}" value="true">
-												<label class="custom-control-label" for="customSwitch${increment}">True\False</label>
+											 <div class="radio">
+												<label><input type="radio" name="${function.functionId}" value="true">Enable</label>
+												<label><input type="radio" name="${function.functionId}" value="false">Disable</label>
 											</div>
 											<div class="col col-6"><hr></div>
 										</c:if>

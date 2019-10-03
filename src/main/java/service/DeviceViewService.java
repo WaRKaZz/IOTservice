@@ -16,7 +16,6 @@ import static util.ServiceManagement.updateHomeInSession;
 public class DeviceViewService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException, ConnectionException {
-
         if (request.getSession().getAttribute("home") != null){
             updateHomeInSession(request);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/deviceView.jsp");
@@ -25,6 +24,5 @@ public class DeviceViewService implements Service {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/updateDevice.jsp");
             requestDispatcher.forward(request, response);
         }
-
     }
 }

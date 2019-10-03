@@ -35,14 +35,6 @@
               <label class="control-label">Repeat password</label>
               <input type="password" class="form-control" placeholder="Repeated password" name="repeatedPassword" required>
             </div>
-            <div class="form-group">
-              <label for="first-name" class="control-label">Firstname</label>
-              <input type="text" class="form-control" placeholder="Firstname" name="firstName" required>
-            </div>       
-            <div class="form-group">
-              <label for="last-name" class="control-label">Lastname</label>
-              <input type="text" class="form-control" placeholder="Lastname" name="lastName" required>
-            </div>     
             <button type="submit" class="btn btn-success btn-block">Submit</button>
           </form>           
         </div>

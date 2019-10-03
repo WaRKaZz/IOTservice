@@ -25,16 +25,4 @@ public class UserValidation extends AbstractValidation {
         }
     }
 
-    public static int validateUserRole (String userRole) throws  ValidationException{
-        return validateInteger(userRole);
-    }
-
-    public static String validateUserFirstName (String userFirstName) throws ValidationException{
-        return validateString(userFirstName, MAX_TINYTEXT_LENGTH);
-    }
-
-    public static String validateUserLastName (String userLastName) throws ValidationException{
-        return validateString(userLastName, MAX_TINYTEXT_LENGTH);
-    }
-
 }

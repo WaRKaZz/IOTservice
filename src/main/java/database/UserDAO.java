@@ -7,20 +7,40 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private final static String GET_USER_BY_LOGIN_SQL = "SELECT * FROM  IOT_DATABASE.USER WHERE USER_LOGIN = ?";
-    private final static String GET_USER_BY_ID_SQL = "SELECT * FROM  IOT_DATABASE.USER WHERE USER_ID = ?";
+    private final static String GET_ALL_USER_LIST = "SELECT * FROM IOT_DATABASE.USER WHERE USER_ROLE > 1";
     private final static String ADD_NEW_USER_SQL = "INSERT INTO IOT_DATABASE.USER " +
-            "(USER_LOGIN, USER_ROLE, USER_PASSWORD, USER_FIRST_NAME, USER_LAST_NAME) " +
-            "VALUES (?, ?, ?, ?, ?)";
+            "(USER_LOGIN, USER_ROLE, USER_PASSWORD, USER_BLOCKED) " +
+            "VALUES (?, ?, ?, ?)";
     private final static String UPDATE_USER_SQL = "UPDATE IOT_DATABASE.USER SET USER_LOGIN = ?, " +
             "USER_ROLE = ?, " +
             "USER_PASSWORD = ?, " +
-            "USER_FIRST_NAME = ?, " +
-            "USER_LAST_NAME = ?, " +
+            "USER_BLOCKED = ? " +
             "WHERE USER_ID = ?";
+    private final static String BLOCK_USER_BY_ID_SQL = "UPDATE IOT_DATABASE.USER SET USER_BLOCKED = true " +
+            "WHERE USER_ID = ? AND USER_ROLE > 1";
+    private final static String UNBLOCK_USER_BY_ID_SQL = "UPDATE IOT_DATABASE.USER SET USER_BLOCKED = false " +
+            "WHERE USER_ID = ? AND USER_ROLE > 1";
+
+    public List getUsersList() throws SQLException, ConnectionException{
+        List<User> users = new ArrayList<>();
+        Connection connection = CONNECTION_POOL.retrieve();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_USER_LIST)){
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                User user = configureUserObject(resultSet);
+                users.add(user);
+            }
+        } finally {
+            CONNECTION_POOL.putBack(connection);
+        }
+        return users;
+    }
 
     public User getUserByLogin(String userLogin) throws SQLException, ConnectionException {
         User user = new User();
@@ -37,20 +57,23 @@ public class UserDAO {
         return user;
     }
 
-    public User getUserByID(long userId) throws SQLException, ConnectionException {
-        User user = new User();
+    public void blockUserByID(long userID) throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_ID_SQL)){
-            preparedStatement.setLong(1, userId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                user = configureUserObject(resultSet);
-            }
-
+        try (PreparedStatement preparedStatement = connection.prepareStatement(BLOCK_USER_BY_ID_SQL)){
+            preparedStatement.setLong(1, userID);
+            preparedStatement.executeUpdate();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
-        return user;
+    }
+    public void unblockUserByID(long userID) throws SQLException, ConnectionException {
+        Connection connection = CONNECTION_POOL.retrieve();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UNBLOCK_USER_BY_ID_SQL)){
+            preparedStatement.setLong(1, userID);
+            preparedStatement.executeUpdate();
+        } finally {
+            CONNECTION_POOL.putBack(connection);
+        }
     }
 
     public void addNewUser(User user) throws SQLException, ConnectionException {
@@ -62,6 +85,7 @@ public class UserDAO {
             CONNECTION_POOL.putBack(connection);
         }
     }
+
 
     public void updateUser(User user) throws SQLException, ConnectionException {
         final int USER_ID_POSITION = 7;
@@ -82,8 +106,7 @@ public class UserDAO {
         user.setUserLogin(resultSet.getString("USER_LOGIN"));
         user.setUserRole(resultSet.getInt("USER_ROLE"));
         user.setUserPassword(resultSet.getString("USER_PASSWORD"));
-        user.setUserFirstName(resultSet.getString("USER_FIRST_NAME"));
-        user.setUserLastName(resultSet.getString("USER_LAST_NAME"));
+        user.setUserBlocked(resultSet.getBoolean("USER_BLOCKED"));
         return user;
     }
 
@@ -91,8 +114,7 @@ public class UserDAO {
         preparedStatement.setString(1, user.getUserLogin());
         preparedStatement.setInt(2, user.getUserRole());
         preparedStatement.setString(3, user.getUserPassword());
-        preparedStatement.setString(4, user.getUserFirstName());
-        preparedStatement.setString(5, user.getUserLastName());
+        preparedStatement.setBoolean(4, user.getUserBlocked());
     }
 
 }

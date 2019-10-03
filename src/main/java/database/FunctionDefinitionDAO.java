@@ -21,14 +21,10 @@ public class FunctionDefinitionDAO {
             "= IOT_DATABASE.DEVICE_DEFINITIONS.DEVICE_DEFINITION_ID " +
             "WHERE M_DEVICE_DEFINITION_ID = ? " +
             "ORDER BY DEVICE_DEFINITION_NAME ";
-    private final static String GET_FUNCTION_DEFINITION_BY_ID_SQL = "SELECT * FROM IOT_DATABASE.FUNCTION_DEFINITIONS " +
-            "WHERE FUNCTION_DEFINITION_ID = ?";
     private final static String UPDATE_FUNCTION_DEFINITION = "UPDATE IOT_DATABASE.FUNCTION_DEFINITIONS " +
             "SET FUNCTION_NAME = ?, " +
             "FUNCTION_TYPE = ? " +
             "WHERE FUNCTION_DEFINITION_ID = ?";
-    private final static String ADD_NEW_FUNCTION_DEFINITION = "INSERT INTO IOT_DATABASE.FUNCTION_DEFINITIONS " +
-            "(FUNCTION_NAME, FUNCTION_TYPE) VALUES (?, ?)";
 
     public List<FunctionDefinition> getFunctionDefinitionList(Long deviceTypeID) throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();
@@ -46,29 +42,6 @@ public class FunctionDefinitionDAO {
         return functionTypeList;
     }
 
-    public FunctionDefinition getFunctionDefinitionByID(Long functionDefinitionID) throws SQLException, ConnectionException{
-        Connection connection = CONNECTION_POOL.retrieve();
-        FunctionDefinition functionType = new FunctionDefinition();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_FUNCTION_DEFINITION_BY_ID_SQL)){
-             ResultSet resultSet = preparedStatement.executeQuery();
-             while (resultSet.next()){
-                 functionType = configureDefinitionObject(resultSet);
-             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
-        }
-        return functionType;
-    }
-
-    public void addNewFunctionDefinition (FunctionDefinition functionType) throws SQLException, ConnectionException{
-        Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_FUNCTION_DEFINITION)){
-            configureDefinitionStatement(functionType, preparedStatement);
-            preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
-        }
-    }
 
     public void updateFunctionDefinition(FunctionDefinition functionType) throws SQLException, ConnectionException{
         final int FUNCTION_DEFINITION_ID_POSITION = 4;

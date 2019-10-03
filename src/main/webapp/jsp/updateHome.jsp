@@ -28,6 +28,11 @@
 			<label class="control-label">Enter new home address:</label>
 			<input type="text" class="form-control" name="homeAddress">
 		</div>
+		<div class="custom-control custom-switch">
+			<input type="checkbox" class="custom-control-input" id="customSwitch1" name="delete" value="true">
+			<label class="custom-control-label" for="customSwitch1">Delete home</label>
+		</div>
+		<br>
 		<button type ="submit" class="btn btn-success btn-block" name ="apply" value="true">Apply</button> 	
 		</form>	
 		<br>

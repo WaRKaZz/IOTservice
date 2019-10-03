@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class HomeAdministrationService implements Service {
+public class ProfileService implements Service {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response)
-                                              throws IOException, ServletException, SQLException, ConnectionException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException, ConnectionException {
 
     }
 }
