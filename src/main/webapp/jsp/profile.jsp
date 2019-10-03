@@ -11,8 +11,8 @@
 <body>
     <jsp:include page="navbarLogined.jsp"></jsp:include>
 	<main>
-		<p class="text-center">Hello!, ${user.userLogin}</p>
-		<form action = 'changePassword' method='post' style="padding: 5% 30% 0% 30%" class="form-horisontal">
+		<p class="text-center">Hello!, ${sessionScope.user.userLogin}</p>
+		<form action = 'profile' method='post' style="padding: 5% 30% 0% 30%" class="form-horisontal">
 		<p>Here you can change you'r password</p>
 		<div class="form-group">
 			<label class="control-label">Old Password</label>
@@ -26,7 +26,9 @@
 			<label class="control-label">Repeat password</label>
 			<input type="password" class="form-control" placeholder="Repeat password" name="repeatedPassword" required>
 		</div>
-			<button type="submit" class="btn btn-success btn-block">Submit</button>
+			<button type="submit" class="btn btn-success btn-block" name ="apply" value="true">Submit</button>
+		<br>
+		<p class="text-center">${sessionScope.changePasswordMessage}</p>
 		</form>    
 	</main>
     <jsp:include page="javascriptIntegration.jsp"></jsp:include>
