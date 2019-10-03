@@ -11,5 +11,5 @@ import java.sql.SQLException;
 
 public interface Service {
     void execute (HttpServletRequest request, HttpServletResponse response)
-                            throws IOException, ServletException, SQLException, ConnectionException;
+            throws IOException, ServletException, SQLException, ConnectionException;
 }

@@ -1,11 +1,12 @@
 package service;
 
-import com.mysql.jdbc.StringUtils;
-import database.*;
+import database.DeviceDAO;
+import database.DeviceTypeDAO;
+import database.FunctionDAO;
+import database.FunctionDefinitionDAO;
 import entity.*;
 import exception.ConnectionException;
 import exception.ValidationException;
-import validation.DeviceValidator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static util.ServiceManagement.isApplyPressed;
-
-import static validation.DeviceValidator.*;
+import static validation.DeviceValidator.validateDeviceName;
 
 public class AddNewDeviceService implements Service {
 

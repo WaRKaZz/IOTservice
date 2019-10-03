@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static validation.UserValidation.*;
+import static validation.UserValidation.validateLogin;
+import static validation.UserValidation.validatePassword;
 
 public class RegistrationSubmitService implements Service {
     private User user = new User();
@@ -20,19 +21,19 @@ public class RegistrationSubmitService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-                                          throws IOException, ServletException, SQLException, ConnectionException {
+            throws IOException, ServletException, SQLException, ConnectionException {
         RequestDispatcher requestDispatcher;
         UserDAO userDAO = new UserDAO();
         if (isRegistrationCorrect(request)&&isUserNotExists(userDAO)){
-           userDAO.addNewUser(user);
-           userDAO.getUserByLogin(user.getUserLogin());
-           request.getSession().setAttribute("user", user);
-           requestDispatcher = request.getRequestDispatcher("jsp/mainPage.jsp");
+            userDAO.addNewUser(user);
+            userDAO.getUserByLogin(user.getUserLogin());
+            request.getSession().setAttribute("user", user);
+            requestDispatcher = request.getRequestDispatcher("jsp/mainPage.jsp");
         } else {
-           request.getSession().setAttribute("registrationMessage", registrationMessage);
-           requestDispatcher = request.getRequestDispatcher("jsp/registration.jsp");
+            request.getSession().setAttribute("registrationMessage", registrationMessage);
+            requestDispatcher = request.getRequestDispatcher("jsp/registration.jsp");
         }
-       requestDispatcher.forward(request, response);
+        requestDispatcher.forward(request, response);
     }
 
     private boolean isRegistrationCorrect(HttpServletRequest request){

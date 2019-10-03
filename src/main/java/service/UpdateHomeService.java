@@ -5,7 +5,6 @@ import entity.Home;
 import entity.User;
 import exception.ConnectionException;
 import exception.ValidationException;
-import validation.HomeValidator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,7 +24,7 @@ public class UpdateHomeService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-                                            throws IOException, ServletException, SQLException, ConnectionException {
+            throws IOException, ServletException, SQLException, ConnectionException {
         if (isApplyPressed(request)){
             updateHome(request, response);
         } else if (isDeleteHomePressed(request)) {
@@ -38,7 +37,7 @@ public class UpdateHomeService implements Service {
     }
 
     private void refreshPage (HttpServletRequest request, HttpServletResponse response)
-                                                                throws IOException, SQLException, ConnectionException{
+            throws IOException, SQLException, ConnectionException{
         User user = (User) request.getSession().getAttribute("user");
         List<Home> homeAdminList = homeDAO.getHomeListByRole(user, ADMIN_ROLE);
         request.getSession().setAttribute("homeAdminList", homeAdminList);
@@ -55,7 +54,7 @@ public class UpdateHomeService implements Service {
     }
 
     private void deleteHome(HttpServletRequest request, HttpServletResponse response)
-                                                                throws IOException, SQLException, ConnectionException{
+            throws IOException, SQLException, ConnectionException{
         HomeDAO homeDAO = new HomeDAO();
         Long homeID = (long) 0;
         boolean validationException = false;
@@ -73,7 +72,7 @@ public class UpdateHomeService implements Service {
     }
 
     private void updateHome(HttpServletRequest request, HttpServletResponse response)
-                                           throws IOException, SQLException, ConnectionException{
+            throws IOException, SQLException, ConnectionException{
         Home home = new Home();
         Long homeID = (long) 0;
         boolean validationException = false;
@@ -96,4 +95,4 @@ public class UpdateHomeService implements Service {
         }
         refreshPage(request, response);
     }
- }
+}

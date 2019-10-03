@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class HomeViewService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws
-                                                                    IOException, ServletException, SQLException, ConnectionException {
+            IOException, ServletException, SQLException, ConnectionException {
         HomeDAO homeDAO = new HomeDAO();
         if (request.getParameter("homeID") != null){
             long homeID = Long.parseLong(request.getParameter("homeID"));

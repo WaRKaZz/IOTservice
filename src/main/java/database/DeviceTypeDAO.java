@@ -1,7 +1,6 @@
 package database;
 
 import entity.DeviceType;
-import entity.FunctionDefinition;
 import exception.ConnectionException;
 
 import java.sql.Connection;

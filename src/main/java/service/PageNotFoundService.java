@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class PageNotFoundService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-                                                throws IOException, ServletException, SQLException, ConnectionException{
+            throws IOException, ServletException, SQLException, ConnectionException{
         response.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
 }

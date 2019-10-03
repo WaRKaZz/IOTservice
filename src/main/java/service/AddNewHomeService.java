@@ -12,15 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static validation.HomeValidator.*;
 import static util.ServiceManagement.isApplyPressed;
+import static validation.HomeValidator.validateHomeAddress;
+import static validation.HomeValidator.validateHomeName;
 
 public class AddNewHomeService implements Service {
     private String homeMessage = "";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws
-                                                    IOException, ServletException, SQLException, ConnectionException {
+            IOException, ServletException, SQLException, ConnectionException {
         if (isApplyPressed(request)){
             createNewHome(request, response);
         } else {
@@ -32,13 +33,13 @@ public class AddNewHomeService implements Service {
     }
 
     private void refreshPage(HttpServletRequest request, HttpServletResponse response)
-                                            throws  IOException, ServletException, SQLException, ConnectionException{
+            throws  IOException, ServletException, SQLException, ConnectionException{
         request.getSession().setAttribute("homeMessage", homeMessage);
         response.sendRedirect("/addNewHome");
     }
 
     private void createNewHome(HttpServletRequest request, HttpServletResponse response)
-                                            throws  IOException, ServletException, SQLException, ConnectionException{
+            throws  IOException, ServletException, SQLException, ConnectionException{
         HomeDAO homeDAO = new HomeDAO();
         Home home = new Home();
         String homeName = "", homeAddress = "";

@@ -5,7 +5,10 @@ import entity.Function;
 import entity.FunctionDefinition;
 import exception.ConnectionException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +33,7 @@ public class FunctionDAO {
             "WHERE FUNCTION_ID = ?";
 
     public void addNewFunction (Function function, FunctionDefinition functionDefinition,
-                                                            Long deviceID) throws SQLException, ConnectionException{
+                                Long deviceID) throws SQLException, ConnectionException{
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_FUNCTION_SQL)){
             configureFunctionStatement(function, functionDefinition.getFunctionDefinitionID(), deviceID, preparedStatement);

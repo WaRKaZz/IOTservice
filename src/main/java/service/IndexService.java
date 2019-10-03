@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class IndexService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException,
-                                                                                    SQLException, ConnectionException {
+            SQLException, ConnectionException {
         UserDAO userDAO = new UserDAO();
         User guest = userDAO.getUserByLogin("Guest");
         User sessionUser = (User) request.getSession().getAttribute("user");

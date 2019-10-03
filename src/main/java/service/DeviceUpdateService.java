@@ -18,7 +18,7 @@ import static validation.FunctionValidation.*;
 public class DeviceUpdateService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-                                    throws IOException, ServletException, SQLException, ConnectionException {
+            throws IOException, ServletException, SQLException, ConnectionException {
         Home home = (Home) request.getSession().getAttribute("home");
         for (Device device: home.getHomeInstalledDevices()) {
             for (Function function: device.getFunctions()) {
@@ -50,7 +50,7 @@ public class DeviceUpdateService implements Service {
     }
 
     private void commitUpdate(Function function, HttpServletResponse response)
-                                            throws IOException, ServletException, SQLException, ConnectionException {
+            throws IOException, ServletException, SQLException, ConnectionException {
         FunctionDAO functionDAO = new FunctionDAO();
         functionDAO.updateFunctionData(function);
         response.sendRedirect("/devices");

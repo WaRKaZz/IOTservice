@@ -1,6 +1,5 @@
 package service;
 
-import entity.User;
 import exception.ConnectionException;
 
 import javax.servlet.RequestDispatcher;
@@ -14,7 +13,7 @@ import java.sql.SQLException;
 public class MainPageService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-                                                throws IOException, ServletException, SQLException, ConnectionException{
+            throws IOException, ServletException, SQLException, ConnectionException{
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/mainPage.jsp");
         requestDispatcher.forward(request, response);
     }

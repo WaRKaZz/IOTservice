@@ -1,8 +1,5 @@
 package service;
 
-import entity.Device;
-import entity.Function;
-import entity.Home;
 import exception.ConnectionException;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+
 import static util.ServiceManagement.updateHomeInSession;
 
 public class DeviceViewService implements Service {

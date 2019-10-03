@@ -1,7 +1,6 @@
 package service;
 
 import database.UserDAO;
-import entity.User;
 import exception.ConnectionException;
 import exception.ValidationException;
 
@@ -19,11 +18,11 @@ import static validation.UserValidation.validateID;
 
 public class UserAdministrationService implements Service {
 
-    String administrationMessage = "";
+    private String administrationMessage = "";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-                                throws IOException, ServletException, SQLException, ConnectionException {
+            throws IOException, ServletException, SQLException, ConnectionException {
         UserDAO userDAO = new UserDAO();
         List users = userDAO.getUsersList();
         request.getSession().setAttribute("users", users);

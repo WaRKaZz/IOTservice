@@ -4,7 +4,10 @@ import database.DeviceDAO;
 import database.DeviceTypeDAO;
 import database.FunctionDAO;
 import database.FunctionDefinitionDAO;
-import entity.*;
+import entity.Device;
+import entity.DeviceType;
+import entity.Function;
+import entity.FunctionDefinition;
 import exception.ConnectionException;
 import exception.ValidationException;
 
@@ -16,8 +19,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import static validation.DeviceValidator.*;
-import static util.ServiceManagement.*;
+import static util.ServiceManagement.isApplyPressed;
+import static util.ServiceManagement.updateHomeInSession;
+import static validation.DeviceValidator.validateDeviceName;
+import static validation.DeviceValidator.validateID;
 
 public class UpdateDeviceService implements Service {
 
@@ -25,8 +30,7 @@ public class UpdateDeviceService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-                                                throws IOException, ServletException, SQLException, ConnectionException {
-
+            throws IOException, ServletException, SQLException, ConnectionException {
         if (isApplyPressed(request)){
             updateDevice(request, response);
         } else {
@@ -42,7 +46,7 @@ public class UpdateDeviceService implements Service {
     }
 
     private void updateDevice(HttpServletRequest request, HttpServletResponse response)
-                                                    throws  SQLException, ConnectionException, IOException{
+            throws  SQLException, ConnectionException, IOException{
         DeviceDAO deviceDAO = new DeviceDAO();
         Device device = new Device();
         FunctionDefinitionDAO functionDefinitionDAO = new FunctionDefinitionDAO();

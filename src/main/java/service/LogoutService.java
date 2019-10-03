@@ -11,7 +11,7 @@ public class LogoutService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-                                                        throws IOException, ServletException, ConnectionException {
+            throws IOException, ServletException, ConnectionException {
         request.getSession().invalidate();
         response.sendRedirect("/");
     }
