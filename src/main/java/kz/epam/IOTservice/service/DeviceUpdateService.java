@@ -1,11 +1,11 @@
-package kz.epam.IOTservice.service;
+package kz.epam.IOTService.service;
 
-import kz.epam.IOTservice.database.FunctionDAO;
-import kz.epam.IOTservice.entity.Device;
-import kz.epam.IOTservice.entity.Function;
-import kz.epam.IOTservice.entity.Home;
-import kz.epam.IOTservice.exception.ConnectionException;
-import kz.epam.IOTservice.exception.ValidationException;
+import kz.epam.IOTService.database.FunctionDAO;
+import kz.epam.IOTService.entity.Device;
+import kz.epam.IOTService.entity.Function;
+import kz.epam.IOTService.entity.Home;
+import kz.epam.IOTService.exception.ConnectionException;
+import kz.epam.IOTService.exception.ValidationException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static kz.epam.IOTservice.validation.FunctionValidation.*;
+import static kz.epam.IOTService.validation.FunctionValidation.*;
 
 public class DeviceUpdateService implements Service {
     @Override

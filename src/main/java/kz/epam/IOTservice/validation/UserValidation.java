@@ -1,7 +1,7 @@
-package kz.epam.IOTservice.validation;
+package kz.epam.IOTService.validation;
 
 
-import kz.epam.IOTservice.exception.ValidationException;
+import kz.epam.IOTService.exception.ValidationException;
 
 public class UserValidation extends AbstractValidation {
     private static final int MIN_LOGIN_LENGTH = 4;

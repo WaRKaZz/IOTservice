@@ -1,6 +1,6 @@
-package kz.epam.IOTservice.database;
+package kz.epam.IOTService.database;
 
-import kz.epam.IOTservice.exception.ConnectionException;
+import kz.epam.IOTService.exception.ConnectionException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

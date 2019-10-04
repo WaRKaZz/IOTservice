@@ -3,9 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+         
     <servlet>
         <servlet-name>IOTServlet</servlet-name>
-        <servlet-class>kz.epam.IOTservice.controller.IOTServlet</servlet-class>
+        <servlet-class>kz.epam.IOTService.controller.IOTServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -22,4 +23,23 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
     </servlet-mapping>
+
+    <listener>
+        <listener-class>kz.epam.IOTService.listener.IOTServiceListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>kz.epam.IOTService.filter.EncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <servlet-name>IOTServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
+
 </web-app>
