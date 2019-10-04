@@ -1,4 +1,4 @@
-package kz.epam.IOTservice.exception;
+package kz.epam.IOTService.exception;
 
 
 public class ValidationException extends Exception {
