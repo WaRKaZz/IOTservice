@@ -14,11 +14,16 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
 import static kz.epam.IOTService.util.ServiceManagement.isApplyPressed;
 import static kz.epam.IOTService.validation.HomeValidator.*;
 
 public class UpdateHomeService implements Service {
-    private String homeMessage = "key.empty";
+    private static final String KEY_UPDATE_HOME_MESSAGE_INCORRECT_ID = "key.updateHomeMessageIncorrectID";
+    private static final String KEY_UPDATE_HOME_MESSAGE_SUCCESS_DELETE = "key.updateHomeMessageSuccessDelete";
+    private static final String KEY_UPDATE_HOME_MESSAGE_INCORRECT_DATA = "key.updateHomeMessageIncorrectData";
+    private static final String KEY_UPDATE_HOME_MESSAGE_SUCCESS_UPDATE = "key.updateHomeMessageSuccessUpdate";
+    private String homeMessage = KEY_EMPTY;
     private static final int ADMIN_ROLE = 1;
     private HomeDAO homeDAO = new HomeDAO();
 
@@ -32,24 +37,24 @@ public class UpdateHomeService implements Service {
                 updateHome(request, response);
             }
         } else {
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/updateHome.jsp");
-            request.getSession().setAttribute("homeMessage", homeMessage);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(UPDATE_HOME_JSP);
+            request.getSession().setAttribute(HOME_MESSAGE_SESSION_STATEMENT, homeMessage);
             requestDispatcher.forward(request, response);
         }
     }
 
     private void refreshPage (HttpServletRequest request, HttpServletResponse response)
             throws IOException, SQLException, ConnectionException{
-        User user = (User) request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute(USER_SESSION_STATEMENT);
         List<Home> homeAdminList = homeDAO.getHomeListByRole(user, ADMIN_ROLE);
-        request.getSession().setAttribute("homeAdminList", homeAdminList);
-        request.getSession().setAttribute("homeMessage", homeMessage);
-        response.sendRedirect("/updateHome");
+        request.getSession().setAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT, homeAdminList);
+        request.getSession().setAttribute(HOME_MESSAGE_SESSION_STATEMENT, homeMessage);
+        response.sendRedirect(UPDATE_HOME_URI);
     }
 
     private static boolean isDeleteHomePressed(HttpServletRequest request){
-        if (request.getParameter("delete") != null){
-            return  request.getParameter("delete").equals("true");
+        if (request.getParameter(DELETE_PARAMETER) != null){
+            return  request.getParameter(DELETE_PARAMETER).equals(TRUE);
         } else {
             return false;
         }
@@ -61,14 +66,14 @@ public class UpdateHomeService implements Service {
         Long homeID = (long) 0;
         boolean validationException = false;
         try {
-            homeID = validateID(request.getParameter("homeID"));
+            homeID = validateID(request.getParameter(HOME_ID_PARAMETER));
         } catch (ValidationException e){
-            homeMessage = "key.updateHomeMessageIncorrectID";
+            homeMessage = KEY_UPDATE_HOME_MESSAGE_INCORRECT_ID;
             validationException = true;
         }
         if (!validationException){
             homeDAO.deleteHome(homeID);
-            homeMessage = "key.updateHomeMessageSuccessDelete";
+            homeMessage = KEY_UPDATE_HOME_MESSAGE_SUCCESS_DELETE;
         }
         refreshPage(request, response);
     }
@@ -78,13 +83,13 @@ public class UpdateHomeService implements Service {
         Home home = new Home();
         Long homeID = (long) 0;
         boolean validationException = false;
-        String homeName = "", homeAddress = "";
+        String homeName = EMPTY_STRING, homeAddress = EMPTY_STRING;
         try {
-            homeID = validateID(request.getParameter("homeID"));
-            homeAddress = validateHomeAddress(request.getParameter("homeAddress"));
-            homeName = validateHomeName(request.getParameter("homeName"));
+            homeID = validateID(request.getParameter(HOME_ID_PARAMETER));
+            homeAddress = validateHomeAddress(request.getParameter(HOME_ADDRESS_PARAMETER));
+            homeName = validateHomeName(request.getParameter(HOME_NAME_PARAMETER));
         } catch (ValidationException e){
-            homeMessage = "key.updateHomeMessageIncorrectData";
+            homeMessage = KEY_UPDATE_HOME_MESSAGE_INCORRECT_DATA;
             validationException = true;
         }
         if (!validationException){
@@ -92,7 +97,7 @@ public class UpdateHomeService implements Service {
             home.setHomeName(homeName);
             home.setHomeID(homeID);
             homeDAO.updateHome(home);
-            homeMessage = "key.updateHomeMessageSuccessUpdate";
+            homeMessage = KEY_UPDATE_HOME_MESSAGE_SUCCESS_UPDATE;
         }
         refreshPage(request, response);
     }

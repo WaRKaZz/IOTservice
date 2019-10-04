@@ -42,4 +42,14 @@
         <url-pattern>/</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>kz.epam.IOTService.filter.AccessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <servlet-name>IOTServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
+
 </web-app>

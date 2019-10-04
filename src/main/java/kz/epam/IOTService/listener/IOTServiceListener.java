@@ -13,6 +13,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.LANGUAGES_LIST_CONTEXT_STATEMENT;
+import static kz.epam.IOTService.util.IOTServiceConstants.LANG_CONTEXT_STATEMENT;
+
 public class IOTServiceListener implements ServletContextListener {
     private static final Logger LOGGER = LogManager.getRootLogger();
     private static final long DEFAULT_LANGUAGE_PARAMETER = (long) 1;
@@ -29,8 +32,8 @@ public class IOTServiceListener implements ServletContextListener {
         } catch (SQLException| ConnectionException e){
             LOGGER.error(e);
         }
-        context.setAttribute("lang", lang);
-        context.setAttribute("languages", languages);
+        context.setAttribute(LANG_CONTEXT_STATEMENT, lang);
+        context.setAttribute(LANGUAGES_LIST_CONTEXT_STATEMENT, languages);
     }
 
     @Override

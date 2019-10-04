@@ -18,10 +18,4 @@ public enum  Role {
         return id;
     }
 
-    public static Role getUserRole(int value) {
-        for (Role v : values())
-            if (v.getId() == value) return v;
-        throw new IllegalArgumentException();
-    }
-
 }

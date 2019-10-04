@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
+
 
 public class DeviceTypeDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
@@ -33,8 +35,8 @@ public class DeviceTypeDAO {
 
     private DeviceType configureTypeObject(ResultSet resultSet) throws SQLException{
         DeviceType deviceType = new DeviceType();
-        deviceType.setDeviceTypeID(resultSet.getLong("DEVICE_DEFINITION_ID"));
-        deviceType.setDeviceTypeName(resultSet.getString("DEVICE_DEFINITION_NAME"));
+        deviceType.setDeviceTypeID(resultSet.getLong(DEVICE_DEFINITION_ID));
+        deviceType.setDeviceTypeName(resultSet.getString(DEVICE_DEFINITION_NAME));
         return deviceType;
     }
 }

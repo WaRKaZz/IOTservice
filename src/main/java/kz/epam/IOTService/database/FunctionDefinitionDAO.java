@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
+
 public class FunctionDefinitionDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private final static String GET_FUNCTION_DEFINITIONS_LIST_SQL = "SELECT * FROM IOT_DATABASE.DEFINITIONS_MANY_TO_MANY " +
@@ -21,10 +23,6 @@ public class FunctionDefinitionDAO {
             "= IOT_DATABASE.DEVICE_DEFINITIONS.DEVICE_DEFINITION_ID " +
             "WHERE M_DEVICE_DEFINITION_ID = ? " +
             "ORDER BY DEVICE_DEFINITION_NAME ";
-    private final static String UPDATE_FUNCTION_DEFINITION = "UPDATE IOT_DATABASE.FUNCTION_DEFINITIONS " +
-            "SET FUNCTION_NAME = ?, " +
-            "FUNCTION_TYPE = ? " +
-            "WHERE FUNCTION_DEFINITION_ID = ?";
 
     public List<FunctionDefinition> getFunctionDefinitionList(Long deviceTypeID) throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();
@@ -44,9 +42,9 @@ public class FunctionDefinitionDAO {
 
     private FunctionDefinition configureDefinitionObject(ResultSet resultSet) throws SQLException{
         FunctionDefinition functionType = new FunctionDefinition();
-        functionType.setFunctionDefinitionID(resultSet.getLong("FUNCTION_DEFINITION_ID"));
-        functionType.setFunctionName(resultSet.getString("FUNCTION_NAME"));
-        functionType.setInput(resultSet.getBoolean("FUNCTION_TYPE"));
+        functionType.setFunctionDefinitionID(resultSet.getLong(FUNCTION_DEFINITION_ID));
+        functionType.setFunctionName(resultSet.getString(FUNCTION_NAME));
+        functionType.setInput(resultSet.getBoolean(FUNCTION_TYPE));
         return functionType;
     }
 }

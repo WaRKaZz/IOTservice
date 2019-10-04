@@ -13,28 +13,29 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
 import static kz.epam.IOTService.validation.FunctionValidation.*;
 
 public class DeviceUpdateService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException, SQLException, ConnectionException {
-        Home home = (Home) request.getSession().getAttribute("home");
+            throws IOException,SQLException, ConnectionException {
+        Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
         for (Device device: home.getHomeInstalledDevices()) {
             for (Function function: device.getFunctions()) {
                 String requestValueOfParameter = request.getParameter(String.valueOf(function.getFunctionId()));
                 if (requestValueOfParameter != null){
                     try {
                         switch (function.getFunctionType()){
-                            case "BOOL":
-                                function.setFunctionTrue(validatateFunctionTrue(requestValueOfParameter));
+                            case BOOL_PARAMETER:
+                                function.setFunctionTrue(validateFunctionTrue(requestValueOfParameter));
                                 commitUpdate(function, response);
                                 break;
-                            case "INTEGER":
+                            case INTEGER_PARAMETER:
                                 function.setFunctionInteger(validateFunctionInteger(requestValueOfParameter));
                                 commitUpdate(function, response);
                                 break;
-                            case "TEXT":
+                            case TEXT_PARAMETER:
                                 function.setFunctionText(validateFunctionString(requestValueOfParameter));
                                 commitUpdate(function, response);
                                 break;
@@ -50,9 +51,9 @@ public class DeviceUpdateService implements Service {
     }
 
     private void commitUpdate(Function function, HttpServletResponse response)
-            throws IOException, ServletException, SQLException, ConnectionException {
+            throws IOException, SQLException, ConnectionException {
         FunctionDAO functionDAO = new FunctionDAO();
         functionDAO.updateFunctionData(function);
-        response.sendRedirect("/devices");
+        response.sendRedirect(DEVICES_URI);
     }
 }

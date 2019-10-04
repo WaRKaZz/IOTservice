@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
+
 public class UserDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private final static String GET_USER_BY_LOGIN_SQL = "SELECT * FROM  IOT_DATABASE.USER WHERE USER_LOGIN = ?";
@@ -102,11 +104,11 @@ public class UserDAO {
 
     private User configureUserObject(ResultSet resultSet) throws SQLException{
         User user = new User();
-        user.setUserID(resultSet.getLong("USER_ID"));
-        user.setUserLogin(resultSet.getString("USER_LOGIN"));
-        user.setUserRole(resultSet.getInt("USER_ROLE"));
-        user.setUserPassword(resultSet.getString("USER_PASSWORD"));
-        user.setUserBlocked(resultSet.getBoolean("USER_BLOCKED"));
+        user.setUserID(resultSet.getLong(USER_ID));
+        user.setUserLogin(resultSet.getString(USER_LOGIN));
+        user.setUserRole(resultSet.getInt(USER_ROLE));
+        user.setUserPassword(resultSet.getString(USER_PASSWORD));
+        user.setUserBlocked(resultSet.getBoolean(USER_BLOCKED));
         return user;
     }
 

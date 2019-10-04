@@ -11,25 +11,29 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
+
 public class IndexService implements Service {
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException,
             SQLException, ConnectionException {
         UserDAO userDAO = new UserDAO();
-        User guest = userDAO.getUserByLogin("Guest");
-        User sessionUser = (User) request.getSession().getAttribute("user");
+        User guest = userDAO.getUserByLogin(GUEST);
+        User sessionUser = (User) request.getSession().getAttribute(USER_SESSION_STATEMENT);
         if(sessionUser == null) {
-            request.getSession().setAttribute("user", guest);
+            request.getSession().setAttribute(USER_SESSION_STATEMENT, guest);
             loginForward(request, response);
         } else if (sessionUser.equals(guest)){
             loginForward(request, response);
         } else {
-            response.sendRedirect("/main");
+            response.sendRedirect(MAIN_URI);
         }
     }
 
-    private void loginForward(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/loginPage.jsp");
+    private void loginForward(HttpServletRequest request, HttpServletResponse response)
+                                                                                  throws IOException, ServletException{
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(LOGIN_PAGE_JSP);
         requestDispatcher.forward(request, response);
     }
 }

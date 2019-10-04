@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
+
 public class LanguageDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private static final String GEL_LANGUAGE_LIST_SQL = "SELECT * FROM IOT_DATABASE.LANGUAGE";
@@ -49,9 +51,9 @@ public class LanguageDAO {
 
     private Language configureLanguageObject(ResultSet resultSet) throws SQLException{
         Language language = new Language();
-        language.setLanguageID(resultSet.getLong("LANGUAGE_ID"));
-        language.setLanguageName(resultSet.getString("LANGUAGE_NAME"));
-        language.setLanguageLocale(resultSet.getString("LANGUAGE_LOCALE"));
+        language.setLanguageID(resultSet.getLong(LANGUAGE_ID));
+        language.setLanguageName(resultSet.getString(LANGUAGE_NAME));
+        language.setLanguageLocale(resultSet.getString(LANGUAGE_LOCALE));
         return language;
     }
 }

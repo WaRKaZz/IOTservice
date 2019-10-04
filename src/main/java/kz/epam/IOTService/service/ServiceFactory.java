@@ -3,27 +3,29 @@ package kz.epam.IOTService.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
+
 public class ServiceFactory {
     private static final Map<String, Service> FACTORY_MAP = new HashMap<>();
 
     static {
-        FACTORY_MAP.put("/login", new LoginService());
-        FACTORY_MAP.put("/logout", new LogoutService());
-        FACTORY_MAP.put("/index", new IndexService());
-        FACTORY_MAP.put("/registration", new RegistrationService());
-        FACTORY_MAP.put("/submitRegistration", new RegistrationSubmitService());
-        FACTORY_MAP.put("/main", new MainPageService());
-        FACTORY_MAP.put("/chooseHome", new HomeViewService());
-        FACTORY_MAP.put("/addNewHome", new AddNewHomeService());
-        FACTORY_MAP.put("/addNewDevice", new AddNewDeviceService());
-        FACTORY_MAP.put("/settings", new SettingsService());
-        FACTORY_MAP.put("/updateDevice", new UpdateDeviceService());
-        FACTORY_MAP.put("/updateHome", new UpdateHomeService());
-        FACTORY_MAP.put("/devices", new DeviceViewService());
-        FACTORY_MAP.put("/changeDevice", new DeviceUpdateService());
-        FACTORY_MAP.put("/administration", new UserAdministrationService());
-        FACTORY_MAP.put("/profile", new ProfileService());
-        FACTORY_MAP.put("/language", new ChangeLanguageService());
+        FACTORY_MAP.put(LOGIN_URI, new LoginService());
+        FACTORY_MAP.put(LOGOUT_URI, new LogoutService());
+        FACTORY_MAP.put(INDEX_URI, new IndexService());
+        FACTORY_MAP.put(REGISTRATION_URI, new RegistrationService());
+        FACTORY_MAP.put(SUBMIT_REGISTRATION_URI, new RegistrationSubmitService());
+        FACTORY_MAP.put(MAIN_URI, new MainPageService());
+        FACTORY_MAP.put(CHOOSE_HOME_URI, new HomeViewService());
+        FACTORY_MAP.put(ADD_NEW_HOME_URI, new AddNewHomeService());
+        FACTORY_MAP.put(ADD_NEW_DEVICE_URI, new AddNewDeviceService());
+        FACTORY_MAP.put(SETTINGS_URI, new SettingsService());
+        FACTORY_MAP.put(UPDATE_DEVICE_URI, new UpdateDeviceService());
+        FACTORY_MAP.put(UPDATE_HOME_URI, new UpdateHomeService());
+        FACTORY_MAP.put(DEVICES_URI, new DeviceViewService());
+        FACTORY_MAP.put(CHANGE_DEVICE_URI, new DeviceUpdateService());
+        FACTORY_MAP.put(ADMINISTRATION_URI, new UserAdministrationService());
+        FACTORY_MAP.put(PROFILE_URI, new ProfileService());
+        FACTORY_MAP.put(LANGUAGE_URI, new ChangeLanguageService());
     }
 
     public static synchronized Service getService(String serviceRequest){

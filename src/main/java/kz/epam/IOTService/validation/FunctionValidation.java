@@ -4,7 +4,7 @@ import kz.epam.IOTService.exception.ValidationException;
 
 public class FunctionValidation extends AbstractValidation {
 
-    public static boolean validatateFunctionTrue(String trueStatement) throws ValidationException {
+    public static boolean validateFunctionTrue(String trueStatement) throws ValidationException {
         return validateBoolean(trueStatement);
     }
     public static int validateFunctionInteger(String intStatement) throws ValidationException{

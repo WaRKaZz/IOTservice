@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
 import static kz.epam.IOTService.util.ServiceManagement.isApplyPressed;
 import static kz.epam.IOTService.util.ServiceManagement.updateHomeInSession;
 import static kz.epam.IOTService.validation.DeviceValidator.validateDeviceName;
@@ -26,7 +27,9 @@ import static kz.epam.IOTService.validation.DeviceValidator.validateID;
 
 public class UpdateDeviceService implements Service {
 
-    private String deviceMessage = "key.empty";
+    private static final String KEY_UPDATE_DEVICE_MESSAGE_INCORRECT_PARAMETERS = "key.updateDeviceMessageIncorrectParameters";
+    private static final String KEY_UPDATE_DEVICE_MESSAGE_SUCCESS = "key.updateDeviceMessageSuccess";
+    private String deviceMessage = KEY_EMPTY;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
@@ -34,14 +37,14 @@ public class UpdateDeviceService implements Service {
         if (isApplyPressed(request)){
             updateDevice(request, response);
         } else {
-            if (request.getSession().getAttribute("home") != null){
+            if (request.getSession().getAttribute(HOME_SESSION_STATEMENT) != null){
                 updateHomeInSession(request);
             }
             DeviceTypeDAO deviceTypeDAO = new DeviceTypeDAO();
             List<DeviceType> deviceTypeList = deviceTypeDAO.getDeviceTypeList();
-            request.getSession().setAttribute("deviceMessage", deviceMessage);
-            request.getSession().setAttribute("deviceTypeList", deviceTypeList);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/updateDevice.jsp");
+            request.getSession().setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
+            request.getSession().setAttribute(DEVICE_TYPE_LIST_SESSION_STATEMENT, deviceTypeList);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(UPDATE_DEVICE_JSP);
             requestDispatcher.forward(request, response);
         }
     }
@@ -57,13 +60,13 @@ public class UpdateDeviceService implements Service {
         boolean validationException = false;
         try {
             if (!isDeleteDevicePressed(request)){
-                deviceTypeID = validateID(request.getParameter("deviceTypeID"));
-                deviceID = validateID(request.getParameter("deviceID"));
-                deviceName = validateDeviceName(request.getParameter("deviceName"));
-                homeID = validateID(request.getParameter("homeID"));
+                deviceTypeID = validateID(request.getParameter(DEVICE_TYPE_ID_PARAMETER));
+                deviceID = validateID(request.getParameter(DEVICE_ID_PARAMETER));
+                deviceName = validateDeviceName(request.getParameter(DEVICE_NAME_PARAMETER));
+                homeID = validateID(request.getParameter(HOME_ID_PARAMETER));
             }
         } catch (ValidationException e){
-            deviceMessage = "key.updateDeviceMessageIncorrectParameters";
+            deviceMessage = KEY_UPDATE_DEVICE_MESSAGE_INCORRECT_PARAMETERS;
             validationException = true;
         }
         if (!validationException){
@@ -80,21 +83,21 @@ public class UpdateDeviceService implements Service {
                     functionDAO.addNewFunction(function, functionDefinition, device.getDeviceID());
                 }
             }
-            deviceMessage = "key.updateDeviceMessageSuccess";
+            deviceMessage = KEY_UPDATE_DEVICE_MESSAGE_SUCCESS;
         }
         refreshPage(request, response);
     }
 
     private static boolean isDeleteDevicePressed(HttpServletRequest request){
-        if (request.getParameter("delete") != null){
-            return  request.getParameter("delete").equals("true");
+        if (request.getParameter(DELETE_PARAMETER) != null){
+            return  request.getParameter(DELETE_PARAMETER).equals(TRUE);
         } else {
             return false;
         }
     }
 
     private void refreshPage(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        request.getSession().setAttribute("deviceMessage", deviceMessage);
-        response.sendRedirect("/updateDevice");
+        request.getSession().setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
+        response.sendRedirect(UPDATE_DEVICE_URI);
     }
 }

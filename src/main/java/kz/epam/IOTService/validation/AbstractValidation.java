@@ -2,15 +2,17 @@ package kz.epam.IOTService.validation;
 
 import kz.epam.IOTService.exception.ValidationException;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.EMPTY_STRING;
+import static kz.epam.IOTService.util.IOTServiceConstants.STRING_ZERO;
+
 public abstract class AbstractValidation {
-    private static final String EMPTY_STRING = "";
     static final int MAX_TINYTEXT_LENGTH = 23;
     static final int MAX_TEXT_LENGTH = 5000;
 
 
     public static Long validateID (String ID) throws ValidationException{
         if (EMPTY_STRING.equals(ID)){
-            ID = "0";
+            ID = STRING_ZERO;
         }
         return validateLong(ID);
     }

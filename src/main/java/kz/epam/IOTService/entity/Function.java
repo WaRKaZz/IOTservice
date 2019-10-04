@@ -1,12 +1,15 @@
 package kz.epam.IOTService.entity;
 
 
+import static kz.epam.IOTService.util.IOTServiceConstants.EMPTY_STRING;
+import static kz.epam.IOTService.util.IOTServiceConstants.INT_ZERO;
+
 public class Function {
     private Boolean functionInput;
     private String functionName;
     private Boolean functionTrue = false;
-    private Integer functionInteger = 0;
-    private String functionText = "";
+    private Integer functionInteger = INT_ZERO;
+    private String functionText = EMPTY_STRING;
     private Long functionId;
     private String functionType;
     public String getFunctionType() {

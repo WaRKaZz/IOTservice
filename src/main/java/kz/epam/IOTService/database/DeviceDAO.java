@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
+
 public class DeviceDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private final static String GET_DEVICE_BY_ID_SQL = "SELECT * FROM IOT_DATABASE.DEVICE " +
@@ -28,23 +30,6 @@ public class DeviceDAO {
             "WHERE HOME_PLACED_ID = ? " +
             "ORDER BY DEVICE_NAME";
     private final static String GET_LAST_INSERTED_ID = "SELECT LAST_INSERT_ID()";
-
-    public Device getDeviceByID(Long deviceID)throws SQLException, ConnectionException {
-        Device device = new Device();
-        FunctionDAO functionDAO = new FunctionDAO();
-        Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_DEVICE_BY_ID_SQL)){
-            preparedStatement.setLong(1, deviceID);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                device = configureDeviceObject(resultSet);
-                device.setFunctions(functionDAO.getFunctionsList(device));
-            }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
-        }
-        return device;
-    }
 
     public List<Device> getDevicesList(Home home) throws SQLException, ConnectionException{
         List<Device> devices = new ArrayList<>();
@@ -94,11 +79,11 @@ public class DeviceDAO {
 
     private Device configureDeviceObject(ResultSet resultSet) throws SQLException{
         Device device = new Device();
-        device.setDeviceName(resultSet.getString("DEVICE_NAME"));
-        device.setDeviceDefinitionName(resultSet.getString("DEVICE_DEFINITION_NAME"));
-        device.setDeviceID(resultSet.getLong("DEVICE_ID"));
-        device.setDeviceDefinitionID(resultSet.getLong("DEVICE_DEFINITION_TO_DEVICE"));
-        device.setDeviceHomePlacedID(resultSet.getLong("HOME_PLACED_ID"));
+        device.setDeviceName(resultSet.getString(DEVICE_NAME));
+        device.setDeviceDefinitionName(resultSet.getString(DEVICE_DEFINITION_NAME));
+        device.setDeviceID(resultSet.getLong(DEVICE_ID));
+        device.setDeviceDefinitionID(resultSet.getLong(DEVICE_DEFINITION_TO_DEVICE));
+        device.setDeviceHomePlacedID(resultSet.getLong(HOME_PLACED_ID));
         return device;
     }
 

@@ -2,11 +2,13 @@ package kz.epam.IOTService.entity;
 
 import java.util.Objects;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
+
 public class User {
-    private Long userID = Long.parseLong("0");
-    private String userLogin = "";
-    private String userPassword = "";
-    private int userRole = 0;
+    private Long userID = Long.parseLong(STRING_ZERO);
+    private String userLogin = EMPTY_STRING;
+    private String userPassword = EMPTY_STRING;
+    private int userRole = INT_ZERO;
     private Boolean userBlocked = false;
 
     public Boolean getUserBlocked() {

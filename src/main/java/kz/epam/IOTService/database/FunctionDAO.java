@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
+
 public class FunctionDAO {
 
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
@@ -84,13 +86,13 @@ public class FunctionDAO {
 
     private Function configureFunctionObject(ResultSet resultSet) throws SQLException{
         Function function = new Function();
-        function.setFunctionId(resultSet.getLong("FUNCTION_ID"));
-        function.setFunctionName(resultSet.getString("FUNCTION_NAME"));
-        function.setFunctionInput(resultSet.getBoolean("FUNCTION_TYPE"));
-        function.setFunctionTrue(resultSet.getBoolean("F_BOOL"));
-        function.setFunctionInteger(resultSet.getInt("F_INT"));
-        function.setFunctionText(resultSet.getString("F_STRING"));
-        function.setFunctionType(resultSet.getString("FUNCTION_DATATYPE"));
+        function.setFunctionId(resultSet.getLong(FUNCTION_ID));
+        function.setFunctionName(resultSet.getString(FUNCTION_NAME));
+        function.setFunctionInput(resultSet.getBoolean(FUNCTION_TYPE));
+        function.setFunctionTrue(resultSet.getBoolean(F_BOOL));
+        function.setFunctionInteger(resultSet.getInt(F_INT));
+        function.setFunctionText(resultSet.getString(F_STRING));
+        function.setFunctionType(resultSet.getString(FUNCTION_DATATYPE));
 
         return function;
     }

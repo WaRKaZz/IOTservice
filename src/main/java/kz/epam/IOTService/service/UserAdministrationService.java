@@ -12,25 +12,31 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
 import static kz.epam.IOTService.util.ServiceManagement.isApplyPressed;
 import static kz.epam.IOTService.validation.UserValidation.validateID;
 
 
 public class UserAdministrationService implements Service {
 
-    private String administrationMessage = "key.empty";
+    private static final String ACTION = "action";
+    private static final String BAN = "ban";
+    private static final String UN_BAN = "unBan";
+    private static final String KEY_ADMINISTRATION_MESSAGE_SUCCESS_BAN = "key.administrationMessageSuccessBan";
+    private static final String KEY_ADMINISTRATION_MESSAGE_SUCCESS_UNBAN = "key.administrationMessageSuccessUnban";
+    private String administrationMessage = KEY_EMPTY;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException, SQLException, ConnectionException {
         UserDAO userDAO = new UserDAO();
         List users = userDAO.getUsersList();
-        request.getSession().setAttribute("users", users);
+        request.getSession().setAttribute(USERS_SESSION_STATEMENT, users);
         if(isApplyPressed(request)){
             banUser(request, response);
         } else {
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/userAdministration.jsp");
-            request.getSession().setAttribute("administrationMessage", administrationMessage);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(USER_ADMINISTRATION_JSP);
+            request.getSession().setAttribute(ADMINISTRATION_MESSAGE_SESSION_STATEMENT, administrationMessage);
             requestDispatcher.forward(request, response);
         }
     }
@@ -39,15 +45,15 @@ public class UserAdministrationService implements Service {
             throws IOException, SQLException, ConnectionException {
         UserDAO userDAO = new UserDAO();
         try {
-            if (request.getParameter("action").equals("ban")) {
-                userDAO.blockUserByID(validateID(request.getParameter("userID")));
-                administrationMessage = "key.administrationMessageSuccessBan";
-            } else if (request.getParameter("action").equals("unBan")){
-                userDAO.unblockUserByID(validateID(request.getParameter("userID")));
-                administrationMessage = "key.administrationMessageSuccessUnban";
+            if (request.getParameter(ACTION).equals(BAN)) {
+                userDAO.blockUserByID(validateID(request.getParameter(USER_ID_PARAMETER)));
+                administrationMessage = KEY_ADMINISTRATION_MESSAGE_SUCCESS_BAN;
+            } else if (request.getParameter(ACTION).equals(UN_BAN)){
+                userDAO.unblockUserByID(validateID(request.getParameter(USER_ID_PARAMETER)));
+                administrationMessage = KEY_ADMINISTRATION_MESSAGE_SUCCESS_UNBAN;
             }
-            request.getSession().setAttribute("administrationMessage", administrationMessage);
-            response.sendRedirect("/administration");
+            request.getSession().setAttribute(ADMINISTRATION_MESSAGE_SESSION_STATEMENT, administrationMessage);
+            response.sendRedirect(ADMINISTRATION_URI);
         } catch (ValidationException e){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }

@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static kz.epam.IOTService.util.IOTServiceConstants.*;
+
 public class HomeDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private final static String  GET_HOME_BY_ID_SQL  = "SELECT * FROM  IOT_DATABASE.HOME WHERE HOME_ID = ?";
@@ -128,9 +130,9 @@ public class HomeDAO {
 
     private Home configureHomeObject(ResultSet resultSet) throws SQLException{
         Home home = new Home();
-        home.setHomeID(resultSet.getLong("HOME_ID"));
-        home.setHomeAddress(resultSet.getString("HOME_ADDRESS"));
-        home.setHomeName(resultSet.getString("HOME_NAME"));
+        home.setHomeID(resultSet.getLong(HOME_ID));
+        home.setHomeAddress(resultSet.getString(HOME_ADDRESS));
+        home.setHomeName(resultSet.getString(HOME_NAME));
         return home;
     }
 
