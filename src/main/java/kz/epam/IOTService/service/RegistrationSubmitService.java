@@ -22,7 +22,7 @@ public class RegistrationSubmitService implements Service {
     private static final String KEY_REGISTRATION_MESSAGE_PASSWORD_MATCH = "key.registrationMessagePasswordMatch";
     private static final String KEY_REGISTRATION_MESSAGE_PASSWORD_INCORRECT = "key.registrationMessagePasswordIncorrect";
     private static final String KEY_REGISTRATION_MESSAGE_LOGIN_EXISTS = "key.registrationMessageLoginExists";
-    private User user = new User();
+    private final User user = new User();
     private String registrationMessage = KEY_EMPTY;
 
     @Override

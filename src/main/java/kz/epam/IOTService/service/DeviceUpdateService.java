@@ -7,7 +7,6 @@ import kz.epam.IOTService.entity.Home;
 import kz.epam.IOTService.exception.ConnectionException;
 import kz.epam.IOTService.exception.ValidationException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

@@ -59,7 +59,7 @@ public class UpdateDeviceService implements Service {
         String deviceName = "";
         boolean validationException = false;
         try {
-            if (!isDeleteDevicePressed(request)){
+            if (isDeleteDeviceNotPressed(request)){
                 deviceTypeID = validateID(request.getParameter(DEVICE_TYPE_ID_PARAMETER));
                 deviceID = validateID(request.getParameter(DEVICE_ID_PARAMETER));
                 deviceName = validateDeviceName(request.getParameter(DEVICE_NAME_PARAMETER));
@@ -76,7 +76,7 @@ public class UpdateDeviceService implements Service {
             device.setDeviceHomePlacedID(homeID);
             functionDAO.deleteFunctionsInDevice(device.getDeviceID());
             deviceDAO.deleteDeviceByID(device.getDeviceID());
-            if (!isDeleteDevicePressed(request)){
+            if (isDeleteDeviceNotPressed(request)){
                 device.setDeviceID(deviceDAO.addNewDevice(device));
                 for (FunctionDefinition functionDefinition : functionDefinitionDAO.getFunctionDefinitionList(deviceTypeID)){
                     Function function = new Function();
@@ -88,11 +88,11 @@ public class UpdateDeviceService implements Service {
         refreshPage(request, response);
     }
 
-    private static boolean isDeleteDevicePressed(HttpServletRequest request){
+    private static boolean isDeleteDeviceNotPressed(HttpServletRequest request){
         if (request.getParameter(DELETE_PARAMETER) != null){
-            return  request.getParameter(DELETE_PARAMETER).equals(TRUE);
+            return  !request.getParameter(DELETE_PARAMETER).equals(TRUE);
         } else {
-            return false;
+            return true;
         }
     }
 

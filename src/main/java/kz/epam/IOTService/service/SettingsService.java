@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class SettingsService implements Service{
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException, ConnectionException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(IOTServiceConstants.SETTINGS_JSP);
         requestDispatcher.forward(request, response);
     }

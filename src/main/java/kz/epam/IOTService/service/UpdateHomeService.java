@@ -25,7 +25,7 @@ public class UpdateHomeService implements Service {
     private static final String KEY_UPDATE_HOME_MESSAGE_SUCCESS_UPDATE = "key.updateHomeMessageSuccessUpdate";
     private String homeMessage = KEY_EMPTY;
     private static final int ADMIN_ROLE = 1;
-    private HomeDAO homeDAO = new HomeDAO();
+    private final HomeDAO homeDAO = new HomeDAO();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)

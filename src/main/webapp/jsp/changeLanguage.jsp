@@ -32,7 +32,7 @@
 			<button type="submit" class="btn btn-success btn-block" name="apply" value="true" style="margin-top: 2%">
 				<fmt:message key="key.submitButton"/></button>
 			<br>
-			<p class="text-center">${sessionScope.administrationMessage}</p>
+			<p class="text-center"><fmt:message key="${sessionScope.administrationMessage}"/></p>
 		</form>
 	</main>
     <jsp:include page="javascriptIntegration.jsp"></jsp:include>

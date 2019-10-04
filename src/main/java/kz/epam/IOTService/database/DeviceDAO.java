@@ -15,10 +15,6 @@ import static kz.epam.IOTService.util.IOTServiceConstants.*;
 
 public class DeviceDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
-    private final static String GET_DEVICE_BY_ID_SQL = "SELECT * FROM IOT_DATABASE.DEVICE " +
-            "LEFT JOIN IOT_DATABASE.DEVICE_DEFINITIONS " +
-            "ON IOT_DATABASE.DEVICE.DEVICE_DEFINITION_TO_DEVICE " +
-            "= IOT_DATABASE.DEVICE_DEFINITIONS.DEVICE_DEFINITION_ID";
     private final static String ADD_NEW_DEVICE_SQL = "INSERT INTO IOT_DATABASE.DEVICE" +
             " (DEVICE_NAME, DEVICE_DEFINITION_TO_DEVICE, HOME_PLACED_ID)" +
             " VALUES (?, ?, ?)";

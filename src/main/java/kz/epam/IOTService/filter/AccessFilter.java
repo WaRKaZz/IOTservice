@@ -19,10 +19,10 @@ import static kz.epam.IOTService.util.IOTServiceConstants.*;
 
 public class AccessFilter implements Filter {
     private static final Logger LOGGER = LogManager.getRootLogger();
-    private Map<String, Integer> AUTH_MAP = new HashMap<>();
+    private final Map<String, Integer> AUTH_MAP = new HashMap<>();
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig){
         AUTH_MAP.put(LOGIN_URI, Role.GUEST.getId());
         AUTH_MAP.put(LOGOUT_URI, Role.GUEST.getId());
         AUTH_MAP.put(INDEX_URI, Role.GUEST.getId());
