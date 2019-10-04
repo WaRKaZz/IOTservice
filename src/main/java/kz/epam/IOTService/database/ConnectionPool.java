@@ -7,25 +7,36 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import static kz.epam.IOTService.util.IOTServiceConstants.EMPTY_STRING;
 
 public class ConnectionPool  {
     private static final Logger LOGGER = LogManager.getRootLogger();
-    private static final ConnectionPool instance = new ConnectionPool();
-    private static final String URL = "jdbc:mysql://localhost:3306/";
-    private static final String DRIVER = "com.mysql.jdbc.Driver";
-    private static final String USER = "root";
-    private static final String PASSWORD = "1234";
-    private static final int CONNECTION_AMOUNT = 30;
+    private static final String CONNECTION_PULL_BUNDLE = "connectionPull";
+    private static final String CONNECTION_PULL_URL = "url";
+    private static final String CONNECTION_PULL_USER = "user";
+    private static final String CONNECTION_PULL_PASSWORD = "password";
+    private static final String CONNECTION_PULL_DRIVER = "driver";
+    private static final String CONNECTION_PULL_INIT_CONNECTION_COUNT = "initConnectionCount";
+    private final Locale LOCALE = new Locale(EMPTY_STRING);
+    private final ResourceBundle BUNDLE = ResourceBundle.getBundle(CONNECTION_PULL_BUNDLE, LOCALE);
+    private final String URL = BUNDLE.getString(CONNECTION_PULL_URL);
+    private final String USER = BUNDLE.getString(CONNECTION_PULL_USER);
+    private final String PASSWORD = BUNDLE.getString(CONNECTION_PULL_PASSWORD);
+    private final int CONNECTION_AMOUNT = Integer.parseInt(BUNDLE.getString(CONNECTION_PULL_INIT_CONNECTION_COUNT));
+    private static final ConnectionPool INSTANCE = new ConnectionPool();
     private final ConcurrentLinkedQueue<Connection> CONNECTION_QUEUE = new ConcurrentLinkedQueue<>();
 
     public static ConnectionPool getInstance(){
-        return instance;
+        return INSTANCE;
     }
 
     public ConnectionPool(){
         try{
-            Class.forName(DRIVER);
+            Class.forName(BUNDLE.getString(CONNECTION_PULL_DRIVER));
         } catch (ClassNotFoundException e){
             e.printStackTrace();
         }
