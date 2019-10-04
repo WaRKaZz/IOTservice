@@ -59,11 +59,11 @@ public class UpdateDeviceService implements Service {
         String deviceName = "";
         boolean validationException = false;
         try {
+            deviceTypeID = validateID(request.getParameter(DEVICE_TYPE_ID_PARAMETER));
+            deviceID = validateID(request.getParameter(DEVICE_ID_PARAMETER));
+            homeID = validateID(request.getParameter(HOME_ID_PARAMETER));
             if (isDeleteDeviceNotPressed(request)){
-                deviceTypeID = validateID(request.getParameter(DEVICE_TYPE_ID_PARAMETER));
-                deviceID = validateID(request.getParameter(DEVICE_ID_PARAMETER));
                 deviceName = validateDeviceName(request.getParameter(DEVICE_NAME_PARAMETER));
-                homeID = validateID(request.getParameter(HOME_ID_PARAMETER));
             }
         } catch (ValidationException e){
             deviceMessage = KEY_UPDATE_DEVICE_MESSAGE_INCORRECT_PARAMETERS;

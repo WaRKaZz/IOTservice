@@ -15,7 +15,7 @@
 	<main> 
 		<c:if test="${home.homeInstalledDevices == null}">
 			<div class="conteiner"style="padding: 0% 30% 0% 30%">
-			<p class="text font-weight-bold"><fmt:message key="key.firstlyChosenHome"/></p>
+			<p class="text font-weight-bold"><fmt:message key="key.firstlyAddDevice"/></p>
 			<a href="/addNewDevice" class="btn btn-primary btn-block"	role="button"><fmt:message key="key.ok"/></a>
 		</div>
 		</c:if>
