@@ -42,6 +42,7 @@ public class DeviceUpdateService implements Service {
                         }
                     } catch (ValidationException e){
                         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                        break;
                     }
 
                 }

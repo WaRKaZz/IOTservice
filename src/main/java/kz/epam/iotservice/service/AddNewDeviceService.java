@@ -58,6 +58,7 @@ public class AddNewDeviceService implements Service {
         for (Home homeInList : homeAdminList) {
             if (homeInList.equals(home)) {
                 homeContains = true;
+                break;
             }
         }
         if (!homeContains) {
