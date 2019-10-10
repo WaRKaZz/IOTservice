@@ -5,7 +5,7 @@ public class JspConstants {
     private JspConstants() {
     }
 
-    public final static String NEW_DEVICE_JSP = "jsp/newDevice.jsp";
+    public static final String NEW_DEVICE_JSP = "jsp/newDevice.jsp";
     public static final String NEW_HOME_JSP = "jsp/newHome.jsp";
     public static final String CHANGE_LANGUAGE_JSP = "jsp/changeLanguage.jsp";
     public static final String DEVICE_VIEW_JSP = "jsp/deviceView.jsp";
