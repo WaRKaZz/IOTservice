@@ -59,7 +59,9 @@ public class UpdateDeviceService implements Service {
         Device device = new Device();
         FunctionDefinitionDAO functionDefinitionDAO = new FunctionDefinitionDAO();
         FunctionDAO functionDAO = new FunctionDAO();
-        Long deviceID = (long) 0, deviceTypeID = (long) 0, homeID = (long) 0;
+        Long deviceID = (long) 0;
+        Long deviceTypeID = (long) 0;
+        Long homeID = (long) 0;
         String deviceName = "";
         boolean validationException = false;
         try {

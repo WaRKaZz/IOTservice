@@ -53,7 +53,8 @@ public class AddNewHomeService implements Service {
         HomeDAO homeDAO = new HomeDAO();
         Home home = new Home();
         User user = (User) request.getSession().getAttribute(USER_SESSION_STATEMENT);
-        String homeName = EMPTY_STRING, homeAddress = EMPTY_STRING;
+        String homeName = EMPTY_STRING;
+        String homeAddress = EMPTY_STRING;
         boolean validationException = false;
         try{
             homeName = validateHomeName(request.getParameter(HOME_NAME_PARAMETER));

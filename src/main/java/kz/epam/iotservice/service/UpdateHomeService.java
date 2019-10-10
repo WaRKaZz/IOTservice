@@ -86,7 +86,8 @@ public class UpdateHomeService implements Service {
         Home home = new Home();
         Long homeID = (long) 0;
         boolean validationException = false;
-        String homeName = EMPTY_STRING, homeAddress = EMPTY_STRING;
+        String homeName = EMPTY_STRING;
+        String homeAddress = EMPTY_STRING;
         try {
             homeID = validateID(request.getParameter(HOME_ID_PARAMETER));
             homeAddress = validateHomeAddress(request.getParameter(HOME_ADDRESS_PARAMETER));

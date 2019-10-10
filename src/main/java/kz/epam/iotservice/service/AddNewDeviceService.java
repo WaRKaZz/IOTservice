@@ -20,6 +20,7 @@ import java.util.List;
 import static kz.epam.iotservice.util.ConstantsForAttributes.*;
 import static kz.epam.iotservice.util.ConstantsUri.ADD_NEW_DEVICE_URI;
 import static kz.epam.iotservice.util.JspConstants.NEW_DEVICE_JSP;
+import static kz.epam.iotservice.util.OtherConstants.EMPTY_STRING;
 import static kz.epam.iotservice.util.OtherConstants.KEY_EMPTY;
 import static kz.epam.iotservice.util.ServiceManagement.isApplyPressed;
 import static kz.epam.iotservice.validation.DeviceValidator.validateDeviceName;
@@ -78,7 +79,7 @@ public class AddNewDeviceService implements Service {
             throws IOException, SQLException, ConnectionException {
         FunctionDefinitionDAO functionDefinitionDAO = new FunctionDefinitionDAO();
         Long deviceTypeID = Long.parseLong(request.getParameter(DEVICE_TYPE_ID_PARAMETER));
-        String deviceName = "";
+        String deviceName = EMPTY_STRING;
         DeviceDAO deviceDAO = new DeviceDAO();
         boolean validationException = false;
         Device device = new Device();
