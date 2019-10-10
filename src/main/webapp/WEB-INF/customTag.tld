@@ -6,7 +6,7 @@
 
     <tag>
         <name>DoubleSpace</name>
-        <tag-class>kz.epam.IOTService.taglib.CustomTag</tag-class>
+        <tag-class>kz.epam.iotservice.taglib.CustomTag</tag-class>
         <body-content>empty</body-content>
     </tag>
 </taglib>

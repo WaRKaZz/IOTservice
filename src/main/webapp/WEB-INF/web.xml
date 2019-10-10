@@ -6,7 +6,7 @@
          
     <servlet>
         <servlet-name>IOTServlet</servlet-name>
-        <servlet-class>kz.epam.IOTService.controller.IOTServlet</servlet-class>
+        <servlet-class>kz.epam.iotservice.controller.IOTServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -25,12 +25,12 @@
     </servlet-mapping>
 
     <listener>
-        <listener-class>kz.epam.IOTService.listener.IOTServiceListener</listener-class>
+        <listener-class>kz.epam.iotservice.listener.IOTServiceListener</listener-class>
     </listener>
 
     <filter>
         <filter-name>EncodingFilter</filter-name>
-        <filter-class>kz.epam.IOTService.filter.EncodingFilter</filter-class>
+        <filter-class>kz.epam.iotservice.filter.EncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -44,7 +44,7 @@
 
     <filter>
         <filter-name>AccessFilter</filter-name>
-        <filter-class>kz.epam.IOTService.filter.AccessFilter</filter-class>
+        <filter-class>kz.epam.iotservice.filter.AccessFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AccessFilter</filter-name>
