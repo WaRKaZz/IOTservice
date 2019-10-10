@@ -12,14 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static kz.epam.iotservice.util.DatabaseConstants.*;
-import static kz.epam.iotservice.util.OtherConstants.*;
 
 public class LanguageDAO {
-    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private static final String GEL_LANGUAGE_LIST_SQL = "SELECT * FROM IOT_DATABASE.LANGUAGE";
     private static final String GEL_LANGUAGE_BY_ID_SQL = "SELECT * FROM IOT_DATABASE.LANGUAGE " +
             "WHERE LANGUAGE_ID = ?";
-
+    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
     public List<Language> getListLanguages() throws SQLException, ConnectionException {
         List<Language> languageList = new ArrayList<>();
@@ -39,10 +37,10 @@ public class LanguageDAO {
     public Language getLanguageByID(Long languageID) throws SQLException, ConnectionException {
         Language language = new Language();
         Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GEL_LANGUAGE_BY_ID_SQL)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GEL_LANGUAGE_BY_ID_SQL)) {
             preparedStatement.setLong(1, languageID);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 language = configureLanguageObject(resultSet);
             }
         } finally {
@@ -51,7 +49,7 @@ public class LanguageDAO {
         return language;
     }
 
-    private Language configureLanguageObject(ResultSet resultSet) throws SQLException{
+    private Language configureLanguageObject(ResultSet resultSet) throws SQLException {
         Language language = new Language();
         language.setLanguageID(resultSet.getLong(LANGUAGE_ID));
         language.setLanguageName(resultSet.getString(LANGUAGE_NAME));

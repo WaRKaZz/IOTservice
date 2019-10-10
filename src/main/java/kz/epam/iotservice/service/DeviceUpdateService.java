@@ -19,14 +19,14 @@ import static kz.epam.iotservice.validation.FunctionValidation.*;
 public class DeviceUpdateService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-            throws IOException,SQLException, ConnectionException {
+            throws IOException, SQLException, ConnectionException {
         Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
-        for (Device device: home.getHomeInstalledDevices()) {
-            for (Function function: device.getFunctions()) {
+        for (Device device : home.getHomeInstalledDevices()) {
+            for (Function function : device.getFunctions()) {
                 String requestValueOfParameter = request.getParameter(String.valueOf(function.getFunctionId()));
-                if (requestValueOfParameter != null){
+                if (requestValueOfParameter != null) {
                     try {
-                        switch (function.getFunctionType()){
+                        switch (function.getFunctionType()) {
                             case BOOL_PARAMETER:
                                 function.setFunctionTrue(validateFunctionTrue(requestValueOfParameter));
                                 commitUpdate(function, response);
@@ -40,7 +40,7 @@ public class DeviceUpdateService implements Service {
                                 commitUpdate(function, response);
                                 break;
                         }
-                    } catch (ValidationException e){
+                    } catch (ValidationException e) {
                         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
                         break;
                     }

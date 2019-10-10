@@ -10,7 +10,7 @@ public class LogoutService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-            throws IOException{
+            throws IOException {
         request.getSession().invalidate();
         response.sendRedirect(EMPTY_URI);
     }

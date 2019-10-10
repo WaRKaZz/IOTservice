@@ -28,8 +28,8 @@ public class ProfileService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-                                             throws IOException, ServletException, SQLException, ConnectionException {
-        if(isApplyPressed(request)){
+            throws IOException, ServletException, SQLException, ConnectionException {
+        if (isApplyPressed(request)) {
             updatePassword(request, response);
         } else {
             request.getSession().setAttribute(CHANGE_PASSWORD_MESSAGE_SESSION_STATEMENT, changePasswordMessage);
@@ -39,32 +39,32 @@ public class ProfileService implements Service {
     }
 
     private void updatePassword(HttpServletRequest request, HttpServletResponse response)
-                                                      throws ConnectionException, SQLException, IOException{
+            throws ConnectionException, SQLException, IOException {
         UserDAO userDAO = new UserDAO();
         User user = (User) request.getSession().getAttribute(USER_SESSION_STATEMENT);
         boolean validationException = false;
         String oldPassword = request.getParameter(OLD_PASSWORD_PARAMETER);
         String newPassword = request.getParameter(NEW_PASSWORD_PARAMETER);
         String repeatedPassword = request.getParameter(REPEATED_PASSWORD_PARAMETER);
-        if (isUserCorrect(user, oldPassword)){
+        if (isUserCorrect(user, oldPassword)) {
             try {
-                if(newPassword.equals(repeatedPassword)){
+                if (newPassword.equals(repeatedPassword)) {
                     user.setUserPassword(validatePassword(newPassword));
                 }
-            } catch (ValidationException e){
+            } catch (ValidationException e) {
                 changePasswordMessage = KEY_PROFILE_MESSAGE_ERROR_PASSWORD;
                 validationException = true;
             }
         }
-        if (!validationException){
+        if (!validationException) {
             userDAO.updateUser(user);
             changePasswordMessage = KEY_PROFILE_MESSAGE_SUCCESS;
         }
         refreshPage(request, response);
     }
 
-    private void refreshPage (HttpServletRequest request, HttpServletResponse response)
-            throws IOException{
+    private void refreshPage(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         request.getSession().setAttribute(CHANGE_PASSWORD_MESSAGE_SESSION_STATEMENT, changePasswordMessage);
         response.sendRedirect(PROFILE_URI);
     }

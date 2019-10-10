@@ -13,10 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static kz.epam.iotservice.util.DatabaseConstants.*;
-import static kz.epam.iotservice.util.OtherConstants.*;
 
 public class HomeDAO {
-    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private final static String GET_HOME_BY_ID_SQL = "SELECT * FROM  IOT_DATABASE.HOME WHERE HOME_ID = ?";
     private final static String UPDATE_HOME_SQL = "UPDATE IOT_DATABASE.HOME " +
             "SET HOME_NAME = ?, " +
@@ -37,6 +35,7 @@ public class HomeDAO {
             "(USER_ID, HOME_ID, USER_HOME_ROLE) " +
             "VALUES (?, ?, ?)";
     private final static String GET_LAST_INSERTED_ID = "SELECT LAST_INSERT_ID()";
+    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
     public Home getHomeByID(long homeID) throws SQLException, ConnectionException {
         Home home = new Home();
@@ -120,10 +119,10 @@ public class HomeDAO {
 
     public void updateHome(Home home) throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();
-        final int HOME_ID_POSTITION = 3;
+        final int HOME_ID_POSITION = 3;
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_HOME_SQL)) {
             configureHomeStatement(home, preparedStatement);
-            preparedStatement.setLong(HOME_ID_POSTITION, home.getHomeID());
+            preparedStatement.setLong(HOME_ID_POSITION, home.getHomeID());
             preparedStatement.executeUpdate();
         } finally {
             CONNECTION_POOL.putBack(connection);

@@ -11,6 +11,14 @@ public class Device {
     private Long deviceHomePlacedID;
     private Long deviceDefinitionID;
 
+    public String getDeviceDefinitionName() {
+        return deviceDefinitionName;
+    }
+
+    public void setDeviceDefinitionName(String deviceDefinitionName) {
+        this.deviceDefinitionName = deviceDefinitionName;
+    }
+
     public Long getDeviceHomePlacedID() {
         return deviceHomePlacedID;
     }
@@ -25,14 +33,6 @@ public class Device {
 
     public void setDeviceDefinitionID(Long deviceDefinitionID) {
         this.deviceDefinitionID = deviceDefinitionID;
-    }
-
-    public String getDeviceDefinitionName() {
-        return deviceDefinitionName;
-    }
-
-    public void setDeviceDefinitionName(String deviceDefinitionName) {
-        this.deviceDefinitionName = deviceDefinitionName;
     }
 
     public Long getDeviceID() {

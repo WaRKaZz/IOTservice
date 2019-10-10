@@ -7,7 +7,7 @@ import java.io.IOException;
 public class PageNotFoundService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-            throws IOException{
+            throws IOException {
         response.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
 }

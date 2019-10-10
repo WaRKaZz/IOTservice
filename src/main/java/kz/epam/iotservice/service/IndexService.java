@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.*;
+import static kz.epam.iotservice.util.ConstantsForAttributes.GUEST;
+import static kz.epam.iotservice.util.ConstantsForAttributes.USER_SESSION_STATEMENT;
 import static kz.epam.iotservice.util.ConstantsUri.MAIN_URI;
 import static kz.epam.iotservice.util.JspConstants.LOGIN_PAGE_JSP;
 
@@ -23,10 +24,10 @@ public class IndexService implements Service {
         UserDAO userDAO = new UserDAO();
         User guest = userDAO.getUserByLogin(GUEST);
         User sessionUser = (User) request.getSession().getAttribute(USER_SESSION_STATEMENT);
-        if(sessionUser == null) {
+        if (sessionUser == null) {
             request.getSession().setAttribute(USER_SESSION_STATEMENT, guest);
             loginForward(request, response);
-        } else if (sessionUser.equals(guest)){
+        } else if (sessionUser.equals(guest)) {
             loginForward(request, response);
         } else {
             response.sendRedirect(MAIN_URI);
@@ -34,7 +35,7 @@ public class IndexService implements Service {
     }
 
     private void loginForward(HttpServletRequest request, HttpServletResponse response)
-                                                                                  throws IOException, ServletException{
+            throws IOException, ServletException {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LOGIN_PAGE_JSP);
         requestDispatcher.forward(request, response);
     }

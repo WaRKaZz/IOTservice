@@ -20,32 +20,32 @@ public final class ServiceManagement {
     private ServiceManagement() {
     }
 
-    public static void updateHomeInSession (HttpServletRequest request) throws SQLException, ConnectionException{
+    public static void updateHomeInSession(HttpServletRequest request) throws SQLException, ConnectionException {
         Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
         HomeDAO homeDAO = new HomeDAO();
         home = homeDAO.getHomeByID(home.getHomeID());
-        if (home.getHomeInstalledDevices().isEmpty()){
+        if (home.getHomeInstalledDevices().isEmpty()) {
             home.setHomeInstalledDevices(null);
         }
         request.getSession().setAttribute(HOME_SESSION_STATEMENT, home);
     }
 
-    public static boolean isApplyPressed(HttpServletRequest request){
-        if (request.getParameter(APPLY) != null){
-            return  request.getParameter(APPLY).equals(TRUE);
+    public static boolean isApplyPressed(HttpServletRequest request) {
+        if (request.getParameter(APPLY) != null) {
+            return request.getParameter(APPLY).equals(TRUE);
         } else {
             return false;
         }
     }
 
-    public static String encryptPassword(String password){
+    public static String encryptPassword(String password) {
         String salt = BCrypt.gensalt(LOG_ROUNDS);
         return BCrypt.hashpw(password, salt);
     }
 
-    public static boolean isUserCorrect (User user, String password){
+    public static boolean isUserCorrect(User user, String password) {
         boolean isCorrect = false;
-        if (user.getUserPassword() != null){
+        if (user.getUserPassword() != null) {
             String userPassword = user.getUserPassword();
             isCorrect = BCrypt.checkpw(password, userPassword);
         }

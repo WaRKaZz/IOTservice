@@ -12,6 +12,7 @@ public class Function {
     private String functionText = EMPTY_STRING;
     private Long functionId;
     private String functionType;
+
     public String getFunctionType() {
         return functionType;
     }

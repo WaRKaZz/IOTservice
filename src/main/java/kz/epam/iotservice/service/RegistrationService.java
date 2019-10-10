@@ -15,7 +15,7 @@ public class RegistrationService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException{
+            throws IOException, ServletException {
         request.getSession().invalidate();
         request.getSession().setAttribute(REGISTRATION_MESSAGE_SESSION_STATEMENT, KEY_REGISTRATION_MESSAGE);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(REGISTRATION_JSP);

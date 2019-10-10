@@ -2,9 +2,6 @@ package kz.epam.iotservice.util;
 
 public final class DatabaseConstants {
 
-    private DatabaseConstants() {
-    }
-
     public static final String DEVICE_NAME = "DEVICE_NAME";
     public static final String DEVICE_DEFINITION_NAME = "DEVICE_DEFINITION_NAME";
     public static final String DEVICE_ID = "DEVICE_ID";
@@ -30,4 +27,6 @@ public final class DatabaseConstants {
     public static final String USER_ROLE = "USER_ROLE";
     public static final String USER_PASSWORD = "USER_PASSWORD";
     public static final String USER_BLOCKED = "USER_BLOCKED";
+    private DatabaseConstants() {
+    }
 }

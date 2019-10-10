@@ -28,9 +28,9 @@ public class ServiceFactory {
         FACTORY_MAP.put(LANGUAGE_URI, new ChangeLanguageService());
     }
 
-    public static synchronized Service getService(String serviceRequest){
+    public static synchronized Service getService(String serviceRequest) {
         Service service;
-        if (FACTORY_MAP.containsKey(serviceRequest)){
+        if (FACTORY_MAP.containsKey(serviceRequest)) {
             service = FACTORY_MAP.get(serviceRequest);
         } else {
             service = new PageNotFoundService();

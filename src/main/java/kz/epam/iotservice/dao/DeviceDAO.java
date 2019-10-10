@@ -15,7 +15,6 @@ import java.util.List;
 import static kz.epam.iotservice.util.DatabaseConstants.*;
 
 public class DeviceDAO {
-    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private final static String ADD_NEW_DEVICE_SQL = "INSERT INTO IOT_DATABASE.DEVICE" +
             " (DEVICE_NAME, DEVICE_DEFINITION_TO_DEVICE, HOME_PLACED_ID)" +
             " VALUES (?, ?, ?)";
@@ -27,6 +26,7 @@ public class DeviceDAO {
             "WHERE HOME_PLACED_ID = ? " +
             "ORDER BY DEVICE_NAME";
     private final static String GET_LAST_INSERTED_ID = "SELECT LAST_INSERT_ID()";
+    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
     public List<Device> getDevicesList(Home home) throws SQLException, ConnectionException {
         List<Device> devices = new ArrayList<>();

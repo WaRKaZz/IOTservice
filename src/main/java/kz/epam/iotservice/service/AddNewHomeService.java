@@ -26,13 +26,13 @@ import static kz.epam.iotservice.validation.HomeValidator.validateHomeName;
 public class AddNewHomeService implements Service {
     private static final String KEY_NEW_HOME_MESSAGE_VALID_DEVICE_ADDRESS = "key.newHomeMessageValidDeviceAddress";
     private static final String KEY_NEW_HOME_MESSAGE_SUCCESS = "key.newHomeMessageSuccess";
-    private String homeMessage = KEY_EMPTY;
     private static final int ADMIN_IN_HOME_ROLE = 1;
+    private String homeMessage = KEY_EMPTY;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws
             IOException, ServletException, SQLException, ConnectionException {
-        if (isApplyPressed(request)){
+        if (isApplyPressed(request)) {
             createNewHome(request, response);
         } else {
             request.getSession().setAttribute(HOME_MESSAGE_SESSION_STATEMENT, homeMessage);
@@ -42,28 +42,28 @@ public class AddNewHomeService implements Service {
     }
 
     private void refreshPage(HttpServletRequest request, HttpServletResponse response, List homeAdminList)
-            throws  IOException{
+            throws IOException {
         request.getSession().setAttribute(HOME_MESSAGE_SESSION_STATEMENT, homeMessage);
         request.getSession().setAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT, homeAdminList);
         response.sendRedirect(ADD_NEW_HOME_URI);
     }
 
     private void createNewHome(HttpServletRequest request, HttpServletResponse response)
-            throws  IOException, SQLException, ConnectionException{
+            throws IOException, SQLException, ConnectionException {
         HomeDAO homeDAO = new HomeDAO();
         Home home = new Home();
         User user = (User) request.getSession().getAttribute(USER_SESSION_STATEMENT);
         String homeName = EMPTY_STRING;
         String homeAddress = EMPTY_STRING;
         boolean validationException = false;
-        try{
+        try {
             homeName = validateHomeName(request.getParameter(HOME_NAME_PARAMETER));
             homeAddress = validateHomeAddress(request.getParameter(HOME_ADDRESS_PARAMETER));
-        } catch (ValidationException e){
+        } catch (ValidationException e) {
             homeMessage = KEY_NEW_HOME_MESSAGE_VALID_DEVICE_ADDRESS;
             validationException = true;
         }
-        if(!validationException){
+        if (!validationException) {
             home.setHomeName(homeName);
             home.setHomeAddress(homeAddress);
             Long newHomeID = homeDAO.addNewHome(home);

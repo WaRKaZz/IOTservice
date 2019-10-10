@@ -35,7 +35,7 @@ public class UserAdministrationService implements Service {
         UserDAO userDAO = new UserDAO();
         List users = userDAO.getUsersList();
         request.getSession().setAttribute(USERS_SESSION_STATEMENT, users);
-        if(isApplyPressed(request)){
+        if (isApplyPressed(request)) {
             banUser(request, response);
         } else {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(USER_ADMINISTRATION_JSP);
@@ -51,13 +51,13 @@ public class UserAdministrationService implements Service {
             if (request.getParameter(ACTION).equals(BAN)) {
                 userDAO.blockUserByID(validateID(request.getParameter(USER_ID_PARAMETER)));
                 administrationMessage = KEY_ADMINISTRATION_MESSAGE_SUCCESS_BAN;
-            } else if (request.getParameter(ACTION).equals(UN_BAN)){
+            } else if (request.getParameter(ACTION).equals(UN_BAN)) {
                 userDAO.unblockUserByID(validateID(request.getParameter(USER_ID_PARAMETER)));
                 administrationMessage = KEY_ADMINISTRATION_MESSAGE_SUCCESS_UNBAN;
             }
             request.getSession().setAttribute(ADMINISTRATION_MESSAGE_SESSION_STATEMENT, administrationMessage);
             response.sendRedirect(ADMINISTRATION_URI);
-        } catch (ValidationException e){
+        } catch (ValidationException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
     }

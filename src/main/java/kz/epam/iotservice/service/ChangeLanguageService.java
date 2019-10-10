@@ -20,7 +20,7 @@ public class ChangeLanguageService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException, ConnectionException {
-        if (isApplyPressed(request)){
+        if (isApplyPressed(request)) {
             changeLocale(request, response);
         } else {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(CHANGE_LANGUAGE_JSP);
@@ -29,7 +29,7 @@ public class ChangeLanguageService implements Service {
     }
 
     private void changeLocale(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, SQLException, ConnectionException{
+            throws IOException, SQLException, ConnectionException {
         LanguageDAO languageDAO = new LanguageDAO();
         Long languageID = Long.parseLong(request.getParameter(LANGUAGE_ID_PARAMETER));
         request.getServletContext().setAttribute(LANG_CONTEXT_STATEMENT, languageDAO.getLanguageByID(languageID));

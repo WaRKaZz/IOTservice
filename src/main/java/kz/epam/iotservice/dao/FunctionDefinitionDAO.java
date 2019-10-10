@@ -12,10 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static kz.epam.iotservice.util.DatabaseConstants.*;
-import static kz.epam.iotservice.util.OtherConstants.*;
 
 public class FunctionDefinitionDAO {
-    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private final static String GET_FUNCTION_DEFINITIONS_LIST_SQL = "SELECT * FROM IOT_DATABASE.DEFINITIONS_MANY_TO_MANY " +
             "LEFT JOIN IOT_DATABASE.FUNCTION_DEFINITIONS " +
             "ON IOT_DATABASE.DEFINITIONS_MANY_TO_MANY.M_FUNCTION_DEFINITION_ID " +
@@ -25,6 +23,7 @@ public class FunctionDefinitionDAO {
             "= IOT_DATABASE.DEVICE_DEFINITIONS.DEVICE_DEFINITION_ID " +
             "WHERE M_DEVICE_DEFINITION_ID = ? " +
             "ORDER BY DEVICE_DEFINITION_NAME ";
+    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
     public List<FunctionDefinition> getFunctionDefinitionList(Long deviceTypeID) throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();

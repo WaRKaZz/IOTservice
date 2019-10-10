@@ -10,6 +10,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public interface Service {
-    void execute (HttpServletRequest request, HttpServletResponse response)
+    void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException, SQLException, ConnectionException;
 }

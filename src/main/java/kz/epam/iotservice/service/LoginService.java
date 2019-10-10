@@ -31,7 +31,7 @@ public class LoginService implements Service {
         String login = request.getParameter(LOGIN_PARAMETER);
         user = userDAO.getUserByLogin(login);
         String password = request.getParameter(PASSWORD_PARAMETER);
-        if (isUserCorrect(user, password)&&(isUserNonBlocked(user))){
+        if (isUserCorrect(user, password) && (isUserNonBlocked(user))) {
             loginAndLoadAttributes(request, response);
         } else {
             response.setHeader(REFRESH_HEADER_STATUS, REDIRECT_IN_5_SECONDS_HEADER_STATUS);
@@ -41,8 +41,8 @@ public class LoginService implements Service {
 
     }
 
-    private void loginAndLoadAttributes(HttpServletRequest request, HttpServletResponse response)throws
-            IOException, SQLException, ConnectionException{
+    private void loginAndLoadAttributes(HttpServletRequest request, HttpServletResponse response) throws
+            IOException, SQLException, ConnectionException {
         HomeDAO homeDAO = new HomeDAO();
         List<Home> homeAdminList = homeDAO.getHomeListByRole(user, ADMIN_IN_HOME_ROLE);
         List<Home> homeUserList = homeDAO.getHomeListByRole(user, USER_IN_HOME_ROLE);
@@ -52,7 +52,7 @@ public class LoginService implements Service {
         response.sendRedirect(MAIN_URI);
     }
 
-    private boolean isUserNonBlocked (User user){
+    private boolean isUserNonBlocked(User user) {
         return !user.getUserBlocked();
     }
 }

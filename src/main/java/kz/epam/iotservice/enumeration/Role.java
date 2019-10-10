@@ -1,6 +1,6 @@
 package kz.epam.iotservice.enumeration;
 
-public enum  Role {
+public enum Role {
     GUEST(3),
     USER(2),
     ADMIN(1);

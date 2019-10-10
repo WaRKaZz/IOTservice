@@ -34,7 +34,7 @@ public class RegistrationSubmitService implements Service {
             throws IOException, ServletException, SQLException, ConnectionException {
         RequestDispatcher requestDispatcher;
         UserDAO userDAO = new UserDAO();
-        if (isRegistrationCorrect(request)&&isUserNotExists(userDAO)){
+        if (isRegistrationCorrect(request) && isUserNotExists(userDAO)) {
             userDAO.addNewUser(user);
             userDAO.getUserByLogin(user.getUserLogin());
             request.getSession().setAttribute(USER_SESSION_STATEMENT, user);
@@ -46,7 +46,7 @@ public class RegistrationSubmitService implements Service {
         requestDispatcher.forward(request, response);
     }
 
-    private boolean isRegistrationCorrect(HttpServletRequest request){
+    private boolean isRegistrationCorrect(HttpServletRequest request) {
         boolean isCorrect = true;
         String login = request.getParameter(LOGIN_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
@@ -54,18 +54,18 @@ public class RegistrationSubmitService implements Service {
         final int DEFAULT_USER_ROLE = 5;
         try {
             user.setUserLogin(validateLogin(login));
-        } catch (ValidationException e){
+        } catch (ValidationException e) {
             registrationMessage = KEY_REGISTRATION_MESSAGE_LOGIN_INCORRECT;
             isCorrect = false;
         }
         try {
-            if (!password.equals(repeatedPassword)){
+            if (!password.equals(repeatedPassword)) {
                 registrationMessage = KEY_REGISTRATION_MESSAGE_PASSWORD_MATCH;
                 isCorrect = false;
             } else {
                 user.setUserPassword(encryptPassword(validatePassword(password)));
             }
-        } catch (ValidationException e){
+        } catch (ValidationException e) {
             registrationMessage = KEY_REGISTRATION_MESSAGE_PASSWORD_INCORRECT;
             isCorrect = false;
         }
@@ -76,7 +76,7 @@ public class RegistrationSubmitService implements Service {
     private boolean isUserNotExists(UserDAO userDAO) throws SQLException, ConnectionException {
         boolean isNotExists = false;
         User checkUser = userDAO.getUserByLogin(user.getUserLogin());
-        if (checkUser.getUserID().equals(Long.parseLong(STRING_ZERO))){
+        if (checkUser.getUserID().equals(Long.parseLong(STRING_ZERO))) {
             isNotExists = true;
         }
         registrationMessage = KEY_REGISTRATION_MESSAGE_LOGIN_EXISTS;

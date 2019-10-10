@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static kz.epam.iotservice.util.OtherConstants.EMPTY_STRING;
 
-public class ConnectionPool  {
+public class ConnectionPool {
     private static final Logger LOGGER = LogManager.getRootLogger();
     private static final String CONNECTION_PULL_BUNDLE = "connectionPull";
     private static final String CONNECTION_PULL_URL = "url";
@@ -21,31 +21,31 @@ public class ConnectionPool  {
     private static final String CONNECTION_PULL_PASSWORD = "password";
     private static final String CONNECTION_PULL_DRIVER = "driver";
     private static final String CONNECTION_PULL_INIT_CONNECTION_COUNT = "initConnectionCount";
+    private static final ConnectionPool INSTANCE = new ConnectionPool();
     private final Locale LOCALE = new Locale(EMPTY_STRING);
     private final ResourceBundle BUNDLE = ResourceBundle.getBundle(CONNECTION_PULL_BUNDLE, LOCALE);
     private final String URL = BUNDLE.getString(CONNECTION_PULL_URL);
     private final String USER = BUNDLE.getString(CONNECTION_PULL_USER);
     private final String PASSWORD = BUNDLE.getString(CONNECTION_PULL_PASSWORD);
     private final int CONNECTION_AMOUNT = Integer.parseInt(BUNDLE.getString(CONNECTION_PULL_INIT_CONNECTION_COUNT));
-    private static final ConnectionPool INSTANCE = new ConnectionPool();
     private final ConcurrentLinkedQueue<Connection> CONNECTION_QUEUE = new ConcurrentLinkedQueue<>();
 
-    public static ConnectionPool getInstance(){
-        return INSTANCE;
-    }
-
-    public ConnectionPool(){
-        try{
+    private ConnectionPool() {
+        try {
             Class.forName(BUNDLE.getString(CONNECTION_PULL_DRIVER));
-        } catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < CONNECTION_AMOUNT; i++){
+        for (int i = 0; i < CONNECTION_AMOUNT; i++) {
             CONNECTION_QUEUE.add(getConnection());
         }
     }
 
-    public Connection retrieve(){
+    public static ConnectionPool getInstance() {
+        return INSTANCE;
+    }
+
+    public Connection retrieve() {
         if (CONNECTION_QUEUE.isEmpty()) {
             CONNECTION_QUEUE.add(getConnection());
         }
@@ -54,7 +54,7 @@ public class ConnectionPool  {
 
     public void putBack(Connection connection) throws ConnectionException {
         if (connection != null) {
-            if (CONNECTION_QUEUE.size() < CONNECTION_AMOUNT){
+            if (CONNECTION_QUEUE.size() < CONNECTION_AMOUNT) {
                 CONNECTION_QUEUE.add(connection);
             }
         } else {
@@ -67,7 +67,7 @@ public class ConnectionPool  {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
         }
         return connection;

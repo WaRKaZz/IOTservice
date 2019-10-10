@@ -14,17 +14,18 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static kz.epam.iotservice.util.ConstantsForAttributes.GUEST;
 import static kz.epam.iotservice.util.ConstantsForAttributes.USER_SESSION_STATEMENT;
 import static kz.epam.iotservice.util.ConstantsUri.*;
 
-public class AccessFilter implements Filter {
+class AccessFilter implements Filter {
     private static final Logger LOGGER = LogManager.getRootLogger();
     private final Map<String, Integer> AUTH_MAP = new HashMap<>();
 
     @Override
-    public void init(FilterConfig filterConfig){
+    public void init(FilterConfig filterConfig) {
         AUTH_MAP.put(LOGIN_URI, Role.GUEST.getId());
         AUTH_MAP.put(LOGOUT_URI, Role.GUEST.getId());
         AUTH_MAP.put(INDEX_URI, Role.GUEST.getId());
@@ -51,16 +52,16 @@ public class AccessFilter implements Filter {
         User user = (User) request.getSession().getAttribute(USER_SESSION_STATEMENT);
         UserDAO userDAO = new UserDAO();
         try {
-            if (user == null){
+            if (user == null) {
                 user = userDAO.getUserByLogin(GUEST);
             }
-        } catch (SQLException| ConnectionException e){
+        } catch (SQLException | ConnectionException e) {
             LOGGER.error(e);
         }
         String requestURI = request.getRequestURI();
         Integer accessLevel = AUTH_MAP.get(requestURI);
-        if (accessLevel != null){
-            if (accessLevel >= user.getUserRole()){
+        if (accessLevel != null) {
+            if (accessLevel >= Objects.requireNonNull(user).getUserRole()) {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN);

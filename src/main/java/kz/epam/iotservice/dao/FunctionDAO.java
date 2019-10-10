@@ -14,11 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static kz.epam.iotservice.util.DatabaseConstants.*;
-import static kz.epam.iotservice.util.OtherConstants.*;
 
 public class FunctionDAO {
 
-    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private final static String ADD_NEW_FUNCTION_SQL = "INSERT INTO IOT_DATABASE.FUNCTIONS " +
             "(F_BOOL, F_INT, F_STRING, FUNCTION_DEFINITION_ID, FUNCTION_DEVICE_ID) " +
             "VALUES (?, ?, ?, ?, ?)";
@@ -35,6 +33,7 @@ public class FunctionDAO {
             "F_INT = ?, " +
             "F_STRING = ? " +
             "WHERE FUNCTION_ID = ?";
+    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
     public void addNewFunction(Function function, FunctionDefinition functionDefinition,
                                Long deviceID) throws SQLException, ConnectionException {

@@ -13,13 +13,12 @@ import java.util.List;
 
 import static kz.epam.iotservice.util.DatabaseConstants.DEVICE_DEFINITION_ID;
 import static kz.epam.iotservice.util.DatabaseConstants.DEVICE_DEFINITION_NAME;
-import static kz.epam.iotservice.util.OtherConstants.*;
 
 
 public class DeviceTypeDAO {
-    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private final static String GET_DEVICE_TYPE_LIST_SQL = "SELECT * FROM IOT_DATABASE.DEVICE_DEFINITIONS " +
             "ORDER BY DEVICE_DEFINITION_NAME";
+    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
     public List<DeviceType> getDeviceTypeList() throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();

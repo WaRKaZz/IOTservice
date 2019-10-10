@@ -2,9 +2,6 @@ package kz.epam.iotservice.util;
 
 public final class ConstantsUri {
 
-    private ConstantsUri() {
-    }
-
     public static final String EMPTY_URI = "/";
     public static final String LOGIN_URI = "/login";
     public static final String LOGOUT_URI = "/logout";
@@ -23,4 +20,6 @@ public final class ConstantsUri {
     public static final String ADMINISTRATION_URI = "/administration";
     public static final String PROFILE_URI = "/profile";
     public static final String LANGUAGE_URI = "/language";
+    private ConstantsUri() {
+    }
 }

@@ -70,7 +70,7 @@ public class AddNewDeviceService implements Service {
     }
 
     private void refreshPage(HttpServletRequest request, HttpServletResponse response)
-            throws IOException{
+            throws IOException {
         request.getSession().setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
         response.sendRedirect(ADD_NEW_DEVICE_URI);
     }

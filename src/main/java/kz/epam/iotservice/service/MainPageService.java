@@ -1,7 +1,5 @@
 package kz.epam.iotservice.service;
 
-import kz.epam.iotservice.util.OtherConstants;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +13,7 @@ public class MainPageService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException{
+            throws IOException, ServletException {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(MAIN_PAGE_JSP);
         requestDispatcher.forward(request, response);
     }
