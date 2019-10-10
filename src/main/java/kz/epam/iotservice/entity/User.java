@@ -2,7 +2,7 @@ package kz.epam.iotservice.entity;
 
 import java.util.Objects;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.OtherConstants.*;
 
 public class User {
     private Long userID = Long.parseLong(STRING_ZERO);

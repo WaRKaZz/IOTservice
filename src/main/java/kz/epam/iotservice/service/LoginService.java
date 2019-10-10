@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.ConstantsForAttributes.*;
+import static kz.epam.iotservice.util.ConstantsUri.MAIN_URI;
+import static kz.epam.iotservice.util.JspConstants.BAD_LOGIN_JSP;
 import static kz.epam.iotservice.util.ServiceManagement.isUserCorrect;
 
 public class LoginService implements Service {

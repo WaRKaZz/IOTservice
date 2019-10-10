@@ -1,14 +1,13 @@
 package kz.epam.iotservice.service;
 
-import kz.epam.iotservice.util.IOTServiceConstants;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.REGISTRATION_MESSAGE_SESSION_STATEMENT;
+import static kz.epam.iotservice.util.ConstantsForAttributes.REGISTRATION_MESSAGE_SESSION_STATEMENT;
+import static kz.epam.iotservice.util.JspConstants.REGISTRATION_JSP;
 
 public class RegistrationService implements Service {
 
@@ -19,7 +18,7 @@ public class RegistrationService implements Service {
             throws IOException, ServletException{
         request.getSession().invalidate();
         request.getSession().setAttribute(REGISTRATION_MESSAGE_SESSION_STATEMENT, KEY_REGISTRATION_MESSAGE);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(IOTServiceConstants.REGISTRATION_JSP);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(REGISTRATION_JSP);
         requestDispatcher.forward(request, response);
     }
 }

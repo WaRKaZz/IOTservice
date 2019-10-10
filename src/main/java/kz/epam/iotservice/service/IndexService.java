@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.ConstantsForAttributes.*;
+import static kz.epam.iotservice.util.ConstantsUri.MAIN_URI;
+import static kz.epam.iotservice.util.JspConstants.LOGIN_PAGE_JSP;
 
 public class IndexService implements Service {
 

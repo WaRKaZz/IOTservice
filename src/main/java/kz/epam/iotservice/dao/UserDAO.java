@@ -1,5 +1,6 @@
 package kz.epam.iotservice.dao;
 
+import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.User;
 import kz.epam.iotservice.exception.ConnectionException;
 
@@ -10,7 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.DatabaseConstants.*;
+
 
 public class UserDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();

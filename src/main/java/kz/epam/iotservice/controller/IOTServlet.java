@@ -20,10 +20,10 @@ public class IOTServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         Service service = ServiceFactory.getService(request.getRequestURI());
         try {
-            service.execute(request,response);
-        } catch (SQLException|IOException|ConnectionException e) {
+            service.execute(request, response);
+        } catch (SQLException | IOException | ConnectionException e) {
             LOGGER.error(e);
-        } catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error(e);
             throw new ServletException(e);
         }

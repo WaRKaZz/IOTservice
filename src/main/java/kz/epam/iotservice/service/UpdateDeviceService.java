@@ -19,7 +19,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.ConstantsForAttributes.*;
+import static kz.epam.iotservice.util.ConstantsUri.UPDATE_DEVICE_URI;
+import static kz.epam.iotservice.util.JspConstants.UPDATE_DEVICE_JSP;
+import static kz.epam.iotservice.util.OtherConstants.KEY_EMPTY;
+import static kz.epam.iotservice.util.OtherConstants.TRUE;
 import static kz.epam.iotservice.util.ServiceManagement.isApplyPressed;
 import static kz.epam.iotservice.util.ServiceManagement.updateHomeInSession;
 import static kz.epam.iotservice.validation.DeviceValidator.validateDeviceName;

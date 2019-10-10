@@ -11,7 +11,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.EMPTY_STRING;
+import static kz.epam.iotservice.util.OtherConstants.EMPTY_STRING;
 
 public class ConnectionPool  {
     private static final Logger LOGGER = LogManager.getRootLogger();

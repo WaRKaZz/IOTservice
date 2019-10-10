@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.ConstantsForAttributes.*;
+import static kz.epam.iotservice.util.ConstantsUri.PROFILE_URI;
+import static kz.epam.iotservice.util.JspConstants.PROFILE_JSP;
+import static kz.epam.iotservice.util.OtherConstants.KEY_EMPTY;
 import static kz.epam.iotservice.util.ServiceManagement.isApplyPressed;
 import static kz.epam.iotservice.util.ServiceManagement.isUserCorrect;
 import static kz.epam.iotservice.validation.UserValidation.validatePassword;

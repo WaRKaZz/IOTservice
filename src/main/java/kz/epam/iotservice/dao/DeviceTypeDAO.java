@@ -11,7 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.DatabaseConstants.DEVICE_DEFINITION_ID;
+import static kz.epam.iotservice.util.DatabaseConstants.DEVICE_DEFINITION_NAME;
+import static kz.epam.iotservice.util.OtherConstants.*;
 
 
 public class DeviceTypeDAO {
@@ -22,9 +24,9 @@ public class DeviceTypeDAO {
     public List<DeviceType> getDeviceTypeList() throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();
         List<DeviceType> deviceTypeList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_DEVICE_TYPE_LIST_SQL)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_DEVICE_TYPE_LIST_SQL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 DeviceType deviceType = configureTypeObject(resultSet);
                 deviceTypeList.add(deviceType);
             }
@@ -34,7 +36,7 @@ public class DeviceTypeDAO {
         return deviceTypeList;
     }
 
-    private DeviceType configureTypeObject(ResultSet resultSet) throws SQLException{
+    private DeviceType configureTypeObject(ResultSet resultSet) throws SQLException {
         DeviceType deviceType = new DeviceType();
         deviceType.setDeviceTypeID(resultSet.getLong(DEVICE_DEFINITION_ID));
         deviceType.setDeviceTypeName(resultSet.getString(DEVICE_DEFINITION_NAME));

@@ -11,7 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.DatabaseConstants.*;
+import static kz.epam.iotservice.util.OtherConstants.*;
 
 public class FunctionDefinitionDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
@@ -28,10 +29,10 @@ public class FunctionDefinitionDAO {
     public List<FunctionDefinition> getFunctionDefinitionList(Long deviceTypeID) throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();
         List<FunctionDefinition> functionTypeList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_FUNCTION_DEFINITIONS_LIST_SQL)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_FUNCTION_DEFINITIONS_LIST_SQL)) {
             preparedStatement.setLong(1, deviceTypeID);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 FunctionDefinition functionType = configureDefinitionObject(resultSet);
                 functionTypeList.add(functionType);
             }
@@ -41,7 +42,7 @@ public class FunctionDefinitionDAO {
         return functionTypeList;
     }
 
-    private FunctionDefinition configureDefinitionObject(ResultSet resultSet) throws SQLException{
+    private FunctionDefinition configureDefinitionObject(ResultSet resultSet) throws SQLException {
         FunctionDefinition functionType = new FunctionDefinition();
         functionType.setFunctionDefinitionID(resultSet.getLong(FUNCTION_DEFINITION_ID));
         functionType.setFunctionName(resultSet.getString(FUNCTION_NAME));

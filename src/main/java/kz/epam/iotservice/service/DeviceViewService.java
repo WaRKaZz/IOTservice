@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.ConstantsForAttributes.*;
+import static kz.epam.iotservice.util.JspConstants.DEVICE_VIEW_JSP;
+import static kz.epam.iotservice.util.JspConstants.UPDATE_DEVICE_JSP;
+import static kz.epam.iotservice.util.OtherConstants.KEY_EMPTY;
 import static kz.epam.iotservice.util.ServiceManagement.updateHomeInSession;
 
 public class DeviceViewService implements Service {

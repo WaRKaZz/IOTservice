@@ -8,7 +8,7 @@ public class HomeValidator extends AbstractValidation {
         return validateString(homeName, MAX_TINYTEXT_LENGTH);
     }
 
-    public static String validateHomeAddress(String homeAddress) throws ValidationException{
+    public static String validateHomeAddress(String homeAddress) throws ValidationException {
         return validateString(homeAddress, MAX_TINYTEXT_LENGTH);
     }
 

@@ -14,7 +14,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.ConstantsUri.UPDATE_HOME_URI;
+import static kz.epam.iotservice.util.JspConstants.UPDATE_HOME_JSP;
+import static kz.epam.iotservice.util.ConstantsForAttributes.*;
+import static kz.epam.iotservice.util.OtherConstants.*;
 import static kz.epam.iotservice.util.ServiceManagement.isApplyPressed;
 import static kz.epam.iotservice.validation.HomeValidator.*;
 

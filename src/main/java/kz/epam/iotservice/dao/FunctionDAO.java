@@ -13,7 +13,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.DatabaseConstants.*;
+import static kz.epam.iotservice.util.OtherConstants.*;
 
 public class FunctionDAO {
 
@@ -35,10 +36,10 @@ public class FunctionDAO {
             "F_STRING = ? " +
             "WHERE FUNCTION_ID = ?";
 
-    public void addNewFunction (Function function, FunctionDefinition functionDefinition,
-                                Long deviceID) throws SQLException, ConnectionException{
+    public void addNewFunction(Function function, FunctionDefinition functionDefinition,
+                               Long deviceID) throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_FUNCTION_SQL)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_FUNCTION_SQL)) {
             configureFunctionStatement(function, functionDefinition.getFunctionDefinitionID(), deviceID, preparedStatement);
             preparedStatement.executeUpdate();
         } finally {
@@ -46,9 +47,9 @@ public class FunctionDAO {
         }
     }
 
-    public void updateFunctionData (Function function) throws SQLException, ConnectionException{
+    public void updateFunctionData(Function function) throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_FUNCTION_DATA_SQL)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_FUNCTION_DATA_SQL)) {
             preparedStatement.setBoolean(1, function.getFunctionTrue());
             preparedStatement.setInt(2, function.getFunctionInteger());
             preparedStatement.setString(3, function.getFunctionText());
@@ -59,9 +60,9 @@ public class FunctionDAO {
         }
     }
 
-    public void deleteFunctionsInDevice (Long deviceID) throws SQLException, ConnectionException{
+    public void deleteFunctionsInDevice(Long deviceID) throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FUNCTIONS_LIST_SQL)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FUNCTIONS_LIST_SQL)) {
             preparedStatement.setLong(1, deviceID);
             preparedStatement.executeUpdate();
         } finally {
@@ -69,13 +70,13 @@ public class FunctionDAO {
         }
     }
 
-    public List<Function> getFunctionsList(Device device) throws SQLException, ConnectionException{
+    public List<Function> getFunctionsList(Device device) throws SQLException, ConnectionException {
         List<Function> functions = new ArrayList<>();
         Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_STRING_FUNCTIONS_LIST_SQL)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_STRING_FUNCTIONS_LIST_SQL)) {
             preparedStatement.setLong(1, device.getDeviceID());
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Function function = configureFunctionObject(resultSet);
                 functions.add(function);
             }
@@ -85,7 +86,7 @@ public class FunctionDAO {
         return functions;
     }
 
-    private Function configureFunctionObject(ResultSet resultSet) throws SQLException{
+    private Function configureFunctionObject(ResultSet resultSet) throws SQLException {
         Function function = new Function();
         function.setFunctionId(resultSet.getLong(FUNCTION_ID));
         function.setFunctionName(resultSet.getString(FUNCTION_NAME));
@@ -98,11 +99,11 @@ public class FunctionDAO {
         return function;
     }
 
-    private void configureFunctionStatement(Function function, Long definitionID, Long deviceID,  PreparedStatement preparedStatement) throws SQLException{
+    private void configureFunctionStatement(Function function, Long definitionID, Long deviceID, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setBoolean(1, function.getFunctionTrue());
         preparedStatement.setInt(2, function.getFunctionInteger());
         preparedStatement.setString(3, function.getFunctionText());
-        preparedStatement.setLong (4, definitionID);
+        preparedStatement.setLong(4, definitionID);
         preparedStatement.setLong(5, deviceID);
     }
 }

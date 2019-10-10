@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.DatabaseConstants.*;
 
 public class DeviceDAO {
     private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
@@ -28,14 +28,14 @@ public class DeviceDAO {
             "ORDER BY DEVICE_NAME";
     private final static String GET_LAST_INSERTED_ID = "SELECT LAST_INSERT_ID()";
 
-    public List<Device> getDevicesList(Home home) throws SQLException, ConnectionException{
+    public List<Device> getDevicesList(Home home) throws SQLException, ConnectionException {
         List<Device> devices = new ArrayList<>();
         FunctionDAO functionDAO = new FunctionDAO();
         Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_DEVICE_LIST_IN_HOME_SQL)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_DEVICE_LIST_IN_HOME_SQL)) {
             preparedStatement.setLong(1, home.getHomeID());
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Device device = configureDeviceObject(resultSet);
                 device.setFunctions(functionDAO.getFunctionsList(device));
                 devices.add(device);
@@ -46,16 +46,16 @@ public class DeviceDAO {
         return devices;
     }
 
-    public Long addNewDevice(Device device) throws SQLException, ConnectionException{
+    public Long addNewDevice(Device device) throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_DEVICE_SQL)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_DEVICE_SQL)) {
             configureDeviceStatement(device, preparedStatement);
             preparedStatement.executeUpdate();
         }
         long lastDeviceID = Long.parseLong("0");
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_LAST_INSERTED_ID)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_LAST_INSERTED_ID)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 lastDeviceID = resultSet.getLong(1);
             }
         } finally {
@@ -64,9 +64,9 @@ public class DeviceDAO {
         return lastDeviceID;
     }
 
-    public void deleteDeviceByID(Long deviceID) throws SQLException, ConnectionException{
+    public void deleteDeviceByID(Long deviceID) throws SQLException, ConnectionException {
         Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_DEVICE_SQL)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_DEVICE_SQL)) {
             preparedStatement.setLong(1, deviceID);
             preparedStatement.executeUpdate();
         } finally {
@@ -74,7 +74,7 @@ public class DeviceDAO {
         }
     }
 
-    private Device configureDeviceObject(ResultSet resultSet) throws SQLException{
+    private Device configureDeviceObject(ResultSet resultSet) throws SQLException {
         Device device = new Device();
         device.setDeviceName(resultSet.getString(DEVICE_NAME));
         device.setDeviceDefinitionName(resultSet.getString(DEVICE_DEFINITION_NAME));
@@ -84,7 +84,7 @@ public class DeviceDAO {
         return device;
     }
 
-    private void configureDeviceStatement(Device device, PreparedStatement preparedStatement) throws SQLException{
+    private void configureDeviceStatement(Device device, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(1, device.getDeviceName());
         preparedStatement.setLong(2, device.getDeviceDefinitionID());
         preparedStatement.setLong(3, device.getDeviceHomePlacedID());

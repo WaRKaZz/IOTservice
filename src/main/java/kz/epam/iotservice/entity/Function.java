@@ -1,8 +1,8 @@
 package kz.epam.iotservice.entity;
 
 
-import static kz.epam.iotservice.util.IOTServiceConstants.EMPTY_STRING;
-import static kz.epam.iotservice.util.IOTServiceConstants.INT_ZERO;
+import static kz.epam.iotservice.util.OtherConstants.EMPTY_STRING;
+import static kz.epam.iotservice.util.OtherConstants.INT_ZERO;
 
 public class Function {
     private Boolean functionInput;

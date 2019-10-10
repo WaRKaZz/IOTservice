@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.EMPTY_URI;
+import static kz.epam.iotservice.util.ConstantsUri.EMPTY_URI;
 
 public class LogoutService implements Service {
 

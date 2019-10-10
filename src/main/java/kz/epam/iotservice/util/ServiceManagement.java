@@ -9,13 +9,16 @@ import org.mindrot.jbcrypt.BCrypt;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.HOME_SESSION_STATEMENT;
-import static kz.epam.iotservice.util.IOTServiceConstants.TRUE;
+import static kz.epam.iotservice.util.ConstantsForAttributes.HOME_SESSION_STATEMENT;
+import static kz.epam.iotservice.util.OtherConstants.TRUE;
 
-public class ServiceManagement {
+public final class ServiceManagement {
 
     private static final String APPLY = "apply";
     private static final int LOG_ROUNDS = 12;
+
+    private ServiceManagement() {
+    }
 
     public static void updateHomeInSession (HttpServletRequest request) throws SQLException, ConnectionException{
         Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);

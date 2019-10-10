@@ -17,7 +17,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.ConstantsForAttributes.*;
+import static kz.epam.iotservice.util.ConstantsUri.ADD_NEW_DEVICE_URI;
+import static kz.epam.iotservice.util.JspConstants.NEW_DEVICE_JSP;
+import static kz.epam.iotservice.util.OtherConstants.KEY_EMPTY;
 import static kz.epam.iotservice.util.ServiceManagement.isApplyPressed;
 import static kz.epam.iotservice.validation.DeviceValidator.validateDeviceName;
 

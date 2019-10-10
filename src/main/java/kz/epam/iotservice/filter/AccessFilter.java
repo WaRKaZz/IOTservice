@@ -15,7 +15,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static kz.epam.iotservice.util.IOTServiceConstants.*;
+import static kz.epam.iotservice.util.ConstantsForAttributes.GUEST;
+import static kz.epam.iotservice.util.ConstantsForAttributes.USER_SESSION_STATEMENT;
+import static kz.epam.iotservice.util.ConstantsUri.*;
 
 public class AccessFilter implements Filter {
     private static final Logger LOGGER = LogManager.getRootLogger();
