@@ -26,34 +26,38 @@ public class DeviceUpdateService implements Service {
         Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
         for (Device device : home.getHomeInstalledDevices()) {
             for (Function function : device.getFunctions()) {
-                String requestValueOfParameter = request.getParameter(String.valueOf(function.getFunctionId()));
-                if (requestValueOfParameter != null) {
-                    try {
-                        switch (function.getFunctionType()) {
-                            case BOOL_PARAMETER:
-                                function.setFunctionTrue(validateFunctionTrue(requestValueOfParameter));
-                                commitUpdate(function, response);
-                                break;
-                            case INTEGER_PARAMETER:
-                                function.setFunctionInteger(validateFunctionInteger(requestValueOfParameter));
-                                commitUpdate(function, response);
-                                break;
-                            case TEXT_PARAMETER:
-                                function.setFunctionText(validateFunctionString(requestValueOfParameter));
-                                commitUpdate(function, response);
-                                break;
-                        }
-                    } catch (ValidationException e) {
-                        LOGGER.error(e);
-                        LOGGER.error("Can not Update device");
-                        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                        break;
-                    }
-
-                }
+                if (functionComplectation(request, response, function)) break;
             }
         }
 
+    }
+
+    private boolean functionComplectation(HttpServletRequest request, HttpServletResponse response, Function function) throws IOException, SQLException, ConnectionException {
+        String requestValueOfParameter = request.getParameter(String.valueOf(function.getFunctionId()));
+        if (requestValueOfParameter != null) {
+            try {
+                switch (function.getFunctionType()) {
+                    case BOOL_PARAMETER:
+                        function.setFunctionTrue(validateFunctionTrue(requestValueOfParameter));
+                        commitUpdate(function, response);
+                        break;
+                    case INTEGER_PARAMETER:
+                        function.setFunctionInteger(validateFunctionInteger(requestValueOfParameter));
+                        commitUpdate(function, response);
+                        break;
+                    case TEXT_PARAMETER:
+                        function.setFunctionText(validateFunctionString(requestValueOfParameter));
+                        commitUpdate(function, response);
+                        break;
+                }
+            } catch (ValidationException e) {
+                LOGGER.error(e);
+                LOGGER.error("Can not Update device");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return true;
+            }
+        }
+        return false;
     }
 
     private void commitUpdate(Function function, HttpServletResponse response)
