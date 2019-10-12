@@ -16,7 +16,7 @@ import java.util.List;
 import static kz.epam.iotservice.util.ConstantsForAttributes.LANGUAGES_LIST_CONTEXT_STATEMENT;
 import static kz.epam.iotservice.util.ConstantsForAttributes.LANG_CONTEXT_STATEMENT;
 
-class IOTServiceListener implements ServletContextListener {
+public class IOTServiceListener implements ServletContextListener {
     private static final Logger LOGGER = LogManager.getRootLogger();
     private static final long DEFAULT_LANGUAGE_PARAMETER = (long) 1;
 

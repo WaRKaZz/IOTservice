@@ -20,7 +20,7 @@ import static kz.epam.iotservice.util.ConstantsForAttributes.GUEST;
 import static kz.epam.iotservice.util.ConstantsForAttributes.USER_SESSION_STATEMENT;
 import static kz.epam.iotservice.util.ConstantsUri.*;
 
-class AccessFilter implements Filter {
+public class AccessFilter implements Filter {
     private static final Logger LOGGER = LogManager.getRootLogger();
     private static final String FILTER_EXCEPTION_BY_USING_A_DAO_SERVICES = "Filter Exception by using a dao services";
     private final Map<String, Integer> AUTH_MAP = new HashMap<>();
