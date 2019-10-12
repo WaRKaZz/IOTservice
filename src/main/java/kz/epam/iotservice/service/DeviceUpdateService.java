@@ -6,6 +6,8 @@ import kz.epam.iotservice.entity.Function;
 import kz.epam.iotservice.entity.Home;
 import kz.epam.iotservice.exception.ConnectionException;
 import kz.epam.iotservice.exception.ValidationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +19,7 @@ import static kz.epam.iotservice.util.ConstantsUri.DEVICES_URI;
 import static kz.epam.iotservice.validation.FunctionValidation.*;
 
 public class DeviceUpdateService implements Service {
+    private static final Logger LOGGER = LogManager.getRootLogger();
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, SQLException, ConnectionException {
@@ -41,6 +44,8 @@ public class DeviceUpdateService implements Service {
                                 break;
                         }
                     } catch (ValidationException e) {
+                        LOGGER.error(e);
+                        LOGGER.error("Can not Update device");
                         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
                         break;
                     }

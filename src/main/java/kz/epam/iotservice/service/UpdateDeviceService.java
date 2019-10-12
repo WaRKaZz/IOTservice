@@ -10,6 +10,8 @@ import kz.epam.iotservice.entity.Function;
 import kz.epam.iotservice.entity.FunctionDefinition;
 import kz.epam.iotservice.exception.ConnectionException;
 import kz.epam.iotservice.exception.ValidationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,6 +35,7 @@ public class UpdateDeviceService implements Service {
 
     private static final String KEY_UPDATE_DEVICE_MESSAGE_INCORRECT_PARAMETERS = "key.updateDeviceMessageIncorrectParameters";
     private static final String KEY_UPDATE_DEVICE_MESSAGE_SUCCESS = "key.updateDeviceMessageSuccess";
+    private static final Logger LOGGER = LogManager.getRootLogger();
     private String deviceMessage = KEY_EMPTY;
 
     private static boolean isDeleteDeviceNotPressed(HttpServletRequest request) {
@@ -80,6 +83,8 @@ public class UpdateDeviceService implements Service {
                 deviceName = validateDeviceName(request.getParameter(DEVICE_NAME_PARAMETER));
             }
         } catch (ValidationException e) {
+            LOGGER.error(e);
+            LOGGER.error("Can not change device");
             deviceMessage = KEY_UPDATE_DEVICE_MESSAGE_INCORRECT_PARAMETERS;
             validationException = true;
         }

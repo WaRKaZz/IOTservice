@@ -3,6 +3,8 @@ package kz.epam.iotservice.service;
 import kz.epam.iotservice.dao.UserDAO;
 import kz.epam.iotservice.exception.ConnectionException;
 import kz.epam.iotservice.exception.ValidationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,6 +29,7 @@ public class UserAdministrationService implements Service {
     private static final String UN_BAN = "unBan";
     private static final String KEY_ADMINISTRATION_MESSAGE_SUCCESS_BAN = "key.administrationMessageSuccessBan";
     private static final String KEY_ADMINISTRATION_MESSAGE_SUCCESS_UNBAN = "key.administrationMessageSuccessUnban";
+    private static final Logger LOGGER = LogManager.getRootLogger();
     private String administrationMessage = KEY_EMPTY;
 
     @Override
@@ -59,6 +62,8 @@ public class UserAdministrationService implements Service {
             response.sendRedirect(ADMINISTRATION_URI);
         } catch (ValidationException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            LOGGER.error(e);
+            LOGGER.error("Cannot manipulate with user rights");
         }
     }
 }

@@ -5,6 +5,8 @@ import kz.epam.iotservice.entity.Home;
 import kz.epam.iotservice.entity.User;
 import kz.epam.iotservice.exception.ConnectionException;
 import kz.epam.iotservice.exception.ValidationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,6 +29,7 @@ public class UpdateHomeService implements Service {
     private static final String KEY_UPDATE_HOME_MESSAGE_INCORRECT_DATA = "key.updateHomeMessageIncorrectData";
     private static final String KEY_UPDATE_HOME_MESSAGE_SUCCESS_UPDATE = "key.updateHomeMessageSuccessUpdate";
     private static final int ADMIN_ROLE = 1;
+    private static final Logger LOGGER = LogManager.getRootLogger();
     private final HomeDAO homeDAO = new HomeDAO();
     private String homeMessage = KEY_EMPTY;
 
@@ -93,6 +96,8 @@ public class UpdateHomeService implements Service {
             homeAddress = validateHomeAddress(request.getParameter(HOME_ADDRESS_PARAMETER));
             homeName = validateHomeName(request.getParameter(HOME_NAME_PARAMETER));
         } catch (ValidationException e) {
+            LOGGER.error(e);
+            LOGGER.error("Can not update Home");
             homeMessage = KEY_UPDATE_HOME_MESSAGE_INCORRECT_DATA;
             validationException = true;
         }

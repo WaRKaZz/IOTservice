@@ -22,6 +22,7 @@ import static kz.epam.iotservice.util.ConstantsUri.*;
 
 class AccessFilter implements Filter {
     private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final String FILTER_EXCEPTION_BY_USING_A_DAO_SERVICES = "Filter Exception by using a dao services";
     private final Map<String, Integer> AUTH_MAP = new HashMap<>();
 
     @Override
@@ -57,6 +58,7 @@ class AccessFilter implements Filter {
             }
         } catch (SQLException | ConnectionException e) {
             LOGGER.error(e);
+            LOGGER.error(FILTER_EXCEPTION_BY_USING_A_DAO_SERVICES);
         }
         String requestURI = request.getRequestURI();
         Integer accessLevel = AUTH_MAP.get(requestURI);

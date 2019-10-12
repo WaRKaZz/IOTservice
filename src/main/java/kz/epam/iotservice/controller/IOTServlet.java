@@ -15,6 +15,7 @@ import java.sql.SQLException;
 
 public class IOTServlet extends HttpServlet {
     private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final String SERVICE_CANNOT_BE_EXECUTED = "Service Cannot be executed";
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException {
@@ -23,6 +24,7 @@ public class IOTServlet extends HttpServlet {
             service.execute(request, response);
         } catch (SQLException | IOException | ConnectionException e) {
             LOGGER.error(e);
+            LOGGER.error(SERVICE_CANNOT_BE_EXECUTED);
         } catch (Exception e) {
             LOGGER.error(e);
             throw new ServletException(e);

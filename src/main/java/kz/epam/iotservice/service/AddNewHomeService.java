@@ -5,6 +5,8 @@ import kz.epam.iotservice.entity.Home;
 import kz.epam.iotservice.entity.User;
 import kz.epam.iotservice.exception.ConnectionException;
 import kz.epam.iotservice.exception.ValidationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,6 +29,8 @@ public class AddNewHomeService implements Service {
     private static final String KEY_NEW_HOME_MESSAGE_VALID_DEVICE_ADDRESS = "key.newHomeMessageValidDeviceAddress";
     private static final String KEY_NEW_HOME_MESSAGE_SUCCESS = "key.newHomeMessageSuccess";
     private static final int ADMIN_IN_HOME_ROLE = 1;
+    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final String CAN_NOT_ADD_NEW_HOME = "Can not add new HOME";
     private String homeMessage = KEY_EMPTY;
 
     @Override
@@ -60,6 +64,8 @@ public class AddNewHomeService implements Service {
             homeName = validateHomeName(request.getParameter(HOME_NAME_PARAMETER));
             homeAddress = validateHomeAddress(request.getParameter(HOME_ADDRESS_PARAMETER));
         } catch (ValidationException e) {
+            LOGGER.error(e);
+            LOGGER.error(CAN_NOT_ADD_NEW_HOME);
             homeMessage = KEY_NEW_HOME_MESSAGE_VALID_DEVICE_ADDRESS;
             validationException = true;
         }

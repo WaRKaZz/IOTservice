@@ -4,6 +4,8 @@ import kz.epam.iotservice.dao.UserDAO;
 import kz.epam.iotservice.entity.User;
 import kz.epam.iotservice.exception.ConnectionException;
 import kz.epam.iotservice.exception.ValidationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,6 +28,9 @@ public class RegistrationSubmitService implements Service {
     private static final String KEY_REGISTRATION_MESSAGE_PASSWORD_MATCH = "key.registrationMessagePasswordMatch";
     private static final String KEY_REGISTRATION_MESSAGE_PASSWORD_INCORRECT = "key.registrationMessagePasswordIncorrect";
     private static final String KEY_REGISTRATION_MESSAGE_LOGIN_EXISTS = "key.registrationMessageLoginExists";
+    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final String INCORRECT_LOGIN = "Incorrect Login";
+    private static final String INCORRECT_PASSWORD = "Incorrect password";
     private final User user = new User();
     private String registrationMessage = KEY_EMPTY;
 
@@ -55,6 +60,8 @@ public class RegistrationSubmitService implements Service {
         try {
             user.setUserLogin(validateLogin(login));
         } catch (ValidationException e) {
+            LOGGER.error(e);
+            LOGGER.error(INCORRECT_LOGIN);
             registrationMessage = KEY_REGISTRATION_MESSAGE_LOGIN_INCORRECT;
             isCorrect = false;
         }
@@ -66,6 +73,8 @@ public class RegistrationSubmitService implements Service {
                 user.setUserPassword(encryptPassword(validatePassword(password)));
             }
         } catch (ValidationException e) {
+            LOGGER.error(e);
+            LOGGER.error(INCORRECT_PASSWORD);
             registrationMessage = KEY_REGISTRATION_MESSAGE_PASSWORD_INCORRECT;
             isCorrect = false;
         }

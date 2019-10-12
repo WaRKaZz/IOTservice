@@ -7,6 +7,8 @@ import kz.epam.iotservice.dao.FunctionDefinitionDAO;
 import kz.epam.iotservice.entity.*;
 import kz.epam.iotservice.exception.ConnectionException;
 import kz.epam.iotservice.exception.ValidationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,6 +32,8 @@ public class AddNewDeviceService implements Service {
     private static final String KEY_NEW_DEVICE_MESSAGE_NOT_ADMIN = "key.newDeviceMessageNotAdmin";
     private static final String KEY_NEW_DEVICE_MESSAGE_VALID_DEVICE_NAME = "key.newDeviceMessageValidDeviceName";
     private static final String KEY_NEW_DEVICE_MESSAGE_SUCCESS = "key.newDeviceMessageSuccess";
+    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final String CANNOT_ADD_NEW_DEVICE = "Cannot add new device";
     private String deviceMessage = KEY_EMPTY;
 
     @Override
@@ -88,6 +92,8 @@ public class AddNewDeviceService implements Service {
         try {
             deviceName = validateDeviceName(request.getParameter(DEVICE_NAME_PARAMETER));
         } catch (ValidationException e) {
+            LOGGER.error(e);
+            LOGGER.error(CANNOT_ADD_NEW_DEVICE);
             deviceMessage = KEY_NEW_DEVICE_MESSAGE_VALID_DEVICE_NAME;
             validationException = true;
         }
