@@ -21,7 +21,7 @@ public class HomeViewService implements Service {
         if (request.getParameter(HOME_ID_PARAMETER) != null) {
             long homeID = Long.parseLong(request.getParameter(HOME_ID_PARAMETER));
             Home home = homeDAO.getHomeByID(homeID);
-            request.getSession().setAttribute(HOME_SESSION_STATEMENT, home);
+            request.setAttribute(HOME_SESSION_STATEMENT, home);
         }
         response.sendRedirect(MAIN_URI);
     }

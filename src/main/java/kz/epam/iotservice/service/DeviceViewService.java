@@ -20,12 +20,12 @@ public class DeviceViewService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException, ConnectionException {
-        if (request.getSession().getAttribute(HOME_SESSION_STATEMENT) != null) {
+        if (request.getAttribute(HOME_SESSION_STATEMENT) != null) {
             updateHomeInSession(request);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(DEVICE_VIEW_JSP);
             requestDispatcher.forward(request, response);
         } else {
-            request.getSession().setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, KEY_EMPTY);
+            request.setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, KEY_EMPTY);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(UPDATE_DEVICE_JSP);
             requestDispatcher.forward(request, response);
         }

@@ -32,7 +32,7 @@ public class ProfileService implements Service {
         if (isApplyPressed(request)) {
             updatePassword(request, response);
         } else {
-            request.getSession().setAttribute(CHANGE_PASSWORD_MESSAGE_SESSION_STATEMENT, changePasswordMessage);
+            request.setAttribute(CHANGE_PASSWORD_MESSAGE_SESSION_STATEMENT, changePasswordMessage);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(PROFILE_JSP);
             requestDispatcher.forward(request, response);
         }
@@ -41,7 +41,7 @@ public class ProfileService implements Service {
     private void updatePassword(HttpServletRequest request, HttpServletResponse response)
             throws ConnectionException, SQLException, IOException {
         UserDAO userDAO = new UserDAO();
-        User user = (User) request.getSession().getAttribute(USER_SESSION_STATEMENT);
+        User user = (User) request.getAttribute(USER_SESSION_STATEMENT);
         boolean validationException = false;
         String oldPassword = request.getParameter(OLD_PASSWORD_PARAMETER);
         String newPassword = request.getParameter(NEW_PASSWORD_PARAMETER);
@@ -65,7 +65,7 @@ public class ProfileService implements Service {
 
     private void refreshPage(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        request.getSession().setAttribute(CHANGE_PASSWORD_MESSAGE_SESSION_STATEMENT, changePasswordMessage);
+        request.setAttribute(CHANGE_PASSWORD_MESSAGE_SESSION_STATEMENT, changePasswordMessage);
         response.sendRedirect(PROFILE_URI);
     }
 
