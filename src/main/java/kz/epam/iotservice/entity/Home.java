@@ -1,10 +1,11 @@
 package kz.epam.iotservice.entity;
 
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class Home {
+public class Home implements Serializable {
     private List<Device> homeInstalledDevices;
     private Long homeID;
     private String homeName;

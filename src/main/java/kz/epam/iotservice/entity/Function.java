@@ -1,10 +1,12 @@
 package kz.epam.iotservice.entity;
 
 
+import java.io.Serializable;
+
 import static kz.epam.iotservice.util.OtherConstants.EMPTY_STRING;
 import static kz.epam.iotservice.util.OtherConstants.INT_ZERO;
 
-public class Function {
+public class Function implements Serializable {
     private Boolean functionInput;
     private String functionName;
     private Boolean functionTrue = false;

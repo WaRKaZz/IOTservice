@@ -1,10 +1,11 @@
 package kz.epam.iotservice.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import static kz.epam.iotservice.util.OtherConstants.*;
 
-public class User {
+public class User implements Serializable {
     private Long userID = Long.parseLong(STRING_ZERO);
     private String userLogin = EMPTY_STRING;
     private String userPassword = EMPTY_STRING;

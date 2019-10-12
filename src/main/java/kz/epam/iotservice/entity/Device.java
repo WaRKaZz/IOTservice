@@ -1,9 +1,10 @@
 package kz.epam.iotservice.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Device {
+public class Device implements Serializable {
     private List<Function> functions = new ArrayList<>();
     private Long deviceID;
     private String deviceName;
