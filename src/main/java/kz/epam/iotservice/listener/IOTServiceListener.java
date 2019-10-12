@@ -37,7 +37,7 @@ class IOTServiceListener implements ServletContextListener {
     }
 
     @Override
-    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {   //Destroy method don't necessary in this Listener
 
     }
 }

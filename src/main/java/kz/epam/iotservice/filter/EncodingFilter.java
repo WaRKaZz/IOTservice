@@ -27,6 +27,6 @@ class EncodingFilter implements Filter {
     }
 
     @Override
-    public void destroy() {
+    public void destroy() {   //Destroy method don't necessary in this Filter
     }
 }
