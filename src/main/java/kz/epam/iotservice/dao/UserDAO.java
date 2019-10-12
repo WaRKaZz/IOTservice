@@ -35,7 +35,7 @@ public class UserDAO {
         List<User> users = new ArrayList<>();
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_USER_LIST)) {
-            try (ResultSet resultSet = preparedStatement.executeQuery()){
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     User user = configureUserObject(resultSet);
                     users.add(user);
@@ -52,7 +52,7 @@ public class UserDAO {
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_LOGIN_SQL)) {
             preparedStatement.setString(1, userLogin);
-            try (ResultSet resultSet = preparedStatement.executeQuery();){
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     user = configureUserObject(resultSet);
                 }

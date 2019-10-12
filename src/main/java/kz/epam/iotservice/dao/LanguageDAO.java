@@ -23,7 +23,7 @@ public class LanguageDAO {
         List<Language> languageList = new ArrayList<>();
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GEL_LANGUAGE_LIST_SQL)) {
-            try (ResultSet resultSet = preparedStatement.executeQuery()){
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Language language = configureLanguageObject(resultSet);
                     languageList.add(language);

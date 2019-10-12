@@ -60,7 +60,7 @@ public class HomeDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_HOME_LIST_BY_USER_AND_ROLE)) {
             preparedStatement.setLong(1, user.getUserID());
             preparedStatement.setInt(2, role);
-            try (ResultSet resultSet = preparedStatement.executeQuery()){
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Home home = configureHomeObject(resultSet);
                     homeList.add(home);

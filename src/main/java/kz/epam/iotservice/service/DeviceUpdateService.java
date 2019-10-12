@@ -20,6 +20,7 @@ import static kz.epam.iotservice.validation.FunctionValidation.*;
 
 public class DeviceUpdateService implements Service {
     private static final Logger LOGGER = LogManager.getRootLogger();
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, SQLException, ConnectionException {

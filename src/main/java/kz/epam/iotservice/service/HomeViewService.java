@@ -30,7 +30,7 @@ public class HomeViewService implements Service {
             Home home = homeDAO.getHomeByID(homeID);
             home.setHomeInstalledDevices(deviceDAO.getDevicesList(home));
             List<Device> homeInstalledDevices = new ArrayList<>();
-            for (Device device: home.getHomeInstalledDevices()) {
+            for (Device device : home.getHomeInstalledDevices()) {
                 device.setFunctions(functionDAO.getFunctionsList(device));
                 homeInstalledDevices.add(device);
             }
