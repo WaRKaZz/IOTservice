@@ -45,7 +45,7 @@ public class RegistrationSubmitService implements Service {
             request.getSession().setAttribute(USER_SESSION_STATEMENT, user);
             requestDispatcher = request.getRequestDispatcher(DEVICE_VIEW_JSP);
         } else {
-            request.getSession().setAttribute(REGISTRATION_MESSAGE_SESSION_STATEMENT, registrationMessage);
+            request.setAttribute(REGISTRATION_MESSAGE_SESSION_STATEMENT, registrationMessage);
             requestDispatcher = request.getRequestDispatcher(REGISTRATION_JSP);
         }
         requestDispatcher.forward(request, response);

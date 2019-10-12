@@ -52,13 +52,13 @@ public class UpdateDeviceService implements Service {
         if (isApplyPressed(request)) {
             updateDevice(request, response);
         } else {
-            if (request.getSession().getAttribute(HOME_SESSION_STATEMENT) != null) {
+            if (request.getAttribute(HOME_SESSION_STATEMENT) != null) {
                 updateHomeInSession(request);
             }
             DeviceTypeDAO deviceTypeDAO = new DeviceTypeDAO();
             List<DeviceType> deviceTypeList = deviceTypeDAO.getDeviceTypeList();
-            request.getSession().setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
-            request.getSession().setAttribute(DEVICE_TYPE_LIST_SESSION_STATEMENT, deviceTypeList);
+            request.setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
+            request.setAttribute(DEVICE_TYPE_LIST_SESSION_STATEMENT, deviceTypeList);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(UPDATE_DEVICE_JSP);
             requestDispatcher.forward(request, response);
         }
@@ -108,7 +108,7 @@ public class UpdateDeviceService implements Service {
     }
 
     private void refreshPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.getSession().setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
+        request.setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
         response.sendRedirect(UPDATE_DEVICE_URI);
     }
 }

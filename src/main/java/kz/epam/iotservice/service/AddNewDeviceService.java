@@ -45,21 +45,21 @@ public class AddNewDeviceService implements Service {
         } else {
             DeviceTypeDAO deviceTypeDAO = new DeviceTypeDAO();
             List<DeviceType> deviceTypeList = deviceTypeDAO.getDeviceTypeList();
-            request.getSession().setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
-            request.getSession().setAttribute(DEVICE_TYPE_LIST_SESSION_STATEMENT, deviceTypeList);
+            request.setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
+            request.setAttribute(DEVICE_TYPE_LIST_SESSION_STATEMENT, deviceTypeList);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(NEW_DEVICE_JSP);
             requestDispatcher.forward(request, response);
         }
     }
 
     private boolean isHomeAdmin(HttpServletRequest request) {
-        List objectAdminList = (List) request.getSession().getAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT);
+        List objectAdminList = (List) request.getAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT);
         List<Home> homeAdminList = new ArrayList<>();
         boolean homeContains = false;
         for (Object o : objectAdminList) {
             homeAdminList.add((Home) o);
         }
-        Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
+        Home home = (Home) request.getAttribute(HOME_SESSION_STATEMENT);
         for (Home homeInList : homeAdminList) {
             if (homeInList.equals(home)) {
                 homeContains = true;
@@ -68,14 +68,14 @@ public class AddNewDeviceService implements Service {
         }
         if (!homeContains) {
             deviceMessage = KEY_NEW_DEVICE_MESSAGE_NOT_ADMIN;
-            request.getSession().setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
+            request.setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
         }
         return homeContains;
     }
 
     private void refreshPage(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        request.getSession().setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
+        request.setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
         response.sendRedirect(ADD_NEW_DEVICE_URI);
     }
 
@@ -88,7 +88,7 @@ public class AddNewDeviceService implements Service {
         boolean validationException = false;
         Device device = new Device();
         FunctionDAO functionDAO = new FunctionDAO();
-        Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
+        Home home = (Home) request.getAttribute(HOME_SESSION_STATEMENT);
         try {
             deviceName = validateDeviceName(request.getParameter(DEVICE_NAME_PARAMETER));
         } catch (ValidationException e) {

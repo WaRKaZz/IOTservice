@@ -23,9 +23,9 @@ public class IndexService implements Service {
             SQLException, ConnectionException {
         UserDAO userDAO = new UserDAO();
         User guest = userDAO.getUserByLogin(GUEST);
-        User sessionUser = (User) request.getSession().getAttribute(USER_SESSION_STATEMENT);
+        User sessionUser = (User) request.getAttribute(USER_SESSION_STATEMENT);
         if (sessionUser == null) {
-            request.getSession().setAttribute(USER_SESSION_STATEMENT, guest);
+            request.setAttribute(USER_SESSION_STATEMENT, guest);
             loginForward(request, response);
         } else if (sessionUser.equals(guest)) {
             loginForward(request, response);

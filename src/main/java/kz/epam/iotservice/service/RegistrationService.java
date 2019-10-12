@@ -17,7 +17,7 @@ public class RegistrationService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         request.getSession().invalidate();
-        request.getSession().setAttribute(REGISTRATION_MESSAGE_SESSION_STATEMENT, KEY_REGISTRATION_MESSAGE);
+        request.setAttribute(REGISTRATION_MESSAGE_SESSION_STATEMENT, KEY_REGISTRATION_MESSAGE);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(REGISTRATION_JSP);
         requestDispatcher.forward(request, response);
     }
