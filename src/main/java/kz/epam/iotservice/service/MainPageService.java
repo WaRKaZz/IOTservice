@@ -10,7 +10,6 @@ import static kz.epam.iotservice.util.JspConstants.MAIN_PAGE_JSP;
 
 
 public class MainPageService implements Service {
-
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {

@@ -68,7 +68,6 @@ public class UpdateHomeService implements Service {
 
     private void deleteHome(HttpServletRequest request, HttpServletResponse response)
             throws IOException, SQLException, ConnectionException {
-        HomeDAO homeDAO = new HomeDAO();
         Long homeID = (long) 0;
         boolean validationException = false;
         try {

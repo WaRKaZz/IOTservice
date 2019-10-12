@@ -7,7 +7,6 @@ import java.io.IOException;
 import static kz.epam.iotservice.util.ConstantsUri.EMPTY_URI;
 
 public class LogoutService implements Service {
-
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException {

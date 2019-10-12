@@ -31,7 +31,7 @@ public class LoginService implements Service {
         String login = request.getParameter(LOGIN_PARAMETER);
         user = userDAO.getUserByLogin(login);
         String password = request.getParameter(PASSWORD_PARAMETER);
-        if (isUserCorrect(user, password) && (isUserNonBlocked(user))) {
+        if (isUserCorrect(user, password) && (isUserNonBlocked())) {
             loginAndLoadAttributes(request, response);
         } else {
             response.setHeader(REFRESH_HEADER_STATUS, REDIRECT_IN_5_SECONDS_HEADER_STATUS);
@@ -52,7 +52,7 @@ public class LoginService implements Service {
         response.sendRedirect(MAIN_URI);
     }
 
-    private boolean isUserNonBlocked(User user) {
+    private boolean isUserNonBlocked() {
         return !user.getUserBlocked();
     }
 }
