@@ -22,11 +22,12 @@ public class LanguageDAO {
     public List<Language> getListLanguages() throws SQLException, ConnectionException {
         List<Language> languageList = new ArrayList<>();
         Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GEL_LANGUAGE_LIST_SQL);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-            while (resultSet.next()) {
-                Language language = configureLanguageObject(resultSet);
-                languageList.add(language);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GEL_LANGUAGE_LIST_SQL)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()) {
+                    Language language = configureLanguageObject(resultSet);
+                    languageList.add(language);
+                }
             }
         } finally {
             CONNECTION_POOL.putBack(connection);

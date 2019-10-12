@@ -24,10 +24,11 @@ public class DeviceTypeDAO {
         Connection connection = CONNECTION_POOL.retrieve();
         List<DeviceType> deviceTypeList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_DEVICE_TYPE_LIST_SQL)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                DeviceType deviceType = configureTypeObject(resultSet);
-                deviceTypeList.add(deviceType);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    DeviceType deviceType = configureTypeObject(resultSet);
+                    deviceTypeList.add(deviceType);
+                }
             }
         } finally {
             CONNECTION_POOL.putBack(connection);

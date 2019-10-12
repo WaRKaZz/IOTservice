@@ -43,10 +43,11 @@ public class HomeDAO {
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_HOME_BY_ID_SQL)) {
             preparedStatement.setLong(1, homeID);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                home = configureHomeObject(resultSet);
-                home.setHomeInstalledDevices(deviceDAO.getDevicesList(home));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    home = configureHomeObject(resultSet);
+                    home.setHomeInstalledDevices(deviceDAO.getDevicesList(home));
+                }
             }
         } finally {
             CONNECTION_POOL.putBack(connection);
@@ -61,10 +62,11 @@ public class HomeDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_HOME_LIST_BY_USER_AND_ROLE)) {
             preparedStatement.setLong(1, user.getUserID());
             preparedStatement.setInt(2, role);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Home home = configureHomeObject(resultSet);
-                homeList.add(home);
+            try (ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()) {
+                    Home home = configureHomeObject(resultSet);
+                    homeList.add(home);
+                }
             }
         } finally {
             CONNECTION_POOL.putBack(connection);

@@ -74,10 +74,11 @@ public class FunctionDAO {
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_STRING_FUNCTIONS_LIST_SQL)) {
             preparedStatement.setLong(1, device.getDeviceID());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Function function = configureFunctionObject(resultSet);
-                functions.add(function);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Function function = configureFunctionObject(resultSet);
+                    functions.add(function);
+                }
             }
         } finally {
             CONNECTION_POOL.putBack(connection);

@@ -30,10 +30,11 @@ public class FunctionDefinitionDAO {
         List<FunctionDefinition> functionTypeList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_FUNCTION_DEFINITIONS_LIST_SQL)) {
             preparedStatement.setLong(1, deviceTypeID);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                FunctionDefinition functionType = configureDefinitionObject(resultSet);
-                functionTypeList.add(functionType);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    FunctionDefinition functionType = configureDefinitionObject(resultSet);
+                    functionTypeList.add(functionType);
+                }
             }
         } finally {
             CONNECTION_POOL.putBack(connection);

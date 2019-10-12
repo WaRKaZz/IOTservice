@@ -34,11 +34,12 @@ public class DeviceDAO {
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_DEVICE_LIST_IN_HOME_SQL)) {
             preparedStatement.setLong(1, home.getHomeID());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Device device = configureDeviceObject(resultSet);
-                device.setFunctions(functionDAO.getFunctionsList(device));
-                devices.add(device);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Device device = configureDeviceObject(resultSet);
+                    device.setFunctions(functionDAO.getFunctionsList(device));
+                    devices.add(device);
+                }
             }
         } finally {
             CONNECTION_POOL.putBack(connection);
@@ -54,9 +55,10 @@ public class DeviceDAO {
         }
         long lastDeviceID = Long.parseLong("0");
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_LAST_INSERTED_ID)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                lastDeviceID = resultSet.getLong(1);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    lastDeviceID = resultSet.getLong(1);
+                }
             }
         } finally {
             CONNECTION_POOL.putBack(connection);
