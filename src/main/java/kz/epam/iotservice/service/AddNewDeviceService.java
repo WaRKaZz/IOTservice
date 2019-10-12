@@ -53,13 +53,13 @@ public class AddNewDeviceService implements Service {
     }
 
     private boolean isHomeAdmin(HttpServletRequest request) {
-        List objectAdminList = (List) request.getAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT);
+        List objectAdminList = (List) request.getSession().getAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT);
         List<Home> homeAdminList = new ArrayList<>();
         boolean homeContains = false;
         for (Object o : objectAdminList) {
             homeAdminList.add((Home) o);
         }
-        Home home = (Home) request.getAttribute(HOME_SESSION_STATEMENT);
+        Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
         for (Home homeInList : homeAdminList) {
             if (homeInList.equals(home)) {
                 homeContains = true;
@@ -88,7 +88,7 @@ public class AddNewDeviceService implements Service {
         boolean validationException = false;
         Device device = new Device();
         FunctionDAO functionDAO = new FunctionDAO();
-        Home home = (Home) request.getAttribute(HOME_SESSION_STATEMENT);
+        Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
         try {
             deviceName = validateDeviceName(request.getParameter(DEVICE_NAME_PARAMETER));
         } catch (ValidationException e) {

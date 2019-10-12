@@ -46,8 +46,8 @@ public class LoginService implements Service {
         HomeDAO homeDAO = new HomeDAO();
         List<Home> homeAdminList = homeDAO.getHomeListByRole(user, ADMIN_IN_HOME_ROLE);
         List<Home> homeUserList = homeDAO.getHomeListByRole(user, USER_IN_HOME_ROLE);
-        request.setAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT, homeAdminList);
-        request.setAttribute(HOME_USER_LIST_SESSION_STATEMENT, homeUserList);
+        request.getSession().setAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT, homeAdminList);
+        request.getSession().setAttribute(HOME_USER_LIST_SESSION_STATEMENT, homeUserList);
         request.getSession().setAttribute(USER_SESSION_STATEMENT, user);
         response.sendRedirect(MAIN_URI);
     }

@@ -61,7 +61,7 @@ public class UpdateHomeService implements Service {
             throws IOException, SQLException, ConnectionException {
         User user = (User) request.getSession().getAttribute(USER_SESSION_STATEMENT);
         List<Home> homeAdminList = homeDAO.getHomeListByRole(user, ADMIN_ROLE);
-        request.setAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT, homeAdminList);
+        request.getSession().setAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT, homeAdminList);
         request.setAttribute(HOME_MESSAGE_SESSION_STATEMENT, homeMessage);
         response.sendRedirect(UPDATE_HOME_URI);
     }

@@ -48,7 +48,7 @@ public class AddNewHomeService implements Service {
     private void refreshPage(HttpServletRequest request, HttpServletResponse response, List homeAdminList)
             throws IOException {
         request.setAttribute(HOME_MESSAGE_SESSION_STATEMENT, homeMessage);
-        request.setAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT, homeAdminList);
+        request.getSession().setAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT, homeAdminList);
         response.sendRedirect(ADD_NEW_HOME_URI);
     }
 
@@ -56,7 +56,7 @@ public class AddNewHomeService implements Service {
             throws IOException, SQLException, ConnectionException {
         HomeDAO homeDAO = new HomeDAO();
         Home home = new Home();
-        User user = (User) request.getAttribute(USER_SESSION_STATEMENT);
+        User user = (User) request.getSession().getAttribute(USER_SESSION_STATEMENT);
         String homeName = EMPTY_STRING;
         String homeAddress = EMPTY_STRING;
         boolean validationException = false;

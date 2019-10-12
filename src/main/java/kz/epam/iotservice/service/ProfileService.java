@@ -41,7 +41,7 @@ public class ProfileService implements Service {
     private void updatePassword(HttpServletRequest request, HttpServletResponse response)
             throws ConnectionException, SQLException, IOException {
         UserDAO userDAO = new UserDAO();
-        User user = (User) request.getAttribute(USER_SESSION_STATEMENT);
+        User user = (User) request.getSession().getAttribute(USER_SESSION_STATEMENT);
         boolean validationException = false;
         String oldPassword = request.getParameter(OLD_PASSWORD_PARAMETER);
         String newPassword = request.getParameter(NEW_PASSWORD_PARAMETER);
