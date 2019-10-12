@@ -39,14 +39,12 @@ public class HomeDAO {
 
     public Home getHomeByID(long homeID) throws SQLException, ConnectionException {
         Home home = new Home();
-        DeviceDAO deviceDAO = new DeviceDAO();
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_HOME_BY_ID_SQL)) {
             preparedStatement.setLong(1, homeID);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     home = configureHomeObject(resultSet);
-                    home.setHomeInstalledDevices(deviceDAO.getDevicesList(home));
                 }
             }
         } finally {

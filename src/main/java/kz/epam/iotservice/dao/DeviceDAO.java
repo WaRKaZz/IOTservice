@@ -30,14 +30,12 @@ public class DeviceDAO {
 
     public List<Device> getDevicesList(Home home) throws SQLException, ConnectionException {
         List<Device> devices = new ArrayList<>();
-        FunctionDAO functionDAO = new FunctionDAO();
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_DEVICE_LIST_IN_HOME_SQL)) {
             preparedStatement.setLong(1, home.getHomeID());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Device device = configureDeviceObject(resultSet);
-                    device.setFunctions(functionDAO.getFunctionsList(device));
                     devices.add(device);
                 }
             }
