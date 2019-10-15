@@ -6,6 +6,10 @@ import java.util.Map;
 import static kz.epam.iotservice.util.ConstantsUri.*;
 
 public class ServiceFactory {
+
+    private ServiceFactory() {
+    }
+
     private static final Map<String, Service> FACTORY_MAP = new HashMap<>();
 
     static {

@@ -4,6 +4,9 @@ import kz.epam.iotservice.exception.ValidationException;
 
 public class FunctionValidation extends AbstractValidation {
 
+    private FunctionValidation() {
+    }
+
     public static boolean validateFunctionTrue(String trueStatement) throws ValidationException {
         return validateBoolean(trueStatement);
     }

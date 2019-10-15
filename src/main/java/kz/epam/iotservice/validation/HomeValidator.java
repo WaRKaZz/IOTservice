@@ -4,6 +4,9 @@ import kz.epam.iotservice.exception.ValidationException;
 
 public class HomeValidator extends AbstractValidation {
 
+    private HomeValidator() {
+    }
+
     public static String validateHomeName(String homeName) throws ValidationException {
         return validateString(homeName, MAX_TINYTEXT_LENGTH);
     }

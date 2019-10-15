@@ -12,6 +12,9 @@ public class UserValidation extends AbstractValidation {
     private static final int MIN_PASSWORD_LENGTH = 6;
     private static final int MAX_PASSWORD_LENGTH = 30;
 
+    private UserValidation() {
+    }
+
     public static String validateLogin(String userLogin) throws ValidationException {
         final Pattern pattern = Pattern.compile(LOGIN_PATTERN);
         Matcher matcher = pattern.matcher(userLogin);
