@@ -38,7 +38,7 @@
 		<button type ="submit" class="btn btn-success btn-block" name ="apply" value="true"><fmt:message key="key.apply"/></button> 	
 		</form>	
 		<br>
-		<p class="text-center"><fmt:message key="${sessionScope.homeMessage}"/></p>
+		<p class="text-center"><fmt:message key="${homeMessage}"/></p>
 	</main>
     <jsp:include page="javascriptIntegration.jsp"></jsp:include>
 </body>

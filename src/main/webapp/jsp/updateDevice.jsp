@@ -50,7 +50,7 @@
 					<div class="form-group">
 						<label class="control-label"><fmt:message key="key.updateDeviceNewDeviceType"/></label>
 						<select id="inputState" class="form-control custom-select" name="deviceTypeID">
-							<c:forEach items="${sessionScope.deviceTypeList}" var="deviceType">
+							<c:forEach items="${deviceTypeList}" var="deviceType">
 								<option value="${deviceType.deviceTypeID}"><fmt:message key="${deviceType.deviceTypeName}"/></option>
 							</c:forEach>
 						</select>
@@ -65,7 +65,7 @@
 			</c:otherwise>
 		</c:choose>
 		<br>
-        <p class="text-center"><fmt:message key="${sessionScope.deviceMessage}"/></p>
+        <p class="text-center"><fmt:message key="${deviceMessage}"/></p>
 	</main>
     <jsp:include page="javascriptIntegration.jsp"></jsp:include>
 </body>

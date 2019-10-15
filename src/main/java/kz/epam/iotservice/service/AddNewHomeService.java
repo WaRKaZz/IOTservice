@@ -1,6 +1,7 @@
 package kz.epam.iotservice.service;
 
 import kz.epam.iotservice.dao.HomeDAO;
+import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.Home;
 import kz.epam.iotservice.entity.User;
 import kz.epam.iotservice.exception.ConnectionException;
@@ -13,7 +14,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static kz.epam.iotservice.util.ConstantsForAttributes.*;
@@ -29,8 +32,8 @@ public class AddNewHomeService implements Service {
     private static final String KEY_NEW_HOME_MESSAGE_VALID_DEVICE_ADDRESS = "key.newHomeMessageValidDeviceAddress";
     private static final String KEY_NEW_HOME_MESSAGE_SUCCESS = "key.newHomeMessageSuccess";
     private static final int ADMIN_IN_HOME_ROLE = 1;
+    private static final String CANNOT_ADD_NEW_HOME_BY_MY_SQL = "Cannot add new home by MySQL";
     private static final Logger LOGGER = LogManager.getRootLogger();
-    private static final String CAN_NOT_ADD_NEW_HOME = "Can not add new HOME";
     private String homeMessage = KEY_EMPTY;
 
     @Override
@@ -60,22 +63,31 @@ public class AddNewHomeService implements Service {
         String homeName = EMPTY_STRING;
         String homeAddress = EMPTY_STRING;
         boolean validationException = false;
+        List homeAdminList = new ArrayList();
+        Connection connection = ConnectionPool.getInstance().retrieve();
         try {
             homeName = validateHomeName(request.getParameter(HOME_NAME_PARAMETER));
             homeAddress = validateHomeAddress(request.getParameter(HOME_ADDRESS_PARAMETER));
         } catch (ValidationException e) {
-            LOGGER.error(e);
-            LOGGER.error(CAN_NOT_ADD_NEW_HOME);
             homeMessage = KEY_NEW_HOME_MESSAGE_VALID_DEVICE_ADDRESS;
             validationException = true;
         }
-        if (!validationException) {
-            home.setHomeName(homeName);
-            home.setHomeAddress(homeAddress);
-            Long newHomeID = homeDAO.addNewHome(home);
-            homeDAO.addHomeDependencyAdministrator(newHomeID, user.getUserID());
+        try {
+            if (!validationException) {
+                home.setHomeName(homeName);
+                home.setHomeAddress(homeAddress);
+                Long newHomeID = homeDAO.addNewHome(home, connection);
+                homeDAO.addHomeDependencyAdministrator(newHomeID, user.getUserID(), connection);
+                homeMessage = KEY_NEW_HOME_MESSAGE_SUCCESS;
+                homeAdminList = homeDAO.getHomeListByRole(user, ADMIN_IN_HOME_ROLE, connection);
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            LOGGER.error(CANNOT_ADD_NEW_HOME_BY_MY_SQL, e);
+            connection.rollback();
+        } finally {
+            ConnectionPool.getInstance().putBack(connection);
         }
-        homeMessage = KEY_NEW_HOME_MESSAGE_SUCCESS;
-        refreshPage(request, response, homeDAO.getHomeListByRole(user, ADMIN_IN_HOME_ROLE));
+        refreshPage(request, response, homeAdminList);
     }
 }

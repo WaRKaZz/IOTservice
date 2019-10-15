@@ -25,7 +25,7 @@
 			</div>
 			<button type="submit" class="btn btn-success btn-block" name="apply" value="true" style="margin-top: 2%"><fmt:message key="key.apply"/></button>
 			<br>
-			<p class="text-center"><fmt:message key="${sessionScope.administrationMessage}"/></p>
+			<p class="text-center"><fmt:message key="${administrationMessage}"/></p>
 		</form>
 
 	</main>

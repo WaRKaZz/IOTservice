@@ -1,15 +1,19 @@
 package kz.epam.iotservice.service;
 
 import kz.epam.iotservice.dao.UserDAO;
+import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.User;
 import kz.epam.iotservice.exception.ConnectionException;
 import kz.epam.iotservice.exception.ValidationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static kz.epam.iotservice.util.ConstantsForAttributes.*;
@@ -24,6 +28,8 @@ public class ProfileService implements Service {
 
     private static final String KEY_PROFILE_MESSAGE_ERROR_PASSWORD = "key.profileMessageErrorPassword";
     private static final String KEY_PROFILE_MESSAGE_SUCCESS = "key.profileMessageSuccess";
+    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final String CANNOT_UPDATE_THIS_USER_IN_PROFILE_SERVICE = "Cannot update this user in Profile Service";
     private String changePasswordMessage = KEY_EMPTY;
 
     @Override
@@ -57,7 +63,16 @@ public class ProfileService implements Service {
             }
         }
         if (!validationException) {
-            userDAO.updateUser(user);
+            Connection connection = ConnectionPool.getInstance().retrieve();
+            try {
+                userDAO.updateUser(user, connection);
+                connection.commit();
+            } catch (SQLException e) {
+                LOGGER.error(CANNOT_UPDATE_THIS_USER_IN_PROFILE_SERVICE, e);
+                connection.rollback();
+            } finally {
+                ConnectionPool.getInstance().putBack(connection);
+            }
             changePasswordMessage = KEY_PROFILE_MESSAGE_SUCCESS;
         }
         refreshPage(request, response);

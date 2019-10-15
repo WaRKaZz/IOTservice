@@ -1,6 +1,7 @@
 package kz.epam.iotservice.filter;
 
 import kz.epam.iotservice.dao.UserDAO;
+import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.User;
 import kz.epam.iotservice.enumeration.Role;
 import kz.epam.iotservice.exception.ConnectionException;
@@ -11,6 +12,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,11 +56,19 @@ public class AccessFilter implements Filter {
         UserDAO userDAO = new UserDAO();
         try {
             if (user == null) {
-                user = userDAO.getUserByLogin(GUEST);
+                Connection connection = ConnectionPool.getInstance().retrieve();
+                try {
+                    user = userDAO.getUserByLogin(GUEST, connection);
+                    connection.commit();
+                } catch (SQLException e){
+                    LOGGER.error("Access filter does not work, because cant get user", e);
+                    connection.rollback();
+                } finally {
+                    ConnectionPool.getInstance().putBack(connection);
+                }
             }
         } catch (SQLException | ConnectionException e) {
-            LOGGER.error(e);
-            LOGGER.error(FILTER_EXCEPTION_BY_USING_A_DAO_SERVICES);
+            LOGGER.error(FILTER_EXCEPTION_BY_USING_A_DAO_SERVICES, e);
         }
         String requestURI = request.getRequestURI();
         Integer accessLevel = AUTH_MAP.get(requestURI);

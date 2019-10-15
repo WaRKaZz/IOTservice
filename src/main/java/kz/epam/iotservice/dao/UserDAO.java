@@ -1,8 +1,6 @@
 package kz.epam.iotservice.dao;
 
-import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.User;
-import kz.epam.iotservice.exception.ConnectionException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,11 +27,9 @@ public class UserDAO {
             "WHERE USER_ID = ? AND USER_ROLE > 1";
     private final static String UNBLOCK_USER_BY_ID_SQL = "UPDATE IOT_DATABASE.USER SET USER_BLOCKED = false " +
             "WHERE USER_ID = ? AND USER_ROLE > 1";
-    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
-    public List getUsersList() throws SQLException, ConnectionException {
+    public List getUsersList(Connection connection) throws SQLException {
         List<User> users = new ArrayList<>();
-        Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_USER_LIST)) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -41,15 +37,12 @@ public class UserDAO {
                     users.add(user);
                 }
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
         return users;
     }
 
-    public User getUserByLogin(String userLogin) throws SQLException, ConnectionException {
+    public User getUserByLogin(String userLogin, Connection connection) throws SQLException {
         User user = new User();
-        Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_LOGIN_SQL)) {
             preparedStatement.setString(1, userLogin);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -57,52 +50,38 @@ public class UserDAO {
                     user = configureUserObject(resultSet);
                 }
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
         return user;
     }
 
-    public void blockUserByID(long userID) throws SQLException, ConnectionException {
-        Connection connection = CONNECTION_POOL.retrieve();
+    public void blockUserByID(long userID, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(BLOCK_USER_BY_ID_SQL)) {
             preparedStatement.setLong(1, userID);
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void unblockUserByID(long userID) throws SQLException, ConnectionException {
-        Connection connection = CONNECTION_POOL.retrieve();
+    public void unblockUserByID(long userID, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(UNBLOCK_USER_BY_ID_SQL)) {
             preparedStatement.setLong(1, userID);
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void addNewUser(User user) throws SQLException, ConnectionException {
-        Connection connection = CONNECTION_POOL.retrieve();
+    public void addNewUser(User user, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_USER_SQL)) {
             configureUserStatement(user, preparedStatement);
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 
 
-    public void updateUser(User user) throws SQLException, ConnectionException {
+    public void updateUser(User user, Connection connection) throws SQLException {
         final int USER_ID_POSITION = 5;
-        Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_SQL)) {
             configureUserStatement(user, preparedStatement);
             preparedStatement.setLong(USER_ID_POSITION, user.getUserID());
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 

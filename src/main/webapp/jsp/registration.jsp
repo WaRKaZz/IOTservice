@@ -14,7 +14,7 @@
     <jsp:include page="navbarUnlogined.jsp"></jsp:include>
     <main>
         <header>
-            <h2><b><fmt:message key="${sessionScope.registrationMessage}"/></b></h2>
+            <h2><b><fmt:message key="${registrationMessage}"/></b></h2>
         </header>
         <div class="container">
           <form action = 'submitRegistration' method='post' style="padding: 5% 30% 0% 30%" class="form-horisontal">

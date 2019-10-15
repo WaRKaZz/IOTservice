@@ -1,6 +1,7 @@
 package kz.epam.iotservice.service;
 
 import kz.epam.iotservice.dao.HomeDAO;
+import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.Home;
 import kz.epam.iotservice.entity.User;
 import kz.epam.iotservice.exception.ConnectionException;
@@ -13,7 +14,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static kz.epam.iotservice.util.ConstantsForAttributes.*;
@@ -28,8 +31,11 @@ public class UpdateHomeService implements Service {
     private static final String KEY_UPDATE_HOME_MESSAGE_SUCCESS_DELETE = "key.updateHomeMessageSuccessDelete";
     private static final String KEY_UPDATE_HOME_MESSAGE_INCORRECT_DATA = "key.updateHomeMessageIncorrectData";
     private static final String KEY_UPDATE_HOME_MESSAGE_SUCCESS_UPDATE = "key.updateHomeMessageSuccessUpdate";
-    private static final int ADMIN_ROLE = 1;
     private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final int ADMIN_ROLE = 1;
+    private static final String CANNOT_DELETE_THIS_HOME = "Cannot delete this home";
+    private static final String CANNOT_GET_HOME_LIST_IN_USER_HOME_SERVICE = "Cannot get home list in user home service";
+    private static final String CANNOT_UPDATE_HOME_IN_UPDATE_HOME_SERVICE = "Cannot update home in update home service";
     private final HomeDAO homeDAO = new HomeDAO();
     private String homeMessage = KEY_EMPTY;
 
@@ -60,7 +66,17 @@ public class UpdateHomeService implements Service {
     private void refreshPage(HttpServletRequest request, HttpServletResponse response)
             throws IOException, SQLException, ConnectionException {
         User user = (User) request.getSession().getAttribute(USER_SESSION_STATEMENT);
-        List<Home> homeAdminList = homeDAO.getHomeListByRole(user, ADMIN_ROLE);
+        Connection connection = ConnectionPool.getInstance().retrieve();
+        List<Home> homeAdminList = new ArrayList<>();
+        try {
+            homeAdminList = homeDAO.getHomeListByRole(user, ADMIN_ROLE, connection);
+            connection.commit();
+        } catch (SQLException e) {
+            LOGGER.error(CANNOT_GET_HOME_LIST_IN_USER_HOME_SERVICE, e);
+            connection.rollback();
+        } finally {
+            ConnectionPool.getInstance().putBack(connection);
+        }
         request.getSession().setAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT, homeAdminList);
         request.setAttribute(HOME_MESSAGE_SESSION_STATEMENT, homeMessage);
         response.sendRedirect(UPDATE_HOME_URI);
@@ -77,7 +93,16 @@ public class UpdateHomeService implements Service {
             validationException = true;
         }
         if (!validationException) {
-            homeDAO.deleteHome(homeID);
+            Connection connection = ConnectionPool.getInstance().retrieve();
+            try {
+                homeDAO.deleteHome(homeID, connection);
+                connection.commit();
+            } catch (SQLException e) {
+                LOGGER.error(CANNOT_DELETE_THIS_HOME, e);
+                connection.rollback();
+            } finally {
+                ConnectionPool.getInstance().putBack(connection);
+            }
             homeMessage = KEY_UPDATE_HOME_MESSAGE_SUCCESS_DELETE;
         }
         refreshPage(request, response);
@@ -95,8 +120,6 @@ public class UpdateHomeService implements Service {
             homeAddress = validateHomeAddress(request.getParameter(HOME_ADDRESS_PARAMETER));
             homeName = validateHomeName(request.getParameter(HOME_NAME_PARAMETER));
         } catch (ValidationException e) {
-            LOGGER.error(e);
-            LOGGER.error("Can not update Home");
             homeMessage = KEY_UPDATE_HOME_MESSAGE_INCORRECT_DATA;
             validationException = true;
         }
@@ -104,7 +127,16 @@ public class UpdateHomeService implements Service {
             home.setHomeAddress(homeAddress);
             home.setHomeName(homeName);
             home.setHomeID(homeID);
-            homeDAO.updateHome(home);
+            Connection connection = ConnectionPool.getInstance().retrieve();
+            try {
+                homeDAO.updateHome(home, connection);
+                connection.commit();
+            } catch (SQLException e) {
+                LOGGER.error(CANNOT_UPDATE_HOME_IN_UPDATE_HOME_SERVICE, e);
+                connection.rollback();
+            } finally {
+                ConnectionPool.getInstance().putBack(connection);
+            }
             homeMessage = KEY_UPDATE_HOME_MESSAGE_SUCCESS_UPDATE;
         }
         refreshPage(request, response);

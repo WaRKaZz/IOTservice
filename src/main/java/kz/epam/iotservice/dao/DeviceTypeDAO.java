@@ -1,8 +1,6 @@
 package kz.epam.iotservice.dao;
 
-import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.DeviceType;
-import kz.epam.iotservice.exception.ConnectionException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,10 +16,8 @@ import static kz.epam.iotservice.util.DatabaseConstants.DEVICE_DEFINITION_NAME;
 public class DeviceTypeDAO {
     private final static String GET_DEVICE_TYPE_LIST_SQL = "SELECT * FROM IOT_DATABASE.DEVICE_DEFINITIONS " +
             "ORDER BY DEVICE_DEFINITION_NAME";
-    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
-    public List<DeviceType> getDeviceTypeList() throws SQLException, ConnectionException {
-        Connection connection = CONNECTION_POOL.retrieve();
+    public List<DeviceType> getDeviceTypeList(Connection connection) throws SQLException {
         List<DeviceType> deviceTypeList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_DEVICE_TYPE_LIST_SQL)) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -30,8 +26,6 @@ public class DeviceTypeDAO {
                     deviceTypeList.add(deviceType);
                 }
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
         return deviceTypeList;
     }

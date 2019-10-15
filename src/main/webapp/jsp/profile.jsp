@@ -30,7 +30,7 @@
 		</div>
 			<button type="submit" class="btn btn-success btn-block" name ="apply" value="true"><fmt:message key="key.apply"/></button>
 		<br>
-		<p class="text-center"><fmt:message key="${sessionScope.changePasswordMessage}"/></p>
+		<p class="text-center"><fmt:message key="${changePasswordMessage}"/></p>
 		</form>    
 	</main>
     <jsp:include page="javascriptIntegration.jsp"></jsp:include>

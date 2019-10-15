@@ -9,9 +9,6 @@ public abstract class AbstractValidation {
     static final int MAX_TINYTEXT_LENGTH = 23;
     static final int MAX_TEXT_LENGTH = 5000;
 
-    private AbstractValidation() {
-    }
-
     public static Long validateID(String ID) throws ValidationException {
         if (EMPTY_STRING.equals(ID)) {
             ID = STRING_ZERO;

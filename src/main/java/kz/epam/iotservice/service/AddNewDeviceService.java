@@ -4,6 +4,7 @@ import kz.epam.iotservice.dao.DeviceDAO;
 import kz.epam.iotservice.dao.DeviceTypeDAO;
 import kz.epam.iotservice.dao.FunctionDAO;
 import kz.epam.iotservice.dao.FunctionDefinitionDAO;
+import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.*;
 import kz.epam.iotservice.exception.ConnectionException;
 import kz.epam.iotservice.exception.ValidationException;
@@ -15,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +34,10 @@ public class AddNewDeviceService implements Service {
     private static final String KEY_NEW_DEVICE_MESSAGE_NOT_ADMIN = "key.newDeviceMessageNotAdmin";
     private static final String KEY_NEW_DEVICE_MESSAGE_VALID_DEVICE_NAME = "key.newDeviceMessageValidDeviceName";
     private static final String KEY_NEW_DEVICE_MESSAGE_SUCCESS = "key.newDeviceMessageSuccess";
-    private static final Logger LOGGER = LogManager.getRootLogger();
-    private static final String CANNOT_ADD_NEW_DEVICE = "Cannot add new device";
+    private static final String CANNOT_ADD_NEW_DEVICE_BY_MY_SQL = "Cannot add new device by MySQL";
+    private static final String CANNOT_DOWNLOAD_DEVICE_TYPE_LIST_IN_ADD_NEW_DEVICE_SERVICE = "Cannot download device type list in add new device service";
     private String deviceMessage = KEY_EMPTY;
+    private static final Logger LOGGER = LogManager.getRootLogger();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws
@@ -44,7 +47,17 @@ public class AddNewDeviceService implements Service {
             createNewDevice(request, response);
         } else {
             DeviceTypeDAO deviceTypeDAO = new DeviceTypeDAO();
-            List<DeviceType> deviceTypeList = deviceTypeDAO.getDeviceTypeList();
+            Connection connection = ConnectionPool.getInstance().retrieve();
+            List<DeviceType> deviceTypeList = new ArrayList<>();
+            try {
+                deviceTypeList = deviceTypeDAO.getDeviceTypeList(connection);
+                connection.commit();
+            } catch (SQLException e){
+                LOGGER.error(CANNOT_DOWNLOAD_DEVICE_TYPE_LIST_IN_ADD_NEW_DEVICE_SERVICE, e);
+                connection.rollback();
+            } finally {
+                ConnectionPool.getInstance().putBack(connection);
+            }
             request.setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
             request.setAttribute(DEVICE_TYPE_LIST_SESSION_STATEMENT, deviceTypeList);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(NEW_DEVICE_JSP);
@@ -89,24 +102,31 @@ public class AddNewDeviceService implements Service {
         Device device = new Device();
         FunctionDAO functionDAO = new FunctionDAO();
         Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
+        Connection connection = ConnectionPool.getInstance().retrieve();
         try {
             deviceName = validateDeviceName(request.getParameter(DEVICE_NAME_PARAMETER));
         } catch (ValidationException e) {
-            LOGGER.error(e);
-            LOGGER.error(CANNOT_ADD_NEW_DEVICE);
             deviceMessage = KEY_NEW_DEVICE_MESSAGE_VALID_DEVICE_NAME;
             validationException = true;
         }
-        if (!validationException) {
-            device.setDeviceName(deviceName);
-            device.setDeviceDefinitionID(deviceTypeID);
-            device.setDeviceHomePlacedID(home.getHomeID());
-            device.setDeviceID(deviceDAO.addNewDevice(device));
-            for (FunctionDefinition functionDefinition : functionDefinitionDAO.getFunctionDefinitionList(deviceTypeID)) {
-                Function function = new Function();
-                functionDAO.addNewFunction(function, functionDefinition, device.getDeviceID());
+        try {
+            if (!validationException) {
+                device.setDeviceName(deviceName);
+                device.setDeviceDefinitionID(deviceTypeID);
+                device.setDeviceHomePlacedID(home.getHomeID());
+                device.setDeviceID(deviceDAO.addNewDevice(device, connection));
+                for (FunctionDefinition functionDefinition : functionDefinitionDAO.getFunctionDefinitionList(deviceTypeID, connection)) {
+                    Function function = new Function();
+                    functionDAO.addNewFunction(function, functionDefinition, device.getDeviceID(), connection);
+                }
+                deviceMessage = KEY_NEW_DEVICE_MESSAGE_SUCCESS;
             }
-            deviceMessage = KEY_NEW_DEVICE_MESSAGE_SUCCESS;
+            connection.commit();
+        } catch (SQLException e){
+            LOGGER.error(CANNOT_ADD_NEW_DEVICE_BY_MY_SQL, e);
+            connection.rollback();
+        } finally {
+            ConnectionPool.getInstance().putBack(connection);
         }
         refreshPage(request, response);
     }

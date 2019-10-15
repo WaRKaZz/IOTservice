@@ -1,10 +1,8 @@
 package kz.epam.iotservice.dao;
 
-import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.Device;
 import kz.epam.iotservice.entity.Function;
 import kz.epam.iotservice.entity.FunctionDefinition;
-import kz.epam.iotservice.exception.ConnectionException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,45 +31,34 @@ public class FunctionDAO {
             "F_INT = ?, " +
             "F_STRING = ? " +
             "WHERE FUNCTION_ID = ?";
-    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
     public void addNewFunction(Function function, FunctionDefinition functionDefinition,
-                               Long deviceID) throws SQLException, ConnectionException {
-        Connection connection = CONNECTION_POOL.retrieve();
+                               Long deviceID, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_FUNCTION_SQL)) {
             configureFunctionStatement(function, functionDefinition.getFunctionDefinitionID(), deviceID, preparedStatement);
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void updateFunctionData(Function function) throws SQLException, ConnectionException {
-        Connection connection = CONNECTION_POOL.retrieve();
+    public void updateFunctionData(Function function, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_FUNCTION_DATA_SQL)) {
             preparedStatement.setBoolean(1, function.getFunctionTrue());
             preparedStatement.setInt(2, function.getFunctionInteger());
             preparedStatement.setString(3, function.getFunctionText());
             preparedStatement.setLong(4, function.getFunctionId());
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void deleteFunctionsInDevice(Long deviceID) throws SQLException, ConnectionException {
-        Connection connection = CONNECTION_POOL.retrieve();
+    public void deleteFunctionsInDevice(Long deviceID, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FUNCTIONS_LIST_SQL)) {
             preparedStatement.setLong(1, deviceID);
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public List<Function> getFunctionsList(Device device) throws SQLException, ConnectionException {
+    public List<Function> getFunctionsList(Device device, Connection connection) throws SQLException {
         List<Function> functions = new ArrayList<>();
-        Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_STRING_FUNCTIONS_LIST_SQL)) {
             preparedStatement.setLong(1, device.getDeviceID());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -80,8 +67,6 @@ public class FunctionDAO {
                     functions.add(function);
                 }
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
         return functions;
     }

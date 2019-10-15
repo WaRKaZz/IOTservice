@@ -22,6 +22,7 @@ public class ConnectionPool {
     private static final String CONNECTION_PULL_DRIVER = "driver";
     private static final String CONNECTION_PULL_INIT_CONNECTION_COUNT = "initConnectionCount";
     private static final ConnectionPool INSTANCE = new ConnectionPool();
+    private static final String CAN_NOT_CREATE_CONNECTION_DON_T_SEE_DRIVER = "Can not create connection, don't see Driver";
     private final Locale LOCALE = new Locale(EMPTY_STRING);
     private final ResourceBundle BUNDLE = ResourceBundle.getBundle(CONNECTION_PULL_BUNDLE, LOCALE);
     private final String URL = BUNDLE.getString(CONNECTION_PULL_URL);
@@ -34,7 +35,7 @@ public class ConnectionPool {
         try {
             Class.forName(BUNDLE.getString(CONNECTION_PULL_DRIVER));
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.error(CAN_NOT_CREATE_CONNECTION_DON_T_SEE_DRIVER, e);
         }
         for (int i = 0; i < CONNECTION_AMOUNT; i++) {
             CONNECTION_QUEUE.add(getConnection());
@@ -67,6 +68,7 @@ public class ConnectionPool {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            connection.setAutoCommit(false);
         } catch (SQLException e) {
             LOGGER.error(e);
         }

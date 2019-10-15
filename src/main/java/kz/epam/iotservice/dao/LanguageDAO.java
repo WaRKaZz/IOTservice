@@ -1,8 +1,6 @@
 package kz.epam.iotservice.dao;
 
-import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.Language;
-import kz.epam.iotservice.exception.ConnectionException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,11 +15,9 @@ public class LanguageDAO {
     private static final String GEL_LANGUAGE_LIST_SQL = "SELECT * FROM IOT_DATABASE.LANGUAGE";
     private static final String GEL_LANGUAGE_BY_ID_SQL = "SELECT * FROM IOT_DATABASE.LANGUAGE " +
             "WHERE LANGUAGE_ID = ?";
-    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
-    public List<Language> getListLanguages() throws SQLException, ConnectionException {
+    public List<Language> getListLanguages(Connection connection) throws SQLException {
         List<Language> languageList = new ArrayList<>();
-        Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GEL_LANGUAGE_LIST_SQL)) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -29,23 +25,18 @@ public class LanguageDAO {
                     languageList.add(language);
                 }
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
         return languageList;
     }
 
-    public Language getLanguageByID(Long languageID) throws SQLException, ConnectionException {
+    public Language getLanguageByID(Long languageID, Connection connection) throws SQLException {
         Language language = new Language();
-        Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GEL_LANGUAGE_BY_ID_SQL)) {
             preparedStatement.setLong(1, languageID);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 language = configureLanguageObject(resultSet);
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
         return language;
     }

@@ -1,6 +1,7 @@
 package kz.epam.iotservice.service;
 
 import kz.epam.iotservice.dao.FunctionDAO;
+import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.Device;
 import kz.epam.iotservice.entity.Function;
 import kz.epam.iotservice.entity.Home;
@@ -12,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static kz.epam.iotservice.util.ConstantsForAttributes.*;
@@ -20,6 +22,7 @@ import static kz.epam.iotservice.validation.FunctionValidation.*;
 
 public class DeviceUpdateService implements Service {
     private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final String CANNOT_USE_DATABASE_IN_UPDATING_DEVICE_SERVICE = "Cannot use database in Updating device service";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
@@ -27,13 +30,12 @@ public class DeviceUpdateService implements Service {
         Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
         for (Device device : home.getHomeInstalledDevices()) {
             for (Function function : device.getFunctions()) {
-                if (functionComplectation(request, response, function)) break;
+                functionComplectation(request, response, function);
             }
         }
-
     }
 
-    private boolean functionComplectation(HttpServletRequest request, HttpServletResponse response, Function function) throws IOException, SQLException, ConnectionException {
+    private void functionComplectation(HttpServletRequest request, HttpServletResponse response, Function function) throws IOException, SQLException, ConnectionException {
         String requestValueOfParameter = request.getParameter(String.valueOf(function.getFunctionId()));
         if (requestValueOfParameter != null) {
             try {
@@ -52,19 +54,24 @@ public class DeviceUpdateService implements Service {
                         break;
                 }
             } catch (ValidationException e) {
-                LOGGER.error(e);
-                LOGGER.error("Can not Update device");
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                return true;
             }
         }
-        return false;
     }
 
     private void commitUpdate(Function function, HttpServletResponse response)
             throws IOException, SQLException, ConnectionException {
         FunctionDAO functionDAO = new FunctionDAO();
-        functionDAO.updateFunctionData(function);
+        Connection connection = ConnectionPool.getInstance().retrieve();
+        try {
+            functionDAO.updateFunctionData(function, connection);
+            connection.commit();
+        } catch (SQLException e){
+            LOGGER.error(CANNOT_USE_DATABASE_IN_UPDATING_DEVICE_SERVICE, e);
+            connection.rollback();
+        } finally {
+            ConnectionPool.getInstance().putBack(connection);
+        }
         response.sendRedirect(DEVICES_URI);
     }
 }

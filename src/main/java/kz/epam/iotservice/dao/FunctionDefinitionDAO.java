@@ -1,6 +1,5 @@
 package kz.epam.iotservice.dao;
 
-import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.FunctionDefinition;
 import kz.epam.iotservice.exception.ConnectionException;
 
@@ -23,10 +22,7 @@ public class FunctionDefinitionDAO {
             "= IOT_DATABASE.DEVICE_DEFINITIONS.DEVICE_DEFINITION_ID " +
             "WHERE M_DEVICE_DEFINITION_ID = ? " +
             "ORDER BY DEVICE_DEFINITION_NAME ";
-    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
-
-    public List<FunctionDefinition> getFunctionDefinitionList(Long deviceTypeID) throws SQLException, ConnectionException {
-        Connection connection = CONNECTION_POOL.retrieve();
+    public List<FunctionDefinition> getFunctionDefinitionList(Long deviceTypeID, Connection connection) throws SQLException, ConnectionException {
         List<FunctionDefinition> functionTypeList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_FUNCTION_DEFINITIONS_LIST_SQL)) {
             preparedStatement.setLong(1, deviceTypeID);
@@ -36,8 +32,6 @@ public class FunctionDefinitionDAO {
                     functionTypeList.add(functionType);
                 }
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
         return functionTypeList;
     }

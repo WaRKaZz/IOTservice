@@ -4,6 +4,7 @@ import kz.epam.iotservice.dao.DeviceDAO;
 import kz.epam.iotservice.dao.DeviceTypeDAO;
 import kz.epam.iotservice.dao.FunctionDAO;
 import kz.epam.iotservice.dao.FunctionDefinitionDAO;
+import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.Device;
 import kz.epam.iotservice.entity.DeviceType;
 import kz.epam.iotservice.entity.Function;
@@ -18,7 +19,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static kz.epam.iotservice.util.ConstantsForAttributes.*;
@@ -36,6 +39,7 @@ public class UpdateDeviceService implements Service {
     private static final String KEY_UPDATE_DEVICE_MESSAGE_INCORRECT_PARAMETERS = "key.updateDeviceMessageIncorrectParameters";
     private static final String KEY_UPDATE_DEVICE_MESSAGE_SUCCESS = "key.updateDeviceMessageSuccess";
     private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final String CANNOT_WORK_WITH_DEVICES_AND_FUNCTIONS_IN_MY_SQL = "Cannot work with devices and functions in MySQL";
     private String deviceMessage = KEY_EMPTY;
 
     private static boolean isDeleteDeviceNotPressed(HttpServletRequest request) {
@@ -56,7 +60,17 @@ public class UpdateDeviceService implements Service {
                 updateHomeInSession(request);
             }
             DeviceTypeDAO deviceTypeDAO = new DeviceTypeDAO();
-            List<DeviceType> deviceTypeList = deviceTypeDAO.getDeviceTypeList();
+            Connection connection = ConnectionPool.getInstance().retrieve();
+            List<DeviceType> deviceTypeList = new ArrayList<>();
+            try {
+                deviceTypeList = deviceTypeDAO.getDeviceTypeList(connection);
+                connection.commit();
+            } catch (SQLException e) {
+                LOGGER.error(CANNOT_WORK_WITH_DEVICES_AND_FUNCTIONS_IN_MY_SQL, e);
+                connection.rollback();
+            } finally {
+                ConnectionPool.getInstance().putBack(connection);
+            }
             request.setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
             request.setAttribute(DEVICE_TYPE_LIST_SESSION_STATEMENT, deviceTypeList);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(UPDATE_DEVICE_JSP);
@@ -74,6 +88,7 @@ public class UpdateDeviceService implements Service {
         Long deviceTypeID = (long) 0;
         Long homeID = (long) 0;
         String deviceName = "";
+        Connection connection = ConnectionPool.getInstance().retrieve();
         boolean validationException = false;
         try {
             deviceTypeID = validateID(request.getParameter(DEVICE_TYPE_ID_PARAMETER));
@@ -83,8 +98,6 @@ public class UpdateDeviceService implements Service {
                 deviceName = validateDeviceName(request.getParameter(DEVICE_NAME_PARAMETER));
             }
         } catch (ValidationException e) {
-            LOGGER.error(e);
-            LOGGER.error("Can not change device");
             deviceMessage = KEY_UPDATE_DEVICE_MESSAGE_INCORRECT_PARAMETERS;
             validationException = true;
         }
@@ -93,14 +106,22 @@ public class UpdateDeviceService implements Service {
             device.setDeviceDefinitionID(deviceTypeID);
             device.setDeviceName(deviceName);
             device.setDeviceHomePlacedID(homeID);
-            functionDAO.deleteFunctionsInDevice(device.getDeviceID());
-            deviceDAO.deleteDeviceByID(device.getDeviceID());
-            if (isDeleteDeviceNotPressed(request)) {
-                device.setDeviceID(deviceDAO.addNewDevice(device));
-                for (FunctionDefinition functionDefinition : functionDefinitionDAO.getFunctionDefinitionList(deviceTypeID)) {
-                    Function function = new Function();
-                    functionDAO.addNewFunction(function, functionDefinition, device.getDeviceID());
+            try {
+                functionDAO.deleteFunctionsInDevice(device.getDeviceID(), connection);
+                deviceDAO.deleteDeviceByID(device.getDeviceID(), connection);
+                if (isDeleteDeviceNotPressed(request)) {
+                    device.setDeviceID(deviceDAO.addNewDevice(device, connection));
+                    for (FunctionDefinition functionDefinition : functionDefinitionDAO.getFunctionDefinitionList(deviceTypeID, connection)) {
+                        Function function = new Function();
+                        functionDAO.addNewFunction(function, functionDefinition, device.getDeviceID(), connection);
+                    }
                 }
+                connection.commit();
+            } catch (SQLException e) {
+                LOGGER.error(CANNOT_WORK_WITH_DEVICES_AND_FUNCTIONS_IN_MY_SQL, e);
+                connection.rollback();
+            } finally {
+                ConnectionPool.getInstance().putBack(connection);
             }
             deviceMessage = KEY_UPDATE_DEVICE_MESSAGE_SUCCESS;
         }

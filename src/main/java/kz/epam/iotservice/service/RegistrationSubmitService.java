@@ -1,6 +1,7 @@
 package kz.epam.iotservice.service;
 
 import kz.epam.iotservice.dao.UserDAO;
+import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.User;
 import kz.epam.iotservice.exception.ConnectionException;
 import kz.epam.iotservice.exception.ValidationException;
@@ -12,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static kz.epam.iotservice.util.ConstantsForAttributes.*;
@@ -29,8 +31,8 @@ public class RegistrationSubmitService implements Service {
     private static final String KEY_REGISTRATION_MESSAGE_PASSWORD_INCORRECT = "key.registrationMessagePasswordIncorrect";
     private static final String KEY_REGISTRATION_MESSAGE_LOGIN_EXISTS = "key.registrationMessageLoginExists";
     private static final Logger LOGGER = LogManager.getRootLogger();
-    private static final String INCORRECT_LOGIN = "Incorrect Login";
-    private static final String INCORRECT_PASSWORD = "Incorrect password";
+    private static final String CANNOT_CREATE_NEW_USER_SOME_MY_SQL_PROBLEM = "Cannot create new User, some MySQL problem";
+    private static final String CANNOT_CHECK_USER_MY_SQL_PROBLEM_REGISTRATION_SUBMIT_SERVICE = "Cannot check user, MySQL problem (Registration submit service)";
     private final User user = new User();
     private String registrationMessage = KEY_EMPTY;
 
@@ -40,8 +42,16 @@ public class RegistrationSubmitService implements Service {
         RequestDispatcher requestDispatcher;
         UserDAO userDAO = new UserDAO();
         if (isRegistrationCorrect(request) && isUserNotExists(userDAO)) {
-            userDAO.addNewUser(user);
-            userDAO.getUserByLogin(user.getUserLogin());
+            Connection connection = ConnectionPool.getInstance().retrieve();
+            try {
+                userDAO.addNewUser(user, connection);
+                connection.commit();
+            } catch (SQLException e) {
+                LOGGER.error(CANNOT_CREATE_NEW_USER_SOME_MY_SQL_PROBLEM, e);
+                connection.rollback();
+            } finally {
+                ConnectionPool.getInstance().putBack(connection);
+            }
             request.getSession().setAttribute(USER_SESSION_STATEMENT, user);
             requestDispatcher = request.getRequestDispatcher(DEVICE_VIEW_JSP);
         } else {
@@ -60,8 +70,6 @@ public class RegistrationSubmitService implements Service {
         try {
             user.setUserLogin(validateLogin(login));
         } catch (ValidationException e) {
-            LOGGER.error(e);
-            LOGGER.error(INCORRECT_LOGIN);
             registrationMessage = KEY_REGISTRATION_MESSAGE_LOGIN_INCORRECT;
             isCorrect = false;
         }
@@ -73,8 +81,6 @@ public class RegistrationSubmitService implements Service {
                 user.setUserPassword(encryptPassword(validatePassword(password)));
             }
         } catch (ValidationException e) {
-            LOGGER.error(e);
-            LOGGER.error(INCORRECT_PASSWORD);
             registrationMessage = KEY_REGISTRATION_MESSAGE_PASSWORD_INCORRECT;
             isCorrect = false;
         }
@@ -84,7 +90,17 @@ public class RegistrationSubmitService implements Service {
 
     private boolean isUserNotExists(UserDAO userDAO) throws SQLException, ConnectionException {
         boolean isNotExists = false;
-        User checkUser = userDAO.getUserByLogin(user.getUserLogin());
+        Connection connection = ConnectionPool.getInstance().retrieve();
+        User checkUser = new User();
+        try {
+            checkUser = userDAO.getUserByLogin(user.getUserLogin(), connection);
+            connection.commit();
+        } catch (SQLException e) {
+            LOGGER.error(CANNOT_CHECK_USER_MY_SQL_PROBLEM_REGISTRATION_SUBMIT_SERVICE, e);
+            connection.rollback();
+        } finally {
+            ConnectionPool.getInstance().putBack(connection);
+        }
         if (checkUser.getUserID().equals(Long.parseLong(STRING_ZERO))) {
             isNotExists = true;
         }

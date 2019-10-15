@@ -1,9 +1,7 @@
 package kz.epam.iotservice.dao;
 
-import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.Device;
 import kz.epam.iotservice.entity.Home;
-import kz.epam.iotservice.exception.ConnectionException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,11 +24,10 @@ public class DeviceDAO {
             "WHERE HOME_PLACED_ID = ? " +
             "ORDER BY DEVICE_NAME";
     private final static String GET_LAST_INSERTED_ID = "SELECT LAST_INSERT_ID()";
-    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
-    public List<Device> getDevicesList(Home home) throws SQLException, ConnectionException {
+    public List<Device> getDevicesList(Home home, Connection connection) throws SQLException {
         List<Device> devices = new ArrayList<>();
-        Connection connection = CONNECTION_POOL.retrieve();
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_DEVICE_LIST_IN_HOME_SQL)) {
             preparedStatement.setLong(1, home.getHomeID());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -39,14 +36,11 @@ public class DeviceDAO {
                     devices.add(device);
                 }
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
         return devices;
     }
 
-    public Long addNewDevice(Device device) throws SQLException, ConnectionException {
-        Connection connection = CONNECTION_POOL.retrieve();
+    public Long addNewDevice(Device device, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_DEVICE_SQL)) {
             configureDeviceStatement(device, preparedStatement);
             preparedStatement.executeUpdate();
@@ -58,19 +52,14 @@ public class DeviceDAO {
                     lastDeviceID = resultSet.getLong(1);
                 }
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
         return lastDeviceID;
     }
 
-    public void deleteDeviceByID(Long deviceID) throws SQLException, ConnectionException {
-        Connection connection = CONNECTION_POOL.retrieve();
+    public void deleteDeviceByID(Long deviceID, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_DEVICE_SQL)) {
             preparedStatement.setLong(1, deviceID);
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 

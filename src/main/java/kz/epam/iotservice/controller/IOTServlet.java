@@ -23,8 +23,7 @@ public class IOTServlet extends HttpServlet {
         try {
             service.execute(request, response);
         } catch (SQLException | IOException | ConnectionException e) {
-            LOGGER.error(e);
-            LOGGER.error(SERVICE_CANNOT_BE_EXECUTED);
+            LOGGER.error(SERVICE_CANNOT_BE_EXECUTED, e);
         } catch (Exception e) {
             LOGGER.error(e);
             throw new ServletException(e);

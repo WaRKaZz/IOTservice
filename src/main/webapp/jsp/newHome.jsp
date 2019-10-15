@@ -29,7 +29,7 @@
           </form>         
         </div>
         <br>
-        <p class="text-center"><fmt:message key="${sessionScope.homeMessage}"/></p>	
+        <p class="text-center"><fmt:message key="${homeMessage}"/></p>	
 	</main>
 	<jsp:include page="javascriptIntegration.jsp"></jsp:include>
 </body>

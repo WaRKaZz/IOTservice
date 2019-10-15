@@ -1,9 +1,7 @@
 package kz.epam.iotservice.dao;
 
-import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.Home;
 import kz.epam.iotservice.entity.User;
-import kz.epam.iotservice.exception.ConnectionException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,11 +33,9 @@ public class HomeDAO {
             "(USER_ID, HOME_ID, USER_HOME_ROLE) " +
             "VALUES (?, ?, ?)";
     private final static String GET_LAST_INSERTED_ID = "SELECT LAST_INSERT_ID()";
-    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
-    public Home getHomeByID(long homeID) throws SQLException, ConnectionException {
+    public Home getHomeByID(long homeID, Connection connection) throws SQLException {
         Home home = new Home();
-        Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_HOME_BY_ID_SQL)) {
             preparedStatement.setLong(1, homeID);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -47,16 +43,13 @@ public class HomeDAO {
                     home = configureHomeObject(resultSet);
                 }
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
         return home;
     }
 
 
-    public List<Home> getHomeListByRole(User user, int role) throws SQLException, ConnectionException {
+    public List<Home> getHomeListByRole(User user, int role, Connection connection) throws SQLException {
         List<Home> homeList = new ArrayList<>();
-        Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_HOME_LIST_BY_USER_AND_ROLE)) {
             preparedStatement.setLong(1, user.getUserID());
             preparedStatement.setInt(2, role);
@@ -66,14 +59,11 @@ public class HomeDAO {
                     homeList.add(home);
                 }
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
         return homeList;
     }
 
-    public void deleteHome(Long homeID) throws SQLException, ConnectionException {
-        Connection connection = CONNECTION_POOL.retrieve();
+    public void deleteHome(Long homeID, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HOME_IN_USER_TO_HOME_TABLE)) {
             preparedStatement.setLong(1, homeID);
             preparedStatement.executeUpdate();
@@ -81,14 +71,11 @@ public class HomeDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HOME_IN_HOME_TABLE_SQL)) {
             preparedStatement.setLong(1, homeID);
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public Long addNewHome(Home home) throws SQLException, ConnectionException {
+    public Long addNewHome(Home home, Connection connection) throws SQLException {
         long createdHomeID = (long) 0;
-        Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_NEW_HOME_SQL)) {
             configureHomeStatement(home, preparedStatement);
             preparedStatement.executeUpdate();
@@ -98,34 +85,26 @@ public class HomeDAO {
             while (resultSet.next()) {
                 createdHomeID = resultSet.getLong(1);
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
         return createdHomeID;
     }
 
-    public void addHomeDependencyAdministrator(Long homeID, Long userID) throws SQLException, ConnectionException {
+    public void addHomeDependencyAdministrator(Long homeID, Long userID, Connection connection) throws SQLException {
         final int ADMIN_ROLE_IN_HOME = 1;
-        Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_DEPENDENCY_TO_USER_TO_HOME_SQL)) {
             preparedStatement.setLong(1, userID);
             preparedStatement.setLong(2, homeID);
             preparedStatement.setInt(3, ADMIN_ROLE_IN_HOME);
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void updateHome(Home home) throws SQLException, ConnectionException {
-        Connection connection = CONNECTION_POOL.retrieve();
+    public void updateHome(Home home, Connection connection) throws SQLException {
         final int HOME_ID_POSITION = 3;
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_HOME_SQL)) {
             configureHomeStatement(home, preparedStatement);
             preparedStatement.setLong(HOME_ID_POSITION, home.getHomeID());
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 
