@@ -7,6 +7,7 @@ import kz.epam.iotservice.entity.Function;
 import kz.epam.iotservice.entity.Home;
 import kz.epam.iotservice.exception.ConnectionException;
 import kz.epam.iotservice.exception.ValidationException;
+import kz.epam.iotservice.service.manager.HomeManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,7 +19,6 @@ import java.sql.SQLException;
 
 import static kz.epam.iotservice.constants.Attributes.*;
 import static kz.epam.iotservice.constants.Uri.DEVICES_URI;
-import static kz.epam.iotservice.util.ServiceManagement.configureByHomeID;
 import static kz.epam.iotservice.validation.FunctionValidation.*;
 
 public class DeviceUpdateService implements Service {
@@ -29,7 +29,8 @@ public class DeviceUpdateService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, SQLException, ConnectionException {
         Long homeID = (Long) request.getSession().getAttribute(CURRENT_USER_HOME_ID_PARAMETER);
-        Home home = configureByHomeID(homeID);
+        HomeManager homeManager = new HomeManager();
+        Home home = homeManager.configureByHomeID(homeID);
         for (Device device : home.getHomeInstalledDevices()) {
             for (Function function : device.getFunctions()) {
                 functionComplectation(request, response, function);

@@ -5,6 +5,7 @@ import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.Home;
 import kz.epam.iotservice.entity.User;
 import kz.epam.iotservice.exception.ConnectionException;
+import kz.epam.iotservice.service.manager.HomeManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +21,6 @@ import java.util.List;
 
 import static kz.epam.iotservice.constants.Attributes.*;
 import static kz.epam.iotservice.constants.Jsp.MAIN_PAGE_JSP;
-import static kz.epam.iotservice.util.ServiceManagement.loadHomeIntoRequest;
 
 
 public class MainPageService implements Service {
@@ -33,7 +33,8 @@ public class MainPageService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException, SQLException, ConnectionException {
         loadHomeList(request);
-        loadHomeIntoRequest(request);
+        HomeManager homeManager = new HomeManager();
+        homeManager.loadHomeIntoRequest(request);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(MAIN_PAGE_JSP);
         requestDispatcher.forward(request, response);
     }

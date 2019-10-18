@@ -8,6 +8,7 @@ import kz.epam.iotservice.database.ConnectionPool;
 import kz.epam.iotservice.entity.*;
 import kz.epam.iotservice.exception.ConnectionException;
 import kz.epam.iotservice.exception.ValidationException;
+import kz.epam.iotservice.service.manager.HomeManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,6 +38,7 @@ public class AddNewDeviceService implements Service {
     private static final String CANNOT_ADD_NEW_DEVICE_BY_MY_SQL = "Cannot add new device by MySQL";
     private static final String CANNOT_DOWNLOAD_DEVICE_TYPE_LIST_IN_ADD_NEW_DEVICE_SERVICE = "Cannot download device type list in add new device service";
     private static final Logger LOGGER = LogManager.getRootLogger();
+    private final HomeManager homeManager = new HomeManager();
     private String deviceMessage = KEY_EMPTY;
 
     @Override
@@ -58,7 +60,7 @@ public class AddNewDeviceService implements Service {
             } finally {
                 ConnectionPool.getInstance().putBack(connection);
             }
-            loadHomeIntoRequest(request);
+            homeManager.loadHomeIntoRequest(request);
             request.setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
             request.setAttribute(DEVICE_TYPE_LIST_SESSION_STATEMENT, deviceTypeList);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(NEW_DEVICE_JSP);
@@ -74,7 +76,7 @@ public class AddNewDeviceService implements Service {
             homeAdminList.add((Home) o);
         }
         Long homeID = (Long) request.getSession().getAttribute(CURRENT_USER_HOME_ID_PARAMETER);
-        Home home = configureByHomeID(homeID);
+        Home home = homeManager.configureByHomeID(homeID);
         for (Home homeInList : homeAdminList) {
             if (homeInList.equals(home)) {
                 homeContains = true;
@@ -104,7 +106,7 @@ public class AddNewDeviceService implements Service {
         Device device = new Device();
         FunctionDAO functionDAO = new FunctionDAO();
         Long homeID = (Long) request.getSession().getAttribute(CURRENT_USER_HOME_ID_PARAMETER);
-        Home home = configureByHomeID(homeID);
+        Home home = homeManager.configureByHomeID(homeID);
         Connection connection = ConnectionPool.getInstance().retrieve();
         try {
             deviceName = validateDeviceName(request.getParameter(DEVICE_NAME_PARAMETER));

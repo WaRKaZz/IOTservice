@@ -11,6 +11,7 @@ import kz.epam.iotservice.entity.Function;
 import kz.epam.iotservice.entity.FunctionDefinition;
 import kz.epam.iotservice.exception.ConnectionException;
 import kz.epam.iotservice.exception.ValidationException;
+import kz.epam.iotservice.service.manager.HomeManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +31,6 @@ import static kz.epam.iotservice.constants.Jsp.UPDATE_DEVICE_JSP;
 import static kz.epam.iotservice.constants.Other.KEY_EMPTY;
 import static kz.epam.iotservice.constants.Other.TRUE;
 import static kz.epam.iotservice.util.ServiceManagement.isApplyPressed;
-import static kz.epam.iotservice.util.ServiceManagement.loadHomeIntoRequest;
 import static kz.epam.iotservice.validation.DeviceValidator.validateDeviceName;
 import static kz.epam.iotservice.validation.DeviceValidator.validateID;
 
@@ -56,7 +56,8 @@ public class UpdateDeviceService implements Service {
         if (isApplyPressed(request)) {
             updateDevice(request, response);
         } else {
-            loadHomeIntoRequest(request);
+            HomeManager homeManager = new HomeManager();
+            homeManager.loadHomeIntoRequest(request);
             DeviceTypeDAO deviceTypeDAO = new DeviceTypeDAO();
             Connection connection = ConnectionPool.getInstance().retrieve();
             List<DeviceType> deviceTypeList = new ArrayList<>();
