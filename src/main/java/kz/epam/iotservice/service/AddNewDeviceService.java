@@ -48,24 +48,28 @@ public class AddNewDeviceService implements Service {
         if (isApplyPressed(request) && isHomeAdmin(request)) {
             createNewDevice(request, response);
         } else {
-            DeviceTypeDAO deviceTypeDAO = new DeviceTypeDAO();
-            Connection connection = ConnectionPool.getInstance().retrieve();
-            List<DeviceType> deviceTypeList = new ArrayList<>();
-            try {
-                deviceTypeList = deviceTypeDAO.getDeviceTypeList(connection);
-                connection.commit();
-            } catch (SQLException e) {
-                LOGGER.error(CANNOT_DOWNLOAD_DEVICE_TYPE_LIST_IN_ADD_NEW_DEVICE_SERVICE, e);
-                connection.rollback();
-            } finally {
-                ConnectionPool.getInstance().putBack(connection);
-            }
-            homeManager.loadHomeIntoRequest(request);
-            request.setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
-            request.setAttribute(DEVICE_TYPE_LIST_SESSION_STATEMENT, deviceTypeList);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(NEW_DEVICE_JSP);
-            requestDispatcher.forward(request, response);
+            displayPage(request, response);
         }
+    }
+
+    private void displayPage(HttpServletRequest request, HttpServletResponse response) throws SQLException, ConnectionException, ServletException, IOException {
+        DeviceTypeDAO deviceTypeDAO = new DeviceTypeDAO();
+        Connection connection = ConnectionPool.getInstance().retrieve();
+        List<DeviceType> deviceTypeList = new ArrayList<>();
+        try {
+            deviceTypeList = deviceTypeDAO.getDeviceTypeList(connection);
+            connection.commit();
+        } catch (SQLException e) {
+            LOGGER.error(CANNOT_DOWNLOAD_DEVICE_TYPE_LIST_IN_ADD_NEW_DEVICE_SERVICE, e);
+            connection.rollback();
+        } finally {
+            ConnectionPool.getInstance().putBack(connection);
+        }
+        homeManager.loadHomeIntoRequest(request);
+        request.setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
+        request.setAttribute(DEVICE_TYPE_LIST_SESSION_STATEMENT, deviceTypeList);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(NEW_DEVICE_JSP);
+        requestDispatcher.forward(request, response);
     }
 
     private boolean isHomeAdmin(HttpServletRequest request) throws SQLException, ConnectionException {
