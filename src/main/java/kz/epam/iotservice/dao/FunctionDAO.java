@@ -15,18 +15,18 @@ import static kz.epam.iotservice.util.DatabaseConstants.*;
 
 public class FunctionDAO {
 
-    private final static String ADD_NEW_FUNCTION_SQL = "INSERT INTO IOT_DATABASE.FUNCTIONS " +
+    private static final String ADD_NEW_FUNCTION_SQL = "INSERT INTO IOT_DATABASE.FUNCTIONS " +
             "(F_BOOL, F_INT, F_STRING, FUNCTION_DEFINITION_ID, FUNCTION_DEVICE_ID) " +
             "VALUES (?, ?, ?, ?, ?)";
-    private final static String GET_STRING_FUNCTIONS_LIST_SQL = "SELECT * FROM IOT_DATABASE.FUNCTIONS " +
+    private static final String GET_STRING_FUNCTIONS_LIST_SQL = "SELECT * FROM IOT_DATABASE.FUNCTIONS " +
             "LEFT JOIN IOT_DATABASE.FUNCTION_DEFINITIONS " +
             "ON IOT_DATABASE.FUNCTIONS.FUNCTION_DEFINITION_ID " +
             "= IOT_DATABASE.FUNCTION_DEFINITIONS.FUNCTION_DEFINITION_ID " +
             "WHERE FUNCTION_DEVICE_ID = ? " +
             "ORDER BY FUNCTION_NAME ";
-    private final static String DELETE_FUNCTIONS_LIST_SQL = "DELETE FROM IOT_DATABASE.FUNCTIONS " +
+    private static final String DELETE_FUNCTIONS_LIST_SQL = "DELETE FROM IOT_DATABASE.FUNCTIONS " +
             "WHERE FUNCTION_DEVICE_ID = ?";
-    private final static String UPDATE_FUNCTION_DATA_SQL = "UPDATE IOT_DATABASE.FUNCTIONS " +
+    private static final String UPDATE_FUNCTION_DATA_SQL = "UPDATE IOT_DATABASE.FUNCTIONS " +
             "SET F_BOOL = ?, " +
             "F_INT = ?, " +
             "F_STRING = ? " +

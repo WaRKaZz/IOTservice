@@ -13,7 +13,7 @@ import java.util.List;
 import static kz.epam.iotservice.util.DatabaseConstants.*;
 
 public class FunctionDefinitionDAO {
-    private final static String GET_FUNCTION_DEFINITIONS_LIST_SQL = "SELECT * FROM IOT_DATABASE.DEFINITIONS_MANY_TO_MANY " +
+    private static final String GET_FUNCTION_DEFINITIONS_LIST_SQL = "SELECT * FROM IOT_DATABASE.DEFINITIONS_MANY_TO_MANY " +
             "LEFT JOIN IOT_DATABASE.FUNCTION_DEFINITIONS " +
             "ON IOT_DATABASE.DEFINITIONS_MANY_TO_MANY.M_FUNCTION_DEFINITION_ID " +
             "= IOT_DATABASE.FUNCTION_DEFINITIONS.FUNCTION_DEFINITION_ID " +

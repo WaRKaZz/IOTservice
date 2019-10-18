@@ -13,26 +13,26 @@ import java.util.List;
 import static kz.epam.iotservice.util.DatabaseConstants.*;
 
 public class HomeDAO {
-    private final static String GET_HOME_BY_ID_SQL = "SELECT * FROM  IOT_DATABASE.HOME WHERE HOME_ID = ?";
-    private final static String UPDATE_HOME_SQL = "UPDATE IOT_DATABASE.HOME " +
+    private static final String GET_HOME_BY_ID_SQL = "SELECT * FROM  IOT_DATABASE.HOME WHERE HOME_ID = ?";
+    private static final String UPDATE_HOME_SQL = "UPDATE IOT_DATABASE.HOME " +
             "SET HOME_NAME = ?, " +
             "HOME_ADDRESS = ?" +
             "WHERE HOME_ID = ?";
-    private final static String ADD_NEW_HOME_SQL = "INSERT INTO IOT_DATABASE.HOME (HOME_NAME, HOME_ADDRESS) " +
+    private static final String ADD_NEW_HOME_SQL = "INSERT INTO IOT_DATABASE.HOME (HOME_NAME, HOME_ADDRESS) " +
             "VALUES (?, ?)";
-    private final static String DELETE_HOME_IN_HOME_TABLE_SQL = "DELETE FROM IOT_DATABASE.HOME " +
+    private static final String DELETE_HOME_IN_HOME_TABLE_SQL = "DELETE FROM IOT_DATABASE.HOME " +
             "WHERE HOME_ID = ?";
-    private final static String DELETE_HOME_IN_USER_TO_HOME_TABLE = "DELETE FROM IOT_DATABASE.USER_TO_HOME " +
+    private static final String DELETE_HOME_IN_USER_TO_HOME_TABLE = "DELETE FROM IOT_DATABASE.USER_TO_HOME " +
             "WHERE HOME_ID = ?";
-    private final static String GET_HOME_LIST_BY_USER_AND_ROLE = "SELECT * FROM IOT_DATABASE.USER_TO_HOME LEFT JOIN " +
+    private static final String GET_HOME_LIST_BY_USER_AND_ROLE = "SELECT * FROM IOT_DATABASE.USER_TO_HOME LEFT JOIN " +
             "IOT_DATABASE.HOME " +
             "ON IOT_DATABASE.USER_TO_HOME.HOME_ID " +
             "= IOT_DATABASE.HOME.HOME_ID " +
             "WHERE USER_ID = ? AND USER_HOME_ROLE = ?";
-    private final static String ADD_DEPENDENCY_TO_USER_TO_HOME_SQL = "INSERT INTO IOT_DATABASE.USER_TO_HOME " +
+    private static final String ADD_DEPENDENCY_TO_USER_TO_HOME_SQL = "INSERT INTO IOT_DATABASE.USER_TO_HOME " +
             "(USER_ID, HOME_ID, USER_HOME_ROLE) " +
             "VALUES (?, ?, ?)";
-    private final static String GET_LAST_INSERTED_ID = "SELECT LAST_INSERT_ID()";
+    private static final String GET_LAST_INSERTED_ID = "SELECT LAST_INSERT_ID()";
 
     public Home getHomeByID(long homeID, Connection connection) throws SQLException {
         Home home = new Home();

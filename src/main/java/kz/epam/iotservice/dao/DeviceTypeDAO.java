@@ -14,7 +14,7 @@ import static kz.epam.iotservice.util.DatabaseConstants.DEVICE_DEFINITION_NAME;
 
 
 public class DeviceTypeDAO {
-    private final static String GET_DEVICE_TYPE_LIST_SQL = "SELECT * FROM IOT_DATABASE.DEVICE_DEFINITIONS " +
+    private static final String GET_DEVICE_TYPE_LIST_SQL = "SELECT * FROM IOT_DATABASE.DEVICE_DEFINITIONS " +
             "ORDER BY DEVICE_DEFINITION_NAME";
 
     public List<DeviceType> getDeviceTypeList(Connection connection) throws SQLException {

@@ -13,19 +13,19 @@ import static kz.epam.iotservice.util.DatabaseConstants.*;
 
 
 public class UserDAO {
-    private final static String GET_USER_BY_LOGIN_SQL = "SELECT * FROM  IOT_DATABASE.USER WHERE USER_LOGIN = ?";
-    private final static String GET_ALL_USER_LIST = "SELECT * FROM IOT_DATABASE.USER WHERE USER_ROLE > 1";
-    private final static String ADD_NEW_USER_SQL = "INSERT INTO IOT_DATABASE.USER " +
+    private static final String GET_USER_BY_LOGIN_SQL = "SELECT * FROM  IOT_DATABASE.USER WHERE USER_LOGIN = ?";
+    private static final String GET_ALL_USER_LIST = "SELECT * FROM IOT_DATABASE.USER WHERE USER_ROLE > 1";
+    private static final String ADD_NEW_USER_SQL = "INSERT INTO IOT_DATABASE.USER " +
             "(USER_LOGIN, USER_ROLE, USER_PASSWORD, USER_BLOCKED) " +
             "VALUES (?, ?, ?, ?)";
-    private final static String UPDATE_USER_SQL = "UPDATE IOT_DATABASE.USER SET USER_LOGIN = ?, " +
+    private static final String UPDATE_USER_SQL = "UPDATE IOT_DATABASE.USER SET USER_LOGIN = ?, " +
             "USER_ROLE = ?, " +
             "USER_PASSWORD = ?, " +
             "USER_BLOCKED = ? " +
             "WHERE USER_ID = ?";
-    private final static String BLOCK_USER_BY_ID_SQL = "UPDATE IOT_DATABASE.USER SET USER_BLOCKED = true " +
+    private static final String BLOCK_USER_BY_ID_SQL = "UPDATE IOT_DATABASE.USER SET USER_BLOCKED = true " +
             "WHERE USER_ID = ? AND USER_ROLE > 1";
-    private final static String UNBLOCK_USER_BY_ID_SQL = "UPDATE IOT_DATABASE.USER SET USER_BLOCKED = false " +
+    private static final String UNBLOCK_USER_BY_ID_SQL = "UPDATE IOT_DATABASE.USER SET USER_BLOCKED = false " +
             "WHERE USER_ID = ? AND USER_ROLE > 1";
 
     public List getUsersList(Connection connection) throws SQLException {

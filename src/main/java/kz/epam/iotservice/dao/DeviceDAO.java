@@ -13,17 +13,17 @@ import java.util.List;
 import static kz.epam.iotservice.util.DatabaseConstants.*;
 
 public class DeviceDAO {
-    private final static String ADD_NEW_DEVICE_SQL = "INSERT INTO IOT_DATABASE.DEVICE" +
+    private static final String ADD_NEW_DEVICE_SQL = "INSERT INTO IOT_DATABASE.DEVICE" +
             " (DEVICE_NAME, DEVICE_DEFINITION_TO_DEVICE, HOME_PLACED_ID)" +
             " VALUES (?, ?, ?)";
-    private final static String DELETE_DEVICE_SQL = "DELETE FROM IOT_DATABASE.DEVICE WHERE DEVICE_ID = ?";
-    private final static String GET_DEVICE_LIST_IN_HOME_SQL = "SELECT * FROM IOT_DATABASE.DEVICE " +
+    private static final String DELETE_DEVICE_SQL = "DELETE FROM IOT_DATABASE.DEVICE WHERE DEVICE_ID = ?";
+    private static final String GET_DEVICE_LIST_IN_HOME_SQL = "SELECT * FROM IOT_DATABASE.DEVICE " +
             "LEFT JOIN IOT_DATABASE.DEVICE_DEFINITIONS " +
             "ON IOT_DATABASE.DEVICE.DEVICE_DEFINITION_TO_DEVICE " +
             "= IOT_DATABASE.DEVICE_DEFINITIONS.DEVICE_DEFINITION_ID " +
             "WHERE HOME_PLACED_ID = ? " +
             "ORDER BY DEVICE_NAME";
-    private final static String GET_LAST_INSERTED_ID = "SELECT LAST_INSERT_ID()";
+    private static final String GET_LAST_INSERTED_ID = "SELECT LAST_INSERT_ID()";
 
     public List<Device> getDevicesList(Home home, Connection connection) throws SQLException {
         List<Device> devices = new ArrayList<>();
