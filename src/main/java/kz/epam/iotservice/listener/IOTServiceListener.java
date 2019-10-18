@@ -35,17 +35,17 @@ public class IOTServiceListener implements ServletContextListener {
             lang = languageDAO.getLanguageByID(DEFAULT_LANGUAGE_PARAMETER, connection);
             languages = languageDAO.getListLanguages(connection);
             connection.commit();
-        }  catch (SQLException e) {
+        } catch (SQLException e) {
             LOGGER.error(CANNOT_REALIZE_LANGUAGES, e);
             try {
                 connection.rollback();
-            } catch (SQLException e1){
+            } catch (SQLException e1) {
                 LOGGER.error(DRIVER_IS_BROKEN, e);
             }
         } finally {
             try {
                 ConnectionPool.getInstance().putBack(connection);
-            } catch (ConnectionException e){
+            } catch (ConnectionException e) {
                 LOGGER.error(DRIVER_IS_BROKEN, e);
             }
         }

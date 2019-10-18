@@ -34,13 +34,13 @@ public final class ServiceManagement {
 
     public static void loadHomeIntoRequest(HttpServletRequest request) throws SQLException, ConnectionException {
         Long homeID = (Long) request.getSession().getAttribute(CURRENT_USER_HOME_ID_PARAMETER);
-        if (homeID != null){
+        if (homeID != null) {
             Home home = configureByHomeID(homeID);
             request.setAttribute(HOME_SESSION_STATEMENT, home);
         }
     }
 
-    public static Home configureByHomeID(Long homeID) throws SQLException, ConnectionException{
+    public static Home configureByHomeID(Long homeID) throws SQLException, ConnectionException {
         Home home = new Home();
         HomeDAO homeDAO = new HomeDAO();
         FunctionDAO functionDAO = new FunctionDAO();
@@ -50,7 +50,7 @@ public final class ServiceManagement {
         try {
             home = homeDAO.getHomeByID(homeID, connection);
             home.setHomeInstalledDevices(deviceDAO.getDevicesList(home, connection));
-            for (Device device: home.getHomeInstalledDevices()) {
+            for (Device device : home.getHomeInstalledDevices()) {
                 device.setFunctions(functionDAO.getFunctionsList(device, connection));
                 homeInstalledDevices.add(device);
             }

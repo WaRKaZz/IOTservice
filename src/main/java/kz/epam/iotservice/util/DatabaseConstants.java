@@ -27,6 +27,7 @@ public final class DatabaseConstants {
     public static final String USER_ROLE = "USER_ROLE";
     public static final String USER_PASSWORD = "USER_PASSWORD";
     public static final String USER_BLOCKED = "USER_BLOCKED";
+
     private DatabaseConstants() {
     }
 }

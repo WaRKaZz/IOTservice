@@ -1,7 +1,6 @@
 package kz.epam.iotservice.dao;
 
 import kz.epam.iotservice.entity.FunctionDefinition;
-import kz.epam.iotservice.exception.ConnectionException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,7 +21,8 @@ public class FunctionDefinitionDAO {
             "= IOT_DATABASE.DEVICE_DEFINITIONS.DEVICE_DEFINITION_ID " +
             "WHERE M_DEVICE_DEFINITION_ID = ? " +
             "ORDER BY DEVICE_DEFINITION_NAME ";
-    public List<FunctionDefinition> getFunctionDefinitionList(Long deviceTypeID, Connection connection) throws SQLException, ConnectionException {
+
+    public List<FunctionDefinition> getFunctionDefinitionList(Long deviceTypeID, Connection connection) throws SQLException {
         List<FunctionDefinition> functionTypeList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_FUNCTION_DEFINITIONS_LIST_SQL)) {
             preparedStatement.setLong(1, deviceTypeID);

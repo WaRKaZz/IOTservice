@@ -7,9 +7,6 @@ import static kz.epam.iotservice.util.ConstantsUri.*;
 
 public class ServiceFactory {
 
-    private ServiceFactory() {
-    }
-
     private static final Map<String, Service> FACTORY_MAP = new HashMap<>();
 
     static {
@@ -30,6 +27,9 @@ public class ServiceFactory {
         FACTORY_MAP.put(ADMINISTRATION_URI, new UserAdministrationService());
         FACTORY_MAP.put(PROFILE_URI, new ProfileService());
         FACTORY_MAP.put(LANGUAGE_URI, new ChangeLanguageService());
+    }
+
+    private ServiceFactory() {
     }
 
     public static synchronized Service getService(String serviceRequest) {

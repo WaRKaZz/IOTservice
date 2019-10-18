@@ -42,7 +42,7 @@ public class ChangeLanguageService implements Service {
         try {
             request.getServletContext().setAttribute(LANG_CONTEXT_STATEMENT, languageDAO.getLanguageByID(languageID, connection));
             connection.commit();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(CANNOT_DOWNLOAD_LANGUAGE_LIST, e);
             connection.rollback();
         } finally {

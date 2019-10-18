@@ -33,7 +33,7 @@ public class LanguageDAO {
         Language language = new Language();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GEL_LANGUAGE_BY_ID_SQL)) {
             preparedStatement.setLong(1, languageID);
-            try (ResultSet resultSet = preparedStatement.executeQuery();){
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     language = configureLanguageObject(resultSet);
                 }

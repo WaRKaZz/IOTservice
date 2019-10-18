@@ -68,7 +68,7 @@ public class DeviceUpdateService implements Service {
         try {
             functionDAO.updateFunctionData(function, connection);
             connection.commit();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(CANNOT_USE_DATABASE_IN_UPDATING_DEVICE_SERVICE, e);
             connection.rollback();
         } finally {

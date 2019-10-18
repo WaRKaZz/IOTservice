@@ -15,6 +15,7 @@ public class JspConstants {
     public static final String SETTINGS_JSP = "jsp/settings.jsp";
     public static final String UPDATE_HOME_JSP = "jsp/updateHome.jsp";
     public static final String USER_ADMINISTRATION_JSP = "jsp/userAdministration.jsp";
+
     private JspConstants() {
     }
 }

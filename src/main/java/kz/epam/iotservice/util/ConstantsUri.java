@@ -20,6 +20,7 @@ public final class ConstantsUri {
     public static final String ADMINISTRATION_URI = "/administration";
     public static final String PROFILE_URI = "/profile";
     public static final String LANGUAGE_URI = "/language";
+
     private ConstantsUri() {
     }
 }

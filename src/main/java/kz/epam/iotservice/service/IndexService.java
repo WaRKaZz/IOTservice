@@ -33,7 +33,7 @@ public class IndexService implements Service {
         try {
             guest = userDAO.getUserByLogin(GUEST, connection);
             connection.commit();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(CANNOT_GET_GUEST_USER_IN_INDEX_SERVICE, e);
             connection.rollback();
         } finally {

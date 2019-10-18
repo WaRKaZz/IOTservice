@@ -36,8 +36,8 @@ public class AddNewDeviceService implements Service {
     private static final String KEY_NEW_DEVICE_MESSAGE_SUCCESS = "key.newDeviceMessageSuccess";
     private static final String CANNOT_ADD_NEW_DEVICE_BY_MY_SQL = "Cannot add new device by MySQL";
     private static final String CANNOT_DOWNLOAD_DEVICE_TYPE_LIST_IN_ADD_NEW_DEVICE_SERVICE = "Cannot download device type list in add new device service";
-    private String deviceMessage = KEY_EMPTY;
     private static final Logger LOGGER = LogManager.getRootLogger();
+    private String deviceMessage = KEY_EMPTY;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws
@@ -52,7 +52,7 @@ public class AddNewDeviceService implements Service {
             try {
                 deviceTypeList = deviceTypeDAO.getDeviceTypeList(connection);
                 connection.commit();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 LOGGER.error(CANNOT_DOWNLOAD_DEVICE_TYPE_LIST_IN_ADD_NEW_DEVICE_SERVICE, e);
                 connection.rollback();
             } finally {
@@ -125,7 +125,7 @@ public class AddNewDeviceService implements Service {
                 deviceMessage = KEY_NEW_DEVICE_MESSAGE_SUCCESS;
             }
             connection.commit();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(CANNOT_ADD_NEW_DEVICE_BY_MY_SQL, e);
             connection.rollback();
         } finally {

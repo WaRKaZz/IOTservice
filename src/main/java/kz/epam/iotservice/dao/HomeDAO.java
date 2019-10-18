@@ -81,7 +81,7 @@ public class HomeDAO {
             preparedStatement.executeUpdate();
         }
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_LAST_INSERTED_ID)) {
-            try (ResultSet resultSet = preparedStatement.executeQuery();){
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     createdHomeID = resultSet.getLong(1);
                 }
