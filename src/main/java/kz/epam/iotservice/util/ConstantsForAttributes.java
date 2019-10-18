@@ -35,6 +35,8 @@ public class ConstantsForAttributes {
     public static final String GUEST = "guest";
     public static final String LANG_CONTEXT_STATEMENT = "lang";
     public static final String LANGUAGES_LIST_CONTEXT_STATEMENT = "languages";
+    public static final String CURRENT_USER_HOME_ID_PARAMETER = "currentUserHomeID";
+
     private ConstantsForAttributes() {
     }
 }

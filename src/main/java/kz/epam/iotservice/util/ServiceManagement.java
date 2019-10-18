@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static kz.epam.iotservice.util.ConstantsForAttributes.CURRENT_USER_HOME_ID_PARAMETER;
 import static kz.epam.iotservice.util.ConstantsForAttributes.HOME_SESSION_STATEMENT;
 import static kz.epam.iotservice.util.OtherConstants.TRUE;
 
@@ -31,15 +32,23 @@ public final class ServiceManagement {
     private ServiceManagement() {
     }
 
-    public static void updateHomeInSession(HttpServletRequest request) throws SQLException, ConnectionException {
-        Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
+    public static void loadHomeIntoRequest(HttpServletRequest request) throws SQLException, ConnectionException {
+        Long homeID = (Long) request.getSession().getAttribute(CURRENT_USER_HOME_ID_PARAMETER);
+        if (homeID != null){
+            Home home = configureByHomeID(homeID);
+            request.setAttribute(HOME_SESSION_STATEMENT, home);
+        }
+    }
+
+    public static Home configureByHomeID(Long homeID) throws SQLException, ConnectionException{
+        Home home = new Home();
         HomeDAO homeDAO = new HomeDAO();
         FunctionDAO functionDAO = new FunctionDAO();
         DeviceDAO deviceDAO = new DeviceDAO();
         Connection connection = ConnectionPool.getInstance().retrieve();
         List<Device> homeInstalledDevices = new ArrayList<>();
         try {
-            home = homeDAO.getHomeByID(home.getHomeID(), connection);
+            home = homeDAO.getHomeByID(homeID, connection);
             home.setHomeInstalledDevices(deviceDAO.getDevicesList(home, connection));
             for (Device device: home.getHomeInstalledDevices()) {
                 device.setFunctions(functionDAO.getFunctionsList(device, connection));
@@ -57,7 +66,7 @@ public final class ServiceManagement {
         if (home.getHomeInstalledDevices().isEmpty()) {
             home.setHomeInstalledDevices(null);
         }
-        request.getSession().setAttribute(HOME_SESSION_STATEMENT, home);
+        return home;
     }
 
     public static boolean isApplyPressed(HttpServletRequest request) {

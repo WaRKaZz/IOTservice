@@ -30,7 +30,7 @@ import static kz.epam.iotservice.util.JspConstants.UPDATE_DEVICE_JSP;
 import static kz.epam.iotservice.util.OtherConstants.KEY_EMPTY;
 import static kz.epam.iotservice.util.OtherConstants.TRUE;
 import static kz.epam.iotservice.util.ServiceManagement.isApplyPressed;
-import static kz.epam.iotservice.util.ServiceManagement.updateHomeInSession;
+import static kz.epam.iotservice.util.ServiceManagement.loadHomeIntoRequest;
 import static kz.epam.iotservice.validation.DeviceValidator.validateDeviceName;
 import static kz.epam.iotservice.validation.DeviceValidator.validateID;
 
@@ -56,9 +56,7 @@ public class UpdateDeviceService implements Service {
         if (isApplyPressed(request)) {
             updateDevice(request, response);
         } else {
-            if (request.getAttribute(HOME_SESSION_STATEMENT) != null) {
-                updateHomeInSession(request);
-            }
+            loadHomeIntoRequest(request);
             DeviceTypeDAO deviceTypeDAO = new DeviceTypeDAO();
             Connection connection = ConnectionPool.getInstance().retrieve();
             List<DeviceType> deviceTypeList = new ArrayList<>();

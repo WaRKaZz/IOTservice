@@ -20,11 +20,11 @@
           <div class="col-12">
             <h5>
               <c:choose>
-                <c:when test="${sessionScope.home eq null}">
+                <c:when test="${home eq null}">
                   <fmt:message key="key.notChosenHome"/>
                 </c:when>
                 <c:otherwise>
-                  <fmt:message key="key.chosenHome"/>  ${sessionScope.home.homeName} ${sessionScope.home.homeAddress}
+                  <fmt:message key="key.chosenHome"/>  ${home.homeName} ${home.homeAddress}
                 </c:otherwise>
               </c:choose>
             </h5>

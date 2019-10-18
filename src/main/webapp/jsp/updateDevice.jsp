@@ -21,7 +21,7 @@
 				<a href="/main" class="btn btn-primary btn-block"	role="button">OK</a>
 				</div>
 			</c:when>
-			<c:when test="${sessionScope.home.homeInstalledDevices == null}">
+			<c:when test="${home.homeInstalledDevices == null}">
 				<label style="padding: 0% 30% 0% 30%" class="control-label"><fmt:message key="key.dontHaveInstalledDeivces"/></label>
 				<a href="/addNewDevice" class="btn btn-block btn-success"><fmt:message key="key.installDevices"/></a>
 			</c:when>
@@ -30,7 +30,7 @@
 					<div class="form-group">
 						<label class="control-label"><fmt:message key="key.updateDeviceChooseDeviceType"/></label>
 						<select id="inputState" class="form-control custom-select" name="deviceID">
-							<c:forEach items="${sessionScope.home.homeInstalledDevices}" var="device">
+							<c:forEach items="${home.homeInstalledDevices}" var="device">
 								<option value="${device.deviceID}">${device.deviceName}, <fmt:message key="${device.deviceDefinitionName}"/></option>
 							</c:forEach>
 						</select>

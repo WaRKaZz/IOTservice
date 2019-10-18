@@ -26,7 +26,7 @@ import static kz.epam.iotservice.util.ConstantsUri.ADD_NEW_DEVICE_URI;
 import static kz.epam.iotservice.util.JspConstants.NEW_DEVICE_JSP;
 import static kz.epam.iotservice.util.OtherConstants.EMPTY_STRING;
 import static kz.epam.iotservice.util.OtherConstants.KEY_EMPTY;
-import static kz.epam.iotservice.util.ServiceManagement.isApplyPressed;
+import static kz.epam.iotservice.util.ServiceManagement.*;
 import static kz.epam.iotservice.validation.DeviceValidator.validateDeviceName;
 
 public class AddNewDeviceService implements Service {
@@ -58,6 +58,7 @@ public class AddNewDeviceService implements Service {
             } finally {
                 ConnectionPool.getInstance().putBack(connection);
             }
+            loadHomeIntoRequest(request);
             request.setAttribute(DEVICE_MESSAGE_SESSION_STATEMENT, deviceMessage);
             request.setAttribute(DEVICE_TYPE_LIST_SESSION_STATEMENT, deviceTypeList);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(NEW_DEVICE_JSP);
@@ -65,14 +66,15 @@ public class AddNewDeviceService implements Service {
         }
     }
 
-    private boolean isHomeAdmin(HttpServletRequest request) {
+    private boolean isHomeAdmin(HttpServletRequest request) throws SQLException, ConnectionException {
         List objectAdminList = (List) request.getSession().getAttribute(HOME_ADMIN_LIST_SESSION_STATEMENT);
         List<Home> homeAdminList = new ArrayList<>();
         boolean homeContains = false;
         for (Object o : objectAdminList) {
             homeAdminList.add((Home) o);
         }
-        Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
+        Long homeID = (Long) request.getSession().getAttribute(CURRENT_USER_HOME_ID_PARAMETER);
+        Home home = configureByHomeID(homeID);
         for (Home homeInList : homeAdminList) {
             if (homeInList.equals(home)) {
                 homeContains = true;
@@ -101,7 +103,8 @@ public class AddNewDeviceService implements Service {
         boolean validationException = false;
         Device device = new Device();
         FunctionDAO functionDAO = new FunctionDAO();
-        Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
+        Long homeID = (Long) request.getSession().getAttribute(CURRENT_USER_HOME_ID_PARAMETER);
+        Home home = configureByHomeID(homeID);
         Connection connection = ConnectionPool.getInstance().retrieve();
         try {
             deviceName = validateDeviceName(request.getParameter(DEVICE_NAME_PARAMETER));

@@ -15,7 +15,7 @@
 	<main>
 		<form action="/administration" class="form-horisontal" style="padding: 0% 30% 0% 30%" method="post">
 			<select id="inputState" class="form-control custom-select" name="userID">
-				<c:forEach items="${sessionScope.users}" var="user">
+				<c:forEach items="${users}" var="user">
 					<option value="${user.userID}">${user.userLogin}</option>
 				</c:forEach>
 			</select>

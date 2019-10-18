@@ -18,6 +18,7 @@ import java.sql.SQLException;
 
 import static kz.epam.iotservice.util.ConstantsForAttributes.*;
 import static kz.epam.iotservice.util.ConstantsUri.DEVICES_URI;
+import static kz.epam.iotservice.util.ServiceManagement.configureByHomeID;
 import static kz.epam.iotservice.validation.FunctionValidation.*;
 
 public class DeviceUpdateService implements Service {
@@ -27,7 +28,8 @@ public class DeviceUpdateService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, SQLException, ConnectionException {
-        Home home = (Home) request.getSession().getAttribute(HOME_SESSION_STATEMENT);
+        Long homeID = (Long) request.getSession().getAttribute(CURRENT_USER_HOME_ID_PARAMETER);
+        Home home = configureByHomeID(homeID);
         for (Device device : home.getHomeInstalledDevices()) {
             for (Function function : device.getFunctions()) {
                 functionComplectation(request, response, function);
