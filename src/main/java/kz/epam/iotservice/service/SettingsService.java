@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static kz.epam.iotservice.util.JspConstants.SETTINGS_JSP;
+import static kz.epam.iotservice.constants.Jsp.SETTINGS_JSP;
 
 public class SettingsService implements Service {
 

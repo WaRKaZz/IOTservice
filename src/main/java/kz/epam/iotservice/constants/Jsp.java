@@ -1,6 +1,6 @@
-package kz.epam.iotservice.util;
+package kz.epam.iotservice.constants;
 
-public class JspConstants {
+public class Jsp {
 
     public static final String NEW_DEVICE_JSP = "jsp/newDevice.jsp";
     public static final String NEW_HOME_JSP = "jsp/newHome.jsp";
@@ -16,6 +16,6 @@ public class JspConstants {
     public static final String UPDATE_HOME_JSP = "jsp/updateHome.jsp";
     public static final String USER_ADMINISTRATION_JSP = "jsp/userAdministration.jsp";
 
-    private JspConstants() {
+    private Jsp() {
     }
 }

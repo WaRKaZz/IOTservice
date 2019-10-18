@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.CURRENT_USER_HOME_ID_PARAMETER;
-import static kz.epam.iotservice.util.ConstantsForAttributes.DEVICE_MESSAGE_SESSION_STATEMENT;
-import static kz.epam.iotservice.util.JspConstants.DEVICE_VIEW_JSP;
-import static kz.epam.iotservice.util.JspConstants.UPDATE_DEVICE_JSP;
-import static kz.epam.iotservice.util.OtherConstants.KEY_EMPTY;
+import static kz.epam.iotservice.constants.Attributes.CURRENT_USER_HOME_ID_PARAMETER;
+import static kz.epam.iotservice.constants.Attributes.DEVICE_MESSAGE_SESSION_STATEMENT;
+import static kz.epam.iotservice.constants.Jsp.DEVICE_VIEW_JSP;
+import static kz.epam.iotservice.constants.Jsp.UPDATE_DEVICE_JSP;
+import static kz.epam.iotservice.constants.Other.KEY_EMPTY;
 import static kz.epam.iotservice.util.ServiceManagement.loadHomeIntoRequest;
 
 public class DeviceViewService implements Service {

@@ -18,9 +18,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.CURRENT_USER_HOME_ID_PARAMETER;
-import static kz.epam.iotservice.util.ConstantsForAttributes.HOME_SESSION_STATEMENT;
-import static kz.epam.iotservice.util.OtherConstants.TRUE;
+import static kz.epam.iotservice.constants.Attributes.CURRENT_USER_HOME_ID_PARAMETER;
+import static kz.epam.iotservice.constants.Attributes.HOME_SESSION_STATEMENT;
+import static kz.epam.iotservice.constants.Other.TRUE;
 
 public final class ServiceManagement {
 

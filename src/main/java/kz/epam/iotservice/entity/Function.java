@@ -3,8 +3,8 @@ package kz.epam.iotservice.entity;
 
 import java.io.Serializable;
 
-import static kz.epam.iotservice.util.OtherConstants.EMPTY_STRING;
-import static kz.epam.iotservice.util.OtherConstants.INT_ZERO;
+import static kz.epam.iotservice.constants.Other.EMPTY_STRING;
+import static kz.epam.iotservice.constants.Other.INT_ZERO;
 
 public class Function implements Serializable {
     private Boolean functionInput;

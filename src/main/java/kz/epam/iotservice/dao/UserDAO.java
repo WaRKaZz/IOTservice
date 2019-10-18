@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kz.epam.iotservice.util.DatabaseConstants.*;
+import static kz.epam.iotservice.constants.Database.*;
 
 
 public class UserDAO {

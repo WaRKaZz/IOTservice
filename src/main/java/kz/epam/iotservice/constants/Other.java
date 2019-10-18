@@ -1,6 +1,6 @@
-package kz.epam.iotservice.util;
+package kz.epam.iotservice.constants;
 
-public class OtherConstants {
+public class Other {
 
     public static final String TRUE = "true";
     public static final String EMPTY_STRING = "";
@@ -10,6 +10,6 @@ public class OtherConstants {
     public static final String STRING_ZERO = "0";
     public static final String KEY_EMPTY = "key.empty";
 
-    private OtherConstants() {
+    private Other() {
     }
 }

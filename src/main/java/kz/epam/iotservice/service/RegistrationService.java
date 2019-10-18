@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.REGISTRATION_MESSAGE_SESSION_STATEMENT;
-import static kz.epam.iotservice.util.JspConstants.REGISTRATION_JSP;
+import static kz.epam.iotservice.constants.Attributes.REGISTRATION_MESSAGE_SESSION_STATEMENT;
+import static kz.epam.iotservice.constants.Jsp.REGISTRATION_JSP;
 
 public class RegistrationService implements Service {
 

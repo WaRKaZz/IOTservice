@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.GUEST;
-import static kz.epam.iotservice.util.ConstantsForAttributes.USER_SESSION_STATEMENT;
-import static kz.epam.iotservice.util.ConstantsUri.MAIN_URI;
-import static kz.epam.iotservice.util.JspConstants.LOGIN_PAGE_JSP;
+import static kz.epam.iotservice.constants.Attributes.GUEST;
+import static kz.epam.iotservice.constants.Attributes.USER_SESSION_STATEMENT;
+import static kz.epam.iotservice.constants.Uri.MAIN_URI;
+import static kz.epam.iotservice.constants.Jsp.LOGIN_PAGE_JSP;
 
 public class IndexService implements Service {
     private static final Logger LOGGER = LogManager.getRootLogger();

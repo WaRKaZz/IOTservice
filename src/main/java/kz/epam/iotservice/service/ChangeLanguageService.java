@@ -14,10 +14,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.LANGUAGE_ID_PARAMETER;
-import static kz.epam.iotservice.util.ConstantsForAttributes.LANG_CONTEXT_STATEMENT;
-import static kz.epam.iotservice.util.ConstantsUri.LANGUAGE_URI;
-import static kz.epam.iotservice.util.JspConstants.CHANGE_LANGUAGE_JSP;
+import static kz.epam.iotservice.constants.Attributes.LANGUAGE_ID_PARAMETER;
+import static kz.epam.iotservice.constants.Attributes.LANG_CONTEXT_STATEMENT;
+import static kz.epam.iotservice.constants.Uri.LANGUAGE_URI;
+import static kz.epam.iotservice.constants.Jsp.CHANGE_LANGUAGE_JSP;
 import static kz.epam.iotservice.util.ServiceManagement.isApplyPressed;
 
 public class ChangeLanguageService implements Service {

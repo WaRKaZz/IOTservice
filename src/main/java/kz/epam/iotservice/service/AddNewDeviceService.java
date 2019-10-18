@@ -21,11 +21,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.*;
-import static kz.epam.iotservice.util.ConstantsUri.ADD_NEW_DEVICE_URI;
-import static kz.epam.iotservice.util.JspConstants.NEW_DEVICE_JSP;
-import static kz.epam.iotservice.util.OtherConstants.EMPTY_STRING;
-import static kz.epam.iotservice.util.OtherConstants.KEY_EMPTY;
+import static kz.epam.iotservice.constants.Attributes.*;
+import static kz.epam.iotservice.constants.Uri.ADD_NEW_DEVICE_URI;
+import static kz.epam.iotservice.constants.Jsp.NEW_DEVICE_JSP;
+import static kz.epam.iotservice.constants.Other.EMPTY_STRING;
+import static kz.epam.iotservice.constants.Other.KEY_EMPTY;
 import static kz.epam.iotservice.util.ServiceManagement.*;
 import static kz.epam.iotservice.validation.DeviceValidator.validateDeviceName;
 

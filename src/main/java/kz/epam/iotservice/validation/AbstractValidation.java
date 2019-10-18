@@ -2,8 +2,8 @@ package kz.epam.iotservice.validation;
 
 import kz.epam.iotservice.exception.ValidationException;
 
-import static kz.epam.iotservice.util.OtherConstants.EMPTY_STRING;
-import static kz.epam.iotservice.util.OtherConstants.STRING_ZERO;
+import static kz.epam.iotservice.constants.Other.EMPTY_STRING;
+import static kz.epam.iotservice.constants.Other.STRING_ZERO;
 
 public abstract class AbstractValidation {
     static final int MAX_TINYTEXT_LENGTH = 23;

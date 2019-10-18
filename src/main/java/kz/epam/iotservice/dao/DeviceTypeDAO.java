@@ -9,8 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kz.epam.iotservice.util.DatabaseConstants.DEVICE_DEFINITION_ID;
-import static kz.epam.iotservice.util.DatabaseConstants.DEVICE_DEFINITION_NAME;
+import static kz.epam.iotservice.constants.Database.DEVICE_DEFINITION_ID;
+import static kz.epam.iotservice.constants.Database.DEVICE_DEFINITION_NAME;
 
 
 public class DeviceTypeDAO {

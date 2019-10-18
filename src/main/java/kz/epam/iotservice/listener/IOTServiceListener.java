@@ -15,8 +15,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.LANGUAGES_LIST_CONTEXT_STATEMENT;
-import static kz.epam.iotservice.util.ConstantsForAttributes.LANG_CONTEXT_STATEMENT;
+import static kz.epam.iotservice.constants.Attributes.LANGUAGES_LIST_CONTEXT_STATEMENT;
+import static kz.epam.iotservice.constants.Attributes.LANG_CONTEXT_STATEMENT;
 
 public class IOTServiceListener implements ServletContextListener {
     private static final Logger LOGGER = LogManager.getRootLogger();

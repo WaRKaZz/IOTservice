@@ -4,9 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.CURRENT_USER_HOME_ID_PARAMETER;
-import static kz.epam.iotservice.util.ConstantsForAttributes.HOME_ID_PARAMETER;
-import static kz.epam.iotservice.util.ConstantsUri.MAIN_URI;
+import static kz.epam.iotservice.constants.Attributes.CURRENT_USER_HOME_ID_PARAMETER;
+import static kz.epam.iotservice.constants.Attributes.HOME_ID_PARAMETER;
+import static kz.epam.iotservice.constants.Uri.MAIN_URI;
 
 public class HomeViewService implements Service {
 

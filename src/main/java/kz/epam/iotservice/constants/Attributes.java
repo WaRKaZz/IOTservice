@@ -1,6 +1,6 @@
-package kz.epam.iotservice.util;
+package kz.epam.iotservice.constants;
 
-public class ConstantsForAttributes {
+public class Attributes {
 
     public static final String DEVICE_MESSAGE_SESSION_STATEMENT = "deviceMessage";
     public static final String HOME_MESSAGE_SESSION_STATEMENT = "homeMessage";
@@ -37,6 +37,6 @@ public class ConstantsForAttributes {
     public static final String LANGUAGES_LIST_CONTEXT_STATEMENT = "languages";
     public static final String CURRENT_USER_HOME_ID_PARAMETER = "currentUserHomeID";
 
-    private ConstantsForAttributes() {
+    private Attributes() {
     }
 }

@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.*;
-import static kz.epam.iotservice.util.ConstantsUri.DEVICES_URI;
+import static kz.epam.iotservice.constants.Attributes.*;
+import static kz.epam.iotservice.constants.Uri.DEVICES_URI;
 import static kz.epam.iotservice.util.ServiceManagement.configureByHomeID;
 import static kz.epam.iotservice.validation.FunctionValidation.*;
 

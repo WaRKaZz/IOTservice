@@ -16,11 +16,11 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.*;
-import static kz.epam.iotservice.util.JspConstants.DEVICE_VIEW_JSP;
-import static kz.epam.iotservice.util.JspConstants.REGISTRATION_JSP;
-import static kz.epam.iotservice.util.OtherConstants.KEY_EMPTY;
-import static kz.epam.iotservice.util.OtherConstants.STRING_ZERO;
+import static kz.epam.iotservice.constants.Attributes.*;
+import static kz.epam.iotservice.constants.Jsp.DEVICE_VIEW_JSP;
+import static kz.epam.iotservice.constants.Jsp.REGISTRATION_JSP;
+import static kz.epam.iotservice.constants.Other.KEY_EMPTY;
+import static kz.epam.iotservice.constants.Other.STRING_ZERO;
 import static kz.epam.iotservice.util.ServiceManagement.encryptPassword;
 import static kz.epam.iotservice.validation.UserValidation.validateLogin;
 import static kz.epam.iotservice.validation.UserValidation.validatePassword;

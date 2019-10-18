@@ -5,7 +5,7 @@ import kz.epam.iotservice.exception.ValidationException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static kz.epam.iotservice.util.OtherConstants.*;
+import static kz.epam.iotservice.constants.Other.*;
 
 public class UserValidation extends AbstractValidation {
     private static final int MIN_LOGIN_LENGTH = 4;

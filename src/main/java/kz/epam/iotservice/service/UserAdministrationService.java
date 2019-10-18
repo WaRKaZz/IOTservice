@@ -17,10 +17,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.*;
-import static kz.epam.iotservice.util.ConstantsUri.ADMINISTRATION_URI;
-import static kz.epam.iotservice.util.JspConstants.USER_ADMINISTRATION_JSP;
-import static kz.epam.iotservice.util.OtherConstants.KEY_EMPTY;
+import static kz.epam.iotservice.constants.Attributes.*;
+import static kz.epam.iotservice.constants.Uri.ADMINISTRATION_URI;
+import static kz.epam.iotservice.constants.Jsp.USER_ADMINISTRATION_JSP;
+import static kz.epam.iotservice.constants.Other.KEY_EMPTY;
 import static kz.epam.iotservice.util.ServiceManagement.isApplyPressed;
 import static kz.epam.iotservice.validation.UserValidation.validateID;
 

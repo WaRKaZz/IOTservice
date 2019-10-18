@@ -18,8 +18,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.*;
-import static kz.epam.iotservice.util.JspConstants.MAIN_PAGE_JSP;
+import static kz.epam.iotservice.constants.Attributes.*;
+import static kz.epam.iotservice.constants.Jsp.MAIN_PAGE_JSP;
 import static kz.epam.iotservice.util.ServiceManagement.loadHomeIntoRequest;
 
 

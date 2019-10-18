@@ -18,9 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static kz.epam.iotservice.util.ConstantsForAttributes.GUEST;
-import static kz.epam.iotservice.util.ConstantsForAttributes.USER_SESSION_STATEMENT;
-import static kz.epam.iotservice.util.ConstantsUri.*;
+import static kz.epam.iotservice.constants.Attributes.GUEST;
+import static kz.epam.iotservice.constants.Attributes.USER_SESSION_STATEMENT;
+import static kz.epam.iotservice.constants.Uri.*;
 
 public class AccessFilter implements Filter {
     private static final Logger LOGGER = LogManager.getRootLogger();

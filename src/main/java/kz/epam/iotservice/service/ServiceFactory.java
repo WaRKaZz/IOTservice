@@ -3,7 +3,7 @@ package kz.epam.iotservice.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import static kz.epam.iotservice.util.ConstantsUri.*;
+import static kz.epam.iotservice.constants.Uri.*;
 
 public class ServiceFactory {
 
